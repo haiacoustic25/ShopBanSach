@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./Assets/SCSS/app.scss";
 
-import HomePage from "./Features/Web/HomePage";
+import HomePage from "./Features/Web/Home/HomePage";
 // import AdminPage from "./AdminPage";
 
 import AdminPage from "./Features/Admin/AdminPage";

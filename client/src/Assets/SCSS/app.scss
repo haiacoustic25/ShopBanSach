@@ -1,0 +1,15 @@
+@import "constant";
+
+a {
+  text-decoration: none;
+  color: $text_color;
+}
+
+.App {
+  background-color: $bgc;
+}
+
+.body {
+    width: 1210px;
+    margin: 0 auto;
+}
