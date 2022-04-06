@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import HomePage from "./Features/Web/HomePage";
-// import AdminPage from "./AdminPage";
+import './Assets/boxicons-2.0.7/css/boxicons.min.css';
+import './Assets/css/grid.css';
+import './Assets/css/index.css';
 
+import HomePage from "./Features/Web/HomePage";
 import AdminPage from "./Features/Admin/AdminPage";
 
 function App() {

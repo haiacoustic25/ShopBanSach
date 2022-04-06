@@ -1,6 +1,8 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
+document.title = 'Home';
+
 const HomePage = () => {
   return (
     <Form>
