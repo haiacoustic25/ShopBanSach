@@ -2,8 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import "./Assets/SCSS/app.scss"
-import "./Assets/css/grid.css"
-import "./Assets/css/index.css"
 
 import HomePage from "./Features/Web/Home/HomePage"
 import AdminPage from "./Features/Admin/AdminPage"

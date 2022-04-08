@@ -13,7 +13,6 @@ const Sidebar = () => {
       <div className="top">
         <span className="logo">Admin</span>
       </div>
-      <hr />
       <div className="center">
         <ul>
           <li>
@@ -39,8 +38,11 @@ const Sidebar = () => {
         </ul>
       </div>
       <div className="bottom">
-        <div className="colorOption"></div>
-        <div className="colorOption"></div>
+        <div className='title'>Theme</div>
+        <div className="Option">
+          <div className="colorOption"></div>
+          <div className="colorOption"></div>
+        </div>
       </div>
     </div>
   )
