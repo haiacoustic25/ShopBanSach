@@ -1,17 +1,17 @@
-import React from "react";
+import React from "react"
 
 import "./AdminPage.scss"
-import Sidebar from './Sidebar/Sidebar'
-
+import Sidebar from './Components/Sidebar/Sidebar'
 
 const AdminPage = () => {
   return (
     <div className="home">
-      <div className="title">
-        <Sidebar />
+      <Sidebar />
+      <div className="homeContainer">
+        Container
       </div>
     </div>
   )
 };
 
-export default AdminPage;
+export default AdminPage
