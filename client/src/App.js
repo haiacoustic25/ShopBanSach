@@ -10,6 +10,7 @@ import HomePage from "./Features/Web/Home/HomePage";
 import AdminPage from "./Features/Admin/AdminPage";
 import Customers from "./Features/Admin/pages/Customers";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
+import CartPage from "./Features/Web/Cart/CartPage";
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -38,9 +39,11 @@ function App() {
             </Route>
             <Route index element={<HomePage />} />
             <Route path="/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<CartPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
+      {/* scroll to top */}
       {scrollPosition >= 100 && (
         <img
           src="https://firebasestorage.googleapis.com/v0/b/shopmaytinh-f4fce.appspot.com/o/icon%2Fup-arrow.png?alt=media&token=426973e4-96d4-46b3-a041-86bef0ff7e6c"

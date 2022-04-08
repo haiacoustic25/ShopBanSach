@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../../Components/Footer/Footer";
 import Header from "../../../Components/Header/Header";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import img from "../../../Assets/Img/ProductTest.png";
 import "../../../Assets/SCSS/productDetail.scss";
 const ProductDetail = () => {
+  const [descFull, setDescFull] = useState(true);
+
+  const handlerDesc = () => {
+    setDescFull(!descFull);
+  };
   return (
     <>
       <Header />
@@ -79,6 +84,77 @@ const ProductDetail = () => {
                 </Button>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="inforProduct__desc">
+          <h3>Thông tin chi tiết</h3>
+          <Table striped bordered hover size="sm">
+            <tbody>
+              <tr>
+                <td>Mã hàng</td>
+                <td>Mark</td>
+              </tr>
+              <tr>
+                <td>Nhà xuất bản</td>
+                <td>Mark</td>
+              </tr>
+              <tr>
+                <td>Tên tác giả</td>
+                <td>Thornton</td>
+              </tr>
+              <tr>
+                <td>Năm xuất bản</td>
+                <td colSpan={2}>Larry the Bird</td>
+              </tr>
+            </tbody>
+          </Table>
+          <div className="inforProduct__desc--text">
+            <span
+              className={`inforProduct__desc--text-${
+                descFull ? "collapse" : "full"
+              }`}
+            >
+              Tam Quốc Diễn Nghĩa (Trọn Bộ 3 Tập) - Không kèm hộp. Tam Quốc diễn
+              nghĩa của La Quán Trung là một trong những kiệt tác của văn học
+              thế giới. Ngay từ khi được dịch sang chữ quốc ngữ vào đầu thế kỷ
+              XX, tiểu thuyết này đã được bạn đọc Việt Nam đón nhận nồng nhiệt;
+              từ đó đến nay có vô vàn ấn bản Tam Quốc ra đời, mỗi ấn bản lại
+              mang một màu sắc khác nhau. Những nội dung đáng chú ý của bản in
+              này: - Lời giới thiệu bộ Tam Quốc diễn nghĩa của NXB Phổ thông –
+              Bộ Văn hóa, 1959 – 1960 - Lời nói đầu - Bài viết cho bản Tam Quốc
+              diễn nghĩa xuất bản năm 1959 của Bộ Biên tập, Nhân dân Văn học
+              Xuất bản xã Bắc Kinh, Trung Quốc - Hành trình truyện Tam Quốc diễn
+              nghĩa ở Việt Nam, Tác giả: Yên Ba. - Hình một số nhân vật chính -
+              Bảng tra cứu các nhân vật trong Tam Quốc diễn nghĩa - 120 hồi nội
+              dung chính, cuối mỗi hồi có Lời bàn của Mao Tôn Cương - Bảng đối
+              chiếu địa danh xưa và nay (theo bản in của NXB Đại học và Trung
+              học chuyên nghiệp, năm 1987) - Niên biểu các sự kiện chính trong
+              Tam Quốc diễn nghĩaam Quốc Diễn Nghĩa (Trọn Bộ 3 Tập) - Không kèm
+              hộp. Tam Quốc diễn nghĩa của La Quán Trung là một trong những kiệt
+              tác của văn học thế giới. Ngay từ khi được dịch sang chữ quốc ngữ
+              vào đầu thế kỷ XX, tiểu thuyết này đã được bạn đọc Việt Nam đón
+              nhận nồng nhiệt; từ đó đến nay có vô vàn ấn bản Tam Quốc ra đời,
+              mỗi ấn bản lại mang một màu sắc khác nhau. Những nội dung đáng chú
+              ý của bản in này: - Lời giới thiệu bộ Tam Quốc diễn nghĩa của NXB
+              Phổ thông – Bộ Văn hóa, 1959 – 1960 - Lời nói đầu - Bài viết cho
+              bản Tam Quốc diễn nghĩa xuất bản năm 1959 của Bộ Biên tập, Nhân
+              dân Văn học Xuất bản xã Bắc Kinh, Trung Quốc - Hành trình truyện
+              Tam Quốc diễn nghĩa ở Việt Nam, Tác giả: Yên Ba. - Hình một số
+              nhân vật chính - Bảng tra cứu các nhân vật trong Tam Quốc diễn
+              nghĩa - 120 hồi nội dung chính, cuối mỗi hồi có Lời bàn của Mao
+              Tôn Cương - Bảng đối chiếu địa danh xưa và nay (theo bản in của
+              NXB Đại học và Trung học chuyên nghiệp, năm 1987) - Niên biểu các
+              sự kiện chính trong Tam Quốc diễn nghĩa
+            </span>
+            {descFull ? (
+              <Button variant="success" onClick={handlerDesc}>
+                Xem Thêm
+              </Button>
+            ) : (
+              <Button variant="success" onClick={handlerDesc}>
+                Thu gọn
+              </Button>
+            )}
           </div>
         </div>
       </div>
