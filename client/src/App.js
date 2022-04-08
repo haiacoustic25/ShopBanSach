@@ -1,16 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import "./Assets/boxicons-2.0.7/css/boxicons.min.css";
-import "./Assets/css/grid.css";
-import "./Assets/css/index.css";
-import "./Assets/SCSS/app.scss";
+import "./Assets/SCSS/app.scss"
+
 
 import HomePage from "./Features/Web/Home/HomePage";
 import AdminPage from "./Features/Admin/AdminPage";
 import Customers from "./Features/Admin/pages/Customers";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
+
+import HomePage from "./Features/Web/Home/HomePage"
+import AdminPage from "./Features/Admin/AdminPage"
+
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -35,11 +37,15 @@ function App() {
           <Route path="/">
             <Route path="/admin">
               <Route index element={<AdminPage />} />
-              <Route path="Customers" element={<Customers />} />
+              {/* <Route path="Customers" element={<Customers />} /> */}
             </Route>
             <Route index element={<HomePage />} />
+
             <Route path="/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
+
+            {/* <Route path="/:id" element={<ProductDetail />} /> */}
+
           </Route>
         </Routes>
       </BrowserRouter>

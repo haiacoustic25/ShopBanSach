@@ -1,6 +1,8 @@
 .home{
-    background-color: rebeccapurple;
-    .title{
-        color: white;
+    display: flex;
+    // width: 1210px;
+    // margin: 0 auto;
+    .homeContainer{
+        flex: 6;
     }
 }
