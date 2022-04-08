@@ -6,10 +6,22 @@ a {
 }
 
 .App {
+  font-family: "Roboto", sans-serif;
   background-color: $bgc;
 }
 
 .body {
-    width: 1210px;
-    margin: 0 auto;
+  width: 1210px;
+  margin: 0 auto;
+}
+
+.rollTheTop {
+  position: fixed;
+  width: 50px;
+  background-color: #fff;
+  bottom: 150px;
+  right: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #4286f5;
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../Assets/Img/logo.png";
+import emptyCart from "../../Assets/Img/empty-cart.png";
 
 const Navbar = () => {
   return (
@@ -9,11 +10,7 @@ const Navbar = () => {
       <div className="row py-3">
         <div className="col-sm-2">
           <Link to="/">
-            <img
-              src={logo}
-              alt=""
-              width="218px"
-            />
+            <img src={logo} alt="" width="218px" />
           </Link>
         </div>
         <div className="navbar__search col-sm-7 py-2">
@@ -37,6 +34,14 @@ const Navbar = () => {
               <i className="fas fa-shopping-cart">
                 <div className="navbar__cart--count">0</div>
               </i>
+            </div>
+            <div className="cart">
+              <div className="cart__img">
+                <img src={emptyCart} alt="" />
+              </div>
+              <div className="cart__all">
+                <Link to="/cart">Xem tất cả </Link>
+              </div>
             </div>
           </div>
         </div>
