@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../../../../Assets/SCSS/products.scss";
 import ProductItem from "./ProductItem";
 import Filter from "./Filter";
@@ -23,7 +23,7 @@ const Products = () => {
           <ProductItem /> */}
         </div>
       </div>
-      <Pagination/>
+      <Pagination />
     </div>
   );
 };

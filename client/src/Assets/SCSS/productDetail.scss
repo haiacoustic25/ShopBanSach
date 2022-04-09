@@ -103,4 +103,32 @@
     outline: none;
     margin-right: 10px !important;
   }
+  &__desc {
+    position: relative;
+    margin-bottom: 70px;
+    &--text {
+      &-full {
+        display: block;
+        height: 100%;
+        margin-bottom: 20px;
+      }
+      &-collapse {
+        display: block;
+        display: -webkit-box;
+        height: 16px * 1.3 * 4;
+        line-height: 1.3;
+        -webkit-line-clamp: 4; /* số dòng hiển thị */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      & button {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
 }
