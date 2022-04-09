@@ -224,7 +224,7 @@ button:focus {
 
   animation: moveRight ease-in-out 0.3s;
 
-  z-index: 1;
+  z-index: 1000;
   &::after {
     content: " ";
     width: 200px;
@@ -259,5 +259,24 @@ button:focus {
     border-top: 1px solid rgb(218, 216, 216);
     padding: 5px 10px;
     justify-content: center;
+  }
+  &__product {
+    line-height: 25px;
+    &--img {
+      width: 100px !important;
+    }
+    &--infor {
+      padding-right: 10px;
+      padding-top: 15px;
+      &-name {
+        display: block;
+        display: -webkit-box;
+
+        -webkit-line-clamp: 1; /* số dòng hiển thị */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   }
 }

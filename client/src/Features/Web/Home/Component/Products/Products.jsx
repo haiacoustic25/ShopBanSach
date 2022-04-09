@@ -18,9 +18,6 @@ const Products = () => {
       <div className="col-sm-12">
         <div className="row">
           <ProductItem {...product} />
-          {/* <ProductItem />
-          <ProductItem />
-          <ProductItem /> */}
         </div>
       </div>
       <Pagination />
