@@ -7,12 +7,12 @@ import Products from "./Component/Products/Products";
 
 const HomePage = () => {
   return (
-    <>
+    <div>
       <Header />
       <Slider />
       <Products />
       <Footer />
-    </>
+    </div>
   );
 };
 

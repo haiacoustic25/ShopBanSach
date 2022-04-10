@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import "./Assets/SCSS/app.scss";
+import ScrollTop from "./Assets/Img/ScrollTop.png";
 
 import HomePage from "./Features/Web/Home/HomePage";
 import AdminPage from "./Features/Admin/AdminPage";
@@ -46,7 +47,7 @@ function App() {
       {/* scroll to top */}
       {scrollPosition >= 100 && (
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/shopmaytinh-f4fce.appspot.com/o/icon%2Fup-arrow.png?alt=media&token=426973e4-96d4-46b3-a041-86bef0ff7e6c"
+          src={ScrollTop}
           className="rollTheTop"
           onClick={handleRollTheTop}
         ></img>

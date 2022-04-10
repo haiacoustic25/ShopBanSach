@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { Link } from "react-router-dom";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Modal } from "react-bootstrap";
 import "../../../Assets/SCSS/cartPage.scss";
 import product from "../../../Assets/Img/ProductTest.png";
 
@@ -15,6 +15,12 @@ const CartPage = () => {
     if (quantity > 0) setQuantity(quantity - 1);
     else setQuantity(0);
   };
+
+  // modal
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div>
       <Header />
@@ -47,7 +53,7 @@ const CartPage = () => {
               </td>
               <td className="cartPage__name">
                 10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2
-                <span>Xóa</span>
+                <span onClick={handleShow}>Xóa</span>
               </td>
               <td>88,200 đ</td>
               <td className="cartPage__quantity">
@@ -64,11 +70,26 @@ const CartPage = () => {
             Tổng tiền: 88,000 đ
           </div>
           <div className="cartPage__btn d-flex flex-row-reverse">
-            <Button variant="success">Thanh toán</Button>{" "}
-            <Button variant="success">Cập nhật</Button>{" "}
+            <Button variant="success">Thanh toán</Button>
+            <Button variant="success">Cập nhật</Button>
           </div>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Xóa sản phẩm</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có đồng ý xóa sản phẩm hay không</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Hủy
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Đồng ý  
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Footer />
     </div>
   );

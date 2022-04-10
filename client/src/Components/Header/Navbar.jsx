@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../Assets/Img/logo.png";
@@ -6,6 +6,13 @@ import emptyCart from "../../Assets/Img/empty-cart.png";
 import products from "../../Assets/Img/ProductTest.png";
 
 const Navbar = () => {
+  const [search, setSearch] = useState({ search: "" });
+
+  const handleEnterSearch = (e) => {
+    setSearch({ ...search, [e.target.name]: e.target.value });
+  };
+
+  const handleSearch = () => {};
   return (
     <div className="body">
       <div className="row py-3">
@@ -15,13 +22,19 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar__search col-sm-7 py-2">
-          <Form>
-            <InputGroup className="mb-3 navbar__search">
+          <Form onSubmit={handleSearch}>
+            <InputGroup
+              className="mb-3 navbar__search"
+              onChange={handleEnterSearch}
+              name="search"
+              value={search}
+            >
               <FormControl placeholder="Bạn Muốn Mua Gì?" />
               <Button
                 variant="outline-secondary"
                 id="button-addon2"
                 className="navbar__search--btn"
+                type="submit"
               >
                 TÌM KIẾM
               </Button>

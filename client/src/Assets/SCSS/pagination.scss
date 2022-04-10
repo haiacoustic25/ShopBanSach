@@ -4,14 +4,12 @@
   margin-bottom: 40px;
   & > button {
     background-color: $btn_color;
+    color: #fff !important;
     border: none;
     width: 300px !important;
     margin: 0 20px;
     & > i {
       margin-left: 20px;
-    }
-    &:hover {
-      background-color: $btn_color;
     }
   }
   &__btn {
