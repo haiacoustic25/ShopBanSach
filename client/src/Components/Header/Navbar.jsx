@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../Assets/Img/logo.png";
 import emptyCart from "../../Assets/Img/empty-cart.png";
+import products from "../../Assets/Img/ProductTest.png";
 
 const Navbar = () => {
+  const [search, setSearch] = useState({ search: "" });
+
+  const handleEnterSearch = (e) => {
+    setSearch({ ...search, [e.target.name]: e.target.value });
+  };
+
+  const handleSearch = () => {};
   return (
     <div className="body">
       <div className="row py-3">
@@ -14,13 +22,19 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar__search col-sm-7 py-2">
-          <Form>
-            <InputGroup className="mb-3 navbar__search">
+          <Form onSubmit={handleSearch}>
+            <InputGroup
+              className="mb-3 navbar__search"
+              onChange={handleEnterSearch}
+              name="search"
+              value={search}
+            >
               <FormControl placeholder="Bạn Muốn Mua Gì?" />
               <Button
                 variant="outline-secondary"
                 id="button-addon2"
                 className="navbar__search--btn"
+                type="submit"
               >
                 TÌM KIẾM
               </Button>
@@ -36,8 +50,38 @@ const Navbar = () => {
               </i>
             </div>
             <div className="cart">
-              <div className="cart__img">
+              {/* <div className="cart__img">
                 <img src={emptyCart} alt="" />
+              </div> */}
+              <div className="cart__product d-flex">
+                <img src={products} alt="" className="cart__product--img" />
+
+                <div className="cart__product--infor">
+                  <div className="cart__product--infor-name">
+                    10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2
+                  </div>
+                  <div className="cart__product--infor-price">
+                    Giá tiền: 88,200 đ
+                  </div>
+                  <div className="cart__product--infor-quantity">
+                    Số lượng: 1
+                  </div>
+                </div>
+              </div>
+              <div className="cart__product d-flex">
+                <img src={products} alt="" className="cart__product--img" />
+
+                <div className="cart__product--infor">
+                  <div className="cart__product--infor-name">
+                    10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2
+                  </div>
+                  <div className="cart__product--infor-price">
+                    Giá tiền: 88,200 đ
+                  </div>
+                  <div className="cart__product--infor-quantity">
+                    Số lượng: 1
+                  </div>
+                </div>
               </div>
               <div className="cart__all">
                 <Link to="/cart">Xem tất cả </Link>

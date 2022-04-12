@@ -12,7 +12,7 @@ const ProductDetail = () => {
     setDescFull(!descFull);
   };
   return (
-    <>
+    <div>
       <Header />
       <div className="body">
         <div className="row ">
@@ -76,10 +76,10 @@ const ProductDetail = () => {
             </div>
             <div className="row">
               <div className="inforProduct__btn d-flex px-0">
-                <Button variant="primary" className="text-uppercase mr-3">
+                <Button variant="success" className="text-uppercase mr-3">
                   Thêm vào giỏ
                 </Button>
-                <Button variant="primary" className="text-uppercase">
+                <Button variant="success" className="text-uppercase">
                   Mua Ngay
                 </Button>
               </div>
@@ -109,6 +109,7 @@ const ProductDetail = () => {
             </tbody>
           </Table>
           <div className="inforProduct__desc--text">
+            <h4>Mô tả</h4>
             <span
               className={`inforProduct__desc--text-${
                 descFull ? "collapse" : "full"
@@ -159,7 +160,7 @@ const ProductDetail = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
