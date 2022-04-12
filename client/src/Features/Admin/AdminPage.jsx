@@ -1,6 +1,8 @@
 import React from "react"
 
 import "./AdminPage.scss"
+import Chart from "./Components/Charts/Chart";
+import Featured from "./Components/Featured/Featured";
 import Navbar from "./Components/Navbar/Navbar";
 import Sidebar from './Components/Sidebar/Sidebar'
 import Widget from "./Components/Widget/Widget";
@@ -17,9 +19,13 @@ const AdminPage = () => {
           <Widget type="earning"/>
           <Widget type="balance"/>
         </div>
+        <div className="charts">
+          <Featured />
+          <Chart />
+        </div>
       </div>
     </div>
-  )
+  );
 };
 
-export default AdminPage
+export default AdminPage;
