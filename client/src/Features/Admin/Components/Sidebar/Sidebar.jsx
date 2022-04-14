@@ -1,6 +1,7 @@
 import React from 'react'
 import './Slidebar.scss'
 
+import { Link } from "react-router-dom"
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -15,14 +16,18 @@ const Sidebar = () => {
       </div>
       <div className="center">
         <ul>
-          <li>
-            <DashboardIcon className="icon"/>
-            <span>Dashboard</span>
-          </li>
-          <li>
-            <PersonOutlineOutlinedIcon className="icon"/>
-            <span>Users</span>
-          </li>
+          <Link to="/admin">
+            <li>
+                <DashboardIcon className="icon"/>
+                <span>Dashboard</span>
+            </li>
+          </Link>
+          <Link to="/admin/users">
+            <li>
+              <PersonOutlineOutlinedIcon className="icon"/>
+              <span>Users</span>
+            </li>
+          </Link>
           <li>
             <InventoryIcon className="icon"/>
             <span>Products</span>

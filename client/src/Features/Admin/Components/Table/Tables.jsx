@@ -19,7 +19,16 @@ function Tables() {
             amount: 88200,
             method: "Cash on Delivery",
             status: "Approved",
-        }
+        },
+        {
+          id: 2,
+          product: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
+          customer: "Ho Minh Hai",
+          date: "11 April",
+          amount: 88200,
+          method: "Cash on Delivery",
+          status: "Pending",
+      }
     ]
 
   return (

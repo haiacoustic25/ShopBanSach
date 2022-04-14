@@ -6,9 +6,10 @@ import ScrollTop from "./Assets/Img/ScrollTop.png";
 
 import HomePage from "./Features/Web/Home/HomePage";
 import AdminPage from "./Features/Admin/AdminPage";
-// import Customers from "./Features/Admin/pages/Customers";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
+import Users from "./Features/Admin/Pages/Users/Users";
+import Single from "./Features/Admin/Pages/Single/Single";
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -33,7 +34,10 @@ function App() {
           <Route path="/">
             <Route path="/admin">
               <Route index element={<AdminPage />} />
-              {/* <Route path="Customers" element={<Customers />} /> */}
+              <Route path="users" >
+                <Route index element={<Users />} />
+                <Route path=":userId" element={<Single />} />
+              </Route>
             </Route>
             <Route index element={<HomePage />} />
 
