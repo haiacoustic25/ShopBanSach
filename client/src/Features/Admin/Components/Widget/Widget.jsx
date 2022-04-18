@@ -2,11 +2,13 @@ import React from 'react'
 
 import "./Widget.scss"
 
+import { Link } from 'react-router-dom'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import Users from '../../Pages/Users/Users';
 
 const Widget = ({ type }) =>{
     let data;
@@ -20,6 +22,7 @@ const Widget = ({ type }) =>{
                 title: "USERS",
                 isMoney: false,
                 link: "See all users",
+                type: "users",
                 icon: (
                     <PersonOutlinedIcon 
                         className='icon' 
@@ -35,6 +38,7 @@ const Widget = ({ type }) =>{
                 title: "ORDER",
                 isMoney: false,
                 link: "View all orders",
+                type: "#",
                 icon: (
                     <ShoppingCartOutlinedIcon 
                         className='icon' 
@@ -50,6 +54,7 @@ const Widget = ({ type }) =>{
                 title: "EARNING",
                 isMoney: true,
                 link: "View earnings",
+                type: "#",
                 icon: (
                     <MonetizationOnOutlinedIcon 
                         className='icon' 
@@ -84,7 +89,9 @@ const Widget = ({ type }) =>{
         <div className="left">
             <span className="title">{data.title}</span>
             <span className="counter">{data.isMoney && "$"} {amount}</span>
-            <span className="link">{data.link}</span>
+            <Link to={`/admin/${data.type}`}>
+                <span className="link">{data.link}</span>
+            </Link>
         </div>
         <div className="right">
             <div className="percentage positive">

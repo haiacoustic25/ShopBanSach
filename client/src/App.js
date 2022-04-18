@@ -10,6 +10,9 @@ import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
 import Users from "./Features/Admin/Pages/Users/Users";
 import Single from "./Features/Admin/Pages/Single/Single";
+import New from "./Features/Admin/Pages/new/New";
+import { productInputs, userInputs } from "./Database/formSource";
+import Product from "./Features/Admin/Pages/Products/Product";
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -37,6 +40,12 @@ function App() {
               <Route path="users" >
                 <Route index element={<Users />} />
                 <Route path=":userId" element={<Single />} />
+                <Route path="new" element={<New inputs={userInputs} title="Add New User" />} />
+              </Route>
+              <Route path="products" >
+                <Route index element={<Product />} />
+                <Route path=":productId" element={<Single />} />
+                <Route path="new" element={<New inputs={productInputs} title="Add New Product" />} />
               </Route>
             </Route>
             <Route index element={<HomePage />} />

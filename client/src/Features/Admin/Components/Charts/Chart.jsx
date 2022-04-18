@@ -1,7 +1,7 @@
 import React from 'react'
 
 import "./Chart.scss"
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const data = [
   { name: "November", Total: 0},
@@ -12,11 +12,11 @@ const data = [
   { name: "April", Total: 1600},
 ];
 
-const Chart = () => {
+const Chart = ({aspect, title}) => {
   return (
     <div className='chart'>
-      <div className="title">Last 6 Months</div>
-      <ResponsiveContainer width="100%" aspect={2 / 1}>
+      <div className="title">{title}</div>
+      <ResponsiveContainer width="100%" aspect={aspect}>
         <AreaChart
           width={730}
           height={250}
