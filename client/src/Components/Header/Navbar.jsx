@@ -9,6 +9,7 @@ const Navbar = () => {
   const [search, setSearch] = useState({ search: "" });
 
   const handleEnterSearch = (e) => {
+    console.log(e.target.value);
     setSearch({ ...search, [e.target.name]: e.target.value });
   };
 
