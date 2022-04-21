@@ -12,19 +12,31 @@ const Menu = () => {
               <div>DANH MỤC SẢN PHẨM</div>
             </div>
             <div className="dropdown-content">
-              <Link to="" className="d-flex align-items-center justify-content-between">
+              <Link
+                to=""
+                className="d-flex align-items-center justify-content-between"
+              >
                 Sách Tiếng Việt<i className="fas fa-angle-right"></i>
               </Link>
               <Link to="">Sách Ngoại Văn</Link>
-              <Link to="" className="d-flex  align-items-center justify-content-between">
+              <Link
+                to=""
+                className="d-flex  align-items-center justify-content-between"
+              >
                 Văn Phòng Phẩm<i className="fas fa-angle-right"></i>
               </Link>
-              <Link to="" className="d-flex  align-items-center justify-content-between">
+              <Link
+                to=""
+                className="d-flex  align-items-center justify-content-between"
+              >
                 Đồ Chơi
                 <i className="fas fa-angle-right"></i>
               </Link>
               <Link to="">Đồ Trang Trí-Lưu Niệm</Link>
-              <Link to="" className="d-flex  align-items-center justify-content-between">
+              <Link
+                to=""
+                className="d-flex  align-items-center justify-content-between"
+              >
                 Nhà Cung Cấp<i className="fas fa-angle-right"></i>
               </Link>
             </div>
