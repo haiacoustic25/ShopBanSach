@@ -39,28 +39,12 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<CartPage />} />
-              {/* <Route path="/admin"
-                    element={<Layout />} 
-                    children={[
-                      {
-                        path: '/',
-                        element: <Dashboard />
-                      },
-                      {
-                        path: 'users',
-                        element: <Users />
-                      },
-                      {
-                        path: 'products',
-                        element: <Products />
-                      },
-                      {
-                        path: 'orders',
-                        element: <Orders />
-                      },
-                    ]}
-                  >
-              </Route> */}
+              <Route path="/admin" element={<Layout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="Users" element={<Users />} />
+                <Route path="Products" element={<Products />} />
+                <Route path="Orders" element={<Orders />} />
+              </Route>
             </Route>
           </Routes>
         </ThemeProvider>

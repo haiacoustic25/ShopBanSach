@@ -82,7 +82,7 @@ export const Dashboard = () => (
             <Card variant="outlined">
               <div style={{display: "flex", justifyContent: "space-between"}}>
                 <CardHeader title="Latest Orders" />
-                <Link to='/dashboard/orders' style={{textDecoration: 'none', color: 'blue'}}>
+                <Link to='/admin/orders' style={{textDecoration: 'none', color: 'blue'}}>
                   <CardHeader title="Go to orders"/>
                 </Link>
               </div>
