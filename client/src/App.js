@@ -5,21 +5,21 @@ import ScrollTop from "./Assets/Img/ScrollTop.png";
 import HomePage from "./Features/Web/Home/HomePage";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
+import Login from "./Features/Web/User/Login";
+import Register from "./Features/Web/User/Register";
 
 import Users from "./Features/Admin/Pages/Users/Users";
 import Single from "./Features/Admin/Pages/Single/Single";
 import New from "./Features/Admin/Pages/new/New";
-import { productInputs, userInputs } from "./Database/formSource";
 import Product from "./Features/Admin/Pages/Products/Product";
-import Login from "./Features/Web/User/Login";
-import Register from "./Features/Web/User/Register";
+import { productInputs, userInputs } from "./Database/formSource";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { theme } from "./Features/Admin/theme";
 import { Layout } from "./Features/Admin/Pages/Layout";
 import { Dashboard } from "./Features/Admin/Pages/Dashboard/Dashboard";
 import { Orders } from "./Features/Admin/Pages/Orders/Orders";
 import { Products } from "./Features/Admin/Pages/Products/Products";
-import { Users } from "./Features/Admin/Pages/Users/Users";
+// import { Users } from "./Features/Admin/Pages/Users/Users";
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
