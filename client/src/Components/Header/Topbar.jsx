@@ -31,12 +31,12 @@ const TopBar = () => {
           <div className="col-sm-4 ">
             <ul className="topbar__right">
               <li>
-                <Link to="/login" className="topbar__right--link">
+                <Link to="/dang-nhap" className="topbar__right--link">
                   Đăng Nhập
                 </Link>
               </li>
               <li>
-                <Link to="/register" className="topbar__right--link">
+                <Link to="/dang-ky" className="topbar__right--link">
                   Đăng Ký
                 </Link>
               </li>
