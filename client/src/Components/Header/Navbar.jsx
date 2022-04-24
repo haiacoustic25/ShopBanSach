@@ -85,7 +85,7 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="cart__all">
-                <Link to="/cart">Xem tất cả </Link>
+                <Link to="/gio-hang">Xem tất cả </Link>
               </div>
             </div>
           </div>

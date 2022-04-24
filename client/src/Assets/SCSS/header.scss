@@ -153,13 +153,16 @@ button:focus {
 }
 
 // menu
-.menu__list {
-  &--item {
-    width: 220px;
+.menu {
+  flex-wrap: nowrap !important;
+  &__list {
+    &--item {
+      width: 220px;
 
-    position: relative;
-    &:hover .dropdown-content {
-      display: block;
+      position: relative;
+      &:hover .dropdown-content {
+        display: block;
+      }
     }
   }
 }

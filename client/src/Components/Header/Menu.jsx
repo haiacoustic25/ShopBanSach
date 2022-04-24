@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Menu = () => {
   return (
     <div className="body">
-      <div className="row ">
+      <div className="row menu">
         <div className="d-flex col-sm-2 align-items-center">
           <div className="menu__list--item">
             <div className="menu__dropdown d-flex align-items-center">
