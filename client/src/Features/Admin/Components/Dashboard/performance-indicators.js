@@ -53,7 +53,7 @@ export const PerformanceIndicators = (props) => {
     legend: {
       show: true
     },
-    colors: ['rgba(49, 129, 237, 1)'],
+    colors: ['rgb(0, 194, 0)'],
     dataLabels: {
       enabled: false
     },

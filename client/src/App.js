@@ -32,22 +32,22 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Routes>
-                <Route path="/">
-                  <Route index element={<HomePage />} />
-                  <Route path="/:id" element={<ProductDetail />} />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/admin" element={<Layout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="Users" element={<Users />} />
-                    <Route path="Products" element={<Products />} />
-                    <Route path="Orders" element={<Orders />} />
-                  </Route>
-                </Route>
-              </Routes>
-            </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route path="/">
+              <Route index element={<HomePage />} />
+              <Route path="/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/admin" element={<Layout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="Users" element={<Users />} />
+                <Route path="Products" element={<Products />} />
+                <Route path="Orders" element={<Orders />} />
+              </Route>
+            </Route>
+          </Routes>
+        </ThemeProvider>
       </BrowserRouter>
       {/* scroll to top */}
       {scrollPosition >= 100 && (
