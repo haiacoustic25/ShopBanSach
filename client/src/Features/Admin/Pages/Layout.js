@@ -3,7 +3,6 @@ import { styled } from '@material-ui/core/styles';
 import { Navbar } from '../Components/Navbar/navbar';
 import { Sidebar } from '../Components/Sidebar/sidebar';
 import { Footer } from '../Components/Footer/footer';
-import { Dashboard } from './Dashboard/Dashboard';
 
 
 const DashboardLayoutRoot = styled('div')(

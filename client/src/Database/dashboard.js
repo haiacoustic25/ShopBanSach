@@ -12,8 +12,7 @@ export const latestOrders = [
       lastName: 'Jacketts'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -25,8 +24,7 @@ export const latestOrders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'DZS194LD',
     paymentMethod: 'stripe',
     paymentStatus: 'paid',
@@ -48,8 +46,7 @@ export const latestOrders = [
       lastName: 'Jose'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -61,12 +58,11 @@ export const latestOrders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'OTIK283L',
     paymentMethod: 'debit',
     paymentStatus: 'paid',
-    status: 'processed',
+    status: 'complete',
     trackingCode: null,
     totalAmount: 60,
     updatedAt: new Date('2021-05-21T02:02:45.475Z')

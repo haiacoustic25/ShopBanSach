@@ -92,15 +92,21 @@ export const Dashboard = () => (
             <Card variant="outlined">
               <div>
                 <CardHeader title="Orders Overview" />
+                <Divider />
               </div>
-              <Divider />
-              <Chart
-                options={options}
-                series={series}
-                type="donut"
-                width="100%"
-                height={300}
-              />
+              <div
+                style={{
+                  margin: 20
+                }}
+              >
+                <Chart
+                  options={options}
+                  series={series}
+                  type="donut"
+                  width="100%"
+                  height={300}
+                />
+              </div>
             </Card>
           </Grid>
           <Grid
