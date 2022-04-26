@@ -12,8 +12,7 @@ export const orders = [
       lastName: 'Lane'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -25,8 +24,7 @@ export const orders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'ORIL8823',
     paymentMethod: 'debit',
     paymentStatus: 'paid',
@@ -48,8 +46,7 @@ export const orders = [
       lastName: 'Louthe'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -61,8 +58,7 @@ export const orders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'L993DDLS',
     paymentMethod: 'paypal',
     paymentStatus: 'paid',
@@ -84,8 +80,7 @@ export const orders = [
       lastName: 'Ottawell'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -97,8 +92,7 @@ export const orders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'OPP482L',
     paymentMethod: 'creditCard',
     paymentStatus: 'paid',
@@ -119,8 +113,7 @@ export const orders = [
       lastName: 'Jacketts'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -132,8 +125,7 @@ export const orders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'DZS194LD',
     paymentMethod: 'stripe',
     paymentStatus: 'paid',
@@ -155,8 +147,7 @@ export const orders = [
       lastName: 'Jose'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -168,8 +159,7 @@ export const orders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'OTIK283L',
     paymentMethod: 'debit',
     paymentStatus: 'paid',
@@ -191,8 +181,7 @@ export const orders = [
       lastName: 'Hopkyns'
     },
     discountAmount: 0,
-    lineItems: [
-      {
+    lineItems:{
         currency: 'USD',
         currencySymbol: '$',
         discountAmount: 0,
@@ -204,8 +193,7 @@ export const orders = [
         taxAmount: 32.5,
         totalAmount: 192.5,
         unitAmount: 160
-      }
-    ],
+    },
     paymentId: 'RKKD832L',
     paymentMethod: 'paypal',
     paymentStatus: 'paid',

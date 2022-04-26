@@ -28,7 +28,7 @@ const items = [
     label: 'Orders'
   },
   {
-    href: '/admin',
+    href: '/',
     icon: LogoutIcon,
     label: 'Logout'
   },
