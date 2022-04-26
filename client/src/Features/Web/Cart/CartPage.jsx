@@ -36,7 +36,7 @@ const CartPage = () => {
             <div className="text-uppercase px-2">/ Giỏ hàng</div>
           </div>
         </div>
-        <Table striped bordered hover>
+        <Table bordered>
           <thead>
             <tr>
               <th></th>
@@ -77,7 +77,7 @@ const CartPage = () => {
       </div>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Xóa sản phẩm</Modal.Title>
         </Modal.Header>
         <Modal.Body>Bạn có đồng ý xóa sản phẩm hay không</Modal.Body>
@@ -86,7 +86,7 @@ const CartPage = () => {
             Hủy
           </Button>
           <Button variant="primary" onClick={handleClose}>
-            Đồng ý  
+            Đồng ý
           </Button>
         </Modal.Footer>
       </Modal>
