@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../../Assets/Img/logo.png";
 import emptyCart from "../../Assets/Img/empty-cart.png";
 import products from "../../Assets/Img/ProductTest.png";
+import Cart from "./Cart";
 
 const Navbar = () => {
   const [search, setSearch] = useState({ search: "" });
@@ -54,36 +55,9 @@ const Navbar = () => {
               {/* <div className="cart__img">
                 <img src={emptyCart} alt="" />
               </div> */}
-              <div className="cart__product d-flex">
-                <img src={products} alt="" className="cart__product--img" />
-
-                <div className="cart__product--infor">
-                  <div className="cart__product--infor-name">
-                    10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2
-                  </div>
-                  <div className="cart__product--infor-price">
-                    Giá tiền: 88,200 đ
-                  </div>
-                  <div className="cart__product--infor-quantity">
-                    Số lượng: 1
-                  </div>
-                </div>
-              </div>
-              <div className="cart__product d-flex">
-                <img src={products} alt="" className="cart__product--img" />
-
-                <div className="cart__product--infor">
-                  <div className="cart__product--infor-name">
-                    10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2
-                  </div>
-                  <div className="cart__product--infor-price">
-                    Giá tiền: 88,200 đ
-                  </div>
-                  <div className="cart__product--infor-quantity">
-                    Số lượng: 1
-                  </div>
-                </div>
-              </div>
+              <Cart products={products}/>
+              <Cart products={products}/>
+              
               <div className="cart__all">
                 <Link to="/gio-hang">Xem tất cả </Link>
               </div>

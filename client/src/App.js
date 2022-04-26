@@ -5,6 +5,9 @@ import ScrollTop from "./Assets/Img/ScrollTop.png";
 import HomePage from "./Features/Web/Home/HomePage";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
+import Register from "./Features/Web/User/Register";
+import Login from "./Features/Web/User/Login";
+
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { theme } from "./Features/Admin/theme";
 import { Layout } from "./Features/Admin/Pages/Layout";
@@ -39,6 +42,9 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/gio-hang" element={<CartPage />} />
+              <Route path="/dang-ky" element={<Register />} />
+              <Route path="/dang-nhap" element={<Login />} />
               <Route path="/admin" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="Users" element={<Users />} />

@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { Box, Button, Card, Container, Divider, TablePagination, Typography } from '@material-ui/core';
-import { OrdersFilter } from '../../Components/orders/orders-filter';
-import { OrdersTable } from '../../Components/Table/orders-table';
-import { orders } from '../../../../Database/orders';
+import { useState } from "react";
+import { Helmet } from "react-helmet";
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  Divider,
+  TablePagination,
+  Typography,
+} from "@material-ui/core";
+import { OrdersFilter } from "../../Components/orders/orders-filter";
+import { OrdersTable } from "../../Components/Table/orders-table";
+import { orders } from "../../../../Database/orders";
 
 export const Users = () => {
-  const [mode, setMode] = useState('table');
-  const [query, setQuery] = useState('');
+  const [mode, setMode] = useState("table");
+  const [query, setQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
 
@@ -37,31 +45,24 @@ export const Users = () => {
       </Helmet>
       <Box
         sx={{
-          backgroundColor: 'background.default',
+          backgroundColor: "background.default",
           pb: 3,
-          pt: 8
+          pt: 8,
         }}
       >
         <Container maxWidth="lg">
           <Box
             sx={{
-              alignItems: 'center',
-              display: 'flex',
-              mb: 3
+              alignItems: "center",
+              display: "flex",
+              mb: 3,
             }}
           >
-            <Typography
-              color="textPrimary"
-              variant="h4"
-            >
+            <Typography color="textPrimary" variant="h4">
               Users
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Button
-              color="primary"
-              size="large"
-              variant="contained"
-            >
+            <Button color="primary" size="large" variant="contained">
               Add
             </Button>
           </Box>
