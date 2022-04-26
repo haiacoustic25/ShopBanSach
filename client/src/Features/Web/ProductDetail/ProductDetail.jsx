@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../../Components/Footer/Footer";
 import Header from "../../../Components/Header/Header";
 import { Link } from "react-router-dom";
@@ -20,6 +20,10 @@ const ProductDetail = () => {
   const handleAddProduct = () => {
     NotificationManager.success("Thêm thành công");
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <Header />
