@@ -41,6 +41,7 @@ function App() {
             <Route path="/">
               <Route index element={<HomePage />} />
               <Route path="/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route path="/gio-hang" element={<CartPage />} />
               <Route path="/dang-ky" element={<Register />} />
               <Route path="/dang-nhap" element={<Login />} />

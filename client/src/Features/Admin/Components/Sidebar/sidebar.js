@@ -66,11 +66,11 @@ export const Sidebar = () => {
               to={href}
               sx={{
                 flexDirection: 'column',
-                color: active ? 'primary.main' : 'text.secondary',
+                color: active ? 'rgb(0, 194, 0)' : 'text.secondary',
                 px: 2,
                 py: 1.5,
                 '&:hover': {
-                  color: 'primary.main'
+                  color: 'rgb(0, 194, 0)'
                 }
               }}
             >

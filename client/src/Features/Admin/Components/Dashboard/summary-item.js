@@ -28,7 +28,7 @@ export const SummaryItem = (props) => {
           >
             <Avatar
               sx={{
-                backgroundColor: 'primary.main',
+                backgroundColor: 'rgb(0, 194, 0)',
                 height: 56,
                 width: 56
               }}
@@ -61,7 +61,7 @@ export const SummaryItem = (props) => {
           cursor: 'pointer',
         }}
       >
-        <Link to={`/admin/${label}`} style={{display: 'flex', textDecoration: 'none', color: 'blue', fontSize: 14, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
+        <Link to={`/admin/${label}`} style={{display: 'flex', textDecoration: 'none', color: 'rgb(0, 170, 0)', fontSize: 14, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
             {label}
             <R_arrow style={{marginLeft: 2}}/>
         </Link>

@@ -8,6 +8,7 @@ import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
 import { User as UserIcon } from '../../icons/user';
 import { latestOrders } from '../../../../Database/dashboard';
 import { Link } from "react-router-dom";
+import Chart from 'react-apexcharts';
 
 const stats = [
   {
@@ -26,6 +27,14 @@ const stats = [
     label: 'Orders'
   }
 ];
+
+
+const options = {
+    series: [10, 10, 10, 70],
+    labels: ["Complete", "Pending", "Cancelled", "Refunded"],
+};
+
+const series = [10, 10, 10, 70];
 
 export const Dashboard = () => (
   <>
@@ -77,12 +86,32 @@ export const Dashboard = () => (
           </Grid>
           <Grid
             item
+            md={6}
+            xs={12}
+          >
+            <Card variant="outlined">
+              <div>
+                <CardHeader title="Orders Overview" />
+              </div>
+              <Divider />
+              <Chart
+                options={options}
+                series={series}
+                type="donut"
+                width="100%"
+                height={300}
+              />
+            </Card>
+          </Grid>
+          <Grid
+            item
+            md={6}
             xs={12}
           >
             <Card variant="outlined">
               <div style={{display: "flex", justifyContent: "space-between"}}>
                 <CardHeader title="Latest Orders" />
-                <Link to='/admin/orders' style={{textDecoration: 'none', color: 'blue'}}>
+                <Link to='/admin/orders' style={{textDecoration: 'none', color: 'rgb(0, 170, 0)'}}>
                   <CardHeader title="Go to orders"/>
                 </Link>
               </div>
