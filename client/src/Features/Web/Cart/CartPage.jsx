@@ -36,7 +36,7 @@ const CartPage = () => {
             <div className="text-uppercase px-2">/ Giỏ hàng</div>
           </div>
         </div>
-        <Table striped bordered hover>
+        <Table bordered>
           <thead>
             <tr>
               <th></th>
@@ -86,7 +86,7 @@ const CartPage = () => {
             Hủy
           </Button>
           <Button variant="primary" onClick={handleClose}>
-            Đồng ý  
+            Đồng ý
           </Button>
         </Modal.Footer>
       </Modal>

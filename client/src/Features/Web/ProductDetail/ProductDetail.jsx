@@ -5,11 +5,20 @@ import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import img from "../../../Assets/Img/ProductTest.png";
 import "../../../Assets/SCSS/productDetail.scss";
+import "react-notifications/lib/notifications.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 const ProductDetail = () => {
   const [descFull, setDescFull] = useState(true);
 
   const handlerDesc = () => {
     setDescFull(!descFull);
+  };
+
+  const handleAddProduct = () => {
+    NotificationManager.success("Thêm thành công");
   };
   return (
     <div>
@@ -76,7 +85,11 @@ const ProductDetail = () => {
             </div>
             <div className="row">
               <div className="inforProduct__btn d-flex px-0">
-                <Button variant="success" className="text-uppercase mr-3">
+                <Button
+                  variant="success"
+                  className="text-uppercase mr-3"
+                  onClick={handleAddProduct}
+                >
                   Thêm vào giỏ
                 </Button>
                 <Button variant="success" className="text-uppercase">
@@ -88,23 +101,31 @@ const ProductDetail = () => {
         </div>
         <div className="inforProduct__desc">
           <h3>Thông tin chi tiết</h3>
-          <Table striped bordered hover size="sm">
+          <Table striped bordered size="sm">
             <tbody>
               <tr>
-                <td>Mã hàng</td>
+                <td>
+                  <b>Mã hàng</b>
+                </td>
                 <td>Mark</td>
               </tr>
               <tr>
-                <td>Nhà xuất bản</td>
+                <td>
+                  <b>Nhà xuất bản</b>
+                </td>
                 <td>Mark</td>
               </tr>
               <tr>
-                <td>Tên tác giả</td>
+                <td>
+                  <b>Tên tác giả</b>
+                </td>
                 <td>Thornton</td>
               </tr>
               <tr>
-                <td>Năm xuất bản</td>
-                <td colSpan={2}>Larry the Bird</td>
+                <td>
+                  <b>Năm xuất bản</b>
+                </td>
+                <td>Larry the Bird</td>
               </tr>
             </tbody>
           </Table>
@@ -156,6 +177,7 @@ const ProductDetail = () => {
                 Thu gọn
               </Button>
             )}
+            <NotificationContainer />
           </div>
         </div>
       </div>
