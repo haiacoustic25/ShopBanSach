@@ -19,6 +19,8 @@
       width: 30px !important;
       height: 30px !important;
       // border: 1px solid $text_color;
+      border-radius: 5px;
+      color: #fff;
     }
     & > span {
       margin: 0 10px;
@@ -34,6 +36,11 @@
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
+      border-radius: 3px;
+      border: none;
+      &:hover {
+        cursor: pointer;
+      }
       &:first-child {
         margin-right: 0;
       }
