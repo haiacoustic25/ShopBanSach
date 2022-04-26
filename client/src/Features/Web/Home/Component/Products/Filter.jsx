@@ -1,44 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 const Filter = () => {
+  const [dataFillter, setDataFilter] = useState({
+    author: "",
+    price: "",
+    createDate: "",
+    category: "",
+  });
+  const onChange = (event) => {
+    setDataFilter({ ...dataFillter, [event.target.name]: event.target.value });
+  };
+  const handleFillter = (event) => {
+    event.preventDefault();
+    console.log(dataFillter);
+  };
   return (
     <div className="filter">
       <h2>Lọc sản phẩm</h2>
       <Form noValidate>
         <Row className="mb-3">
-          <Form.Group as={Col} md="4" controlId="validationCustom01">
+          <Form.Group as={Col} md="4">
             <Form.Label>Tác giả</Form.Label>
-            <Form.Control required type="text" placeholder="Tên tác giả" />
+            <Form.Control
+              required
+              type="text"
+              placeholder="Tên tác giả"
+              name="author"
+              value={dataFillter.author}
+              onChange={onChange}
+            />
           </Form.Group>
-          <Form.Group as={Col} md="2" controlId="validationCustom01">
+          <Form.Group as={Col} md="2">
             <Form.Label>Giá</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option>Chọn khoảng giá</option>
+            <Form.Select
+              aria-label="Default select example"
+              name="price"
+              value={dataFillter.price}
+              onChange={onChange}
+            >
+              <option value="">Chọn khoảng giá</option>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} md="2" controlId="validationCustom02">
+          <Form.Group as={Col} md="2">
             <Form.Label>Năm xuất Bản</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option>Năm xuất bản</option>
+            <Form.Select
+              aria-label="Default select example"
+              name="createDate"
+              value={dataFillter.createDate}
+              onChange={onChange}
+            >
+              <option value="">Năm xuất bản</option>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} md="2" controlId="validationCustomUsername">
+          <Form.Group as={Col} md="2">
             <Form.Label>Thể loại</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option>Thể loại</option>
+            <Form.Select
+              aria-label="Default select example"
+              name="category"
+              value={dataFillter.category}
+              onChange={onChange}
+            >
+              <option value="">Thể loại</option>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} md="2" controlId="validationCustomUsername">
-            <Button type="submit">Lọc</Button>
+          <Form.Group as={Col} md="2">
+            <Button type="submit" onClick={handleFillter}>
+              Lọc
+            </Button>
           </Form.Group>
         </Row>
       </Form>

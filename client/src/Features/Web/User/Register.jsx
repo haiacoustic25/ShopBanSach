@@ -26,17 +26,23 @@ const Register = () => {
           <div className="col-sm-4 col-sm-push-4 text-center">
             <h1>Đăng Ký</h1>
             <Form>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className="mb-3">
                 <Form.Control type="email" placeholder="Tên Người Dùng" />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className="mb-3">
                 <Form.Control type="email" placeholder="Tên Đăng Nhập" />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3">
                 <Form.Control type="password" placeholder="Mật Khẩu" />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3">
                 <Form.Control type="password" placeholder="Nhập Lại Mật Khẩu" />
+              </Form.Group>
+              <Form.Group className="mb-3" c>
+                <Form.Control type="text" placeholder="Địa chỉ" />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Control type="text" placeholder="Số điện thoại" />
               </Form.Group>
               <Button
                 variant="primary"
