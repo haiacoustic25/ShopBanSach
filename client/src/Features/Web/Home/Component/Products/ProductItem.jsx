@@ -17,8 +17,8 @@ const ProductItem = (props) => {
         <Card.Body className="py-0">
           <Card.Text className="product__name text-center">{name}</Card.Text>
           <Card.Text className="d-flex justify-content-between">
-            <div className="product__prive--new">{newPrice}đ</div>
-            <div className="product__prive--old">{oldPrice}đ</div>
+            <div className="product__price--new">{newPrice} đ</div>
+            <div className="product__price--old">{oldPrice} đ</div>
           </Card.Text>
           <div className="product__discout">-{discount}%</div>
         </Card.Body>

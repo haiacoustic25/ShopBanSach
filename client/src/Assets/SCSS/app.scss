@@ -87,10 +87,11 @@ input {
   box-shadow: none;
 }
 
-// .btn {
-//   box-shadow: none !important;
-// }
+.btn {
+  box-shadow: none !important;
+}
 
 button {
-  background-color: $btn_color !important;
+  background-color: $btn_color;
+  border: none !important;
 }

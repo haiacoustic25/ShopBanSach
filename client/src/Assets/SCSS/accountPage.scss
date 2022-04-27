@@ -7,6 +7,7 @@
   border-top: 1px solid $btn_color;
   border-bottom: 1px solid $btn_color;
   padding-left: 10px;
+  margin-bottom: 30px;
   &__img {
     width: 100px;
     height: 100px;
@@ -38,10 +39,9 @@
           font-weight: 300;
         }
       }
+      &:last-child {
+        cursor: pointer;
+      }
     }
   }
-}
-
-.historyTransaction {
-  padding: 20px 0;
 }
