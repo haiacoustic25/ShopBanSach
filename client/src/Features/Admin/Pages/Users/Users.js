@@ -3,15 +3,13 @@ import { Helmet } from "react-helmet";
 import {
   Box,
   Button,
-  Card,
   Container,
   Divider,
-  TablePagination,
   Typography,
 } from "@material-ui/core";
-import { OrdersFilter } from "../../Components/orders/orders-filter";
-import { OrdersTable } from "../../Components/Table/orders-table";
-import { orders } from "../../../../Database/orders";
+import EnhancedTable from '../../Components/Table/users-table'
+import Plus from "../../icons/plus";
+
 
 export const Users = () => {
   const [mode, setMode] = useState("table");
@@ -63,29 +61,16 @@ export const Users = () => {
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Button color="primary" size="large" variant="contained">
+              <Plus 
+                sx={{
+                  marginRight: 2
+                }}
+              />
               Add
             </Button>
           </Box>
-          <Card variant="outlined">
-            <OrdersFilter
-              mode={mode}
-              onModeChange={handleModeChange}
-              onQueryChange={handleQueryChange}
-              query={query}
-            />
-            <Divider />
-            <OrdersTable orders={orders} />
-            <Divider />
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={orders.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Card>
+          <Divider />
+          <EnhancedTable />
         </Container>
       </Box>
     </>

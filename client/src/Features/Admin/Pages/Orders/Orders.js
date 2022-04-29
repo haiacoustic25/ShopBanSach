@@ -4,6 +4,7 @@ import { Box, Button, Card, Container, Divider, TablePagination, Typography } fr
 import { OrdersFilter } from '../../Components/orders/orders-filter';
 import { OrdersTable } from '../../Components/Table/orders-table';
 import { orders } from '../../../../Database/orders';
+import Plus from "../../icons/plus";
 
 export const Orders = () => {
   const [mode, setMode] = useState('table');
@@ -62,6 +63,11 @@ export const Orders = () => {
               size="large"
               variant="contained"
             >
+              <Plus 
+                sx={{
+                  marginRight: 2
+                }}
+              />
               Add
             </Button>
           </Box>
