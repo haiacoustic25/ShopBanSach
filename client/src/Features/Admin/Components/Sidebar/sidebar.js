@@ -5,6 +5,8 @@ import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
 import { User as UserIcon } from '../../icons/user';
 import { Cube as CubeIcon } from '../../icons/cube';
 import { Logout as LogoutIcon } from '../../icons/logout';
+import { Author as AuthorIcon } from '../../icons/author';
+import { Producer as ProducerIcon } from '../../icons/producer';
 
 const items = [
   {
@@ -26,6 +28,16 @@ const items = [
     href: '/admin/orders',
     icon: CubeIcon,
     label: 'Orders'
+  },
+  {
+    href: '/admin/authors',
+    icon: AuthorIcon,
+    label: 'Author'
+  },
+  {
+    href: '/admin/producers',
+    icon: ProducerIcon,
+    label: 'Producer'
   },
   {
     href: '/',

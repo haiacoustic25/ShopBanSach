@@ -6,6 +6,8 @@ import { OrdersTable } from '../../Components/Table/orders-table';
 import { Cube as CubeIcon } from '../../icons/cube';
 import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
 import { User as UserIcon } from '../../icons/user';
+import { Author as AuthorIcon } from '../../icons/author';
+import { Producer as ProducerIcon } from '../../icons/producer';
 import { latestOrders } from '../../../../Database/dashboard';
 import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts';
@@ -25,6 +27,16 @@ const stats = [
     content: '3450',
     icon: CubeIcon,
     label: 'Orders'
+  },
+  {
+    content: '3450',
+    icon: AuthorIcon,
+    label: 'Authors'
+  },
+  {
+    content: '3450',
+    icon: ProducerIcon,
+    label: 'Producers'
   }
 ];
 
@@ -68,7 +80,7 @@ export const Dashboard = () => (
             <Grid
               item
               key={item.label}
-              md={4}
+              md={2.4}
               xs={12}
             >
               <SummaryItem

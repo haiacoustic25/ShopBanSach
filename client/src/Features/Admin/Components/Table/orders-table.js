@@ -96,7 +96,7 @@ export const OrdersTable = ({orders}) => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      <TableRow style={{borderBottom: "0.5px solid", borderTop: "0.5px solid", backgroundColor: "#ccc"}}>
+                      <TableRow style={{borderTop: "0.5px solid #ccc", backgroundColor: "#F3F4F7"}}>
                         <TableCell style={{ width: 320, fontSize: 12 }} align="left">
                           NAME
                         </TableCell>
@@ -134,7 +134,7 @@ export const OrdersTable = ({orders}) => {
                           {order.lineItems.quantity}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="left">
-                          {`$${order.lineItems.totalAmount}`}
+                          {`$${order.lineItems.subtotalAmount}`}
                         </TableCell>
                       </TableRow>
                       <TableRow >
