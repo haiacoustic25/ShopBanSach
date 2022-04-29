@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
+import axios from "axios";
 const Login = () => {
   let navigate = useNavigate();
   const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
+    User_Username: "",
+    User_Password: "",
   });
   const [errorLogin, setErrorLogin] = useState();
   const onChange = (e) => {
@@ -15,7 +16,7 @@ const Login = () => {
   };
   const handleLogin = (event) => {
     event.preventDefault();
-    if (loginData.username === "" || loginData.password === "") {
+    if (loginData.User_Username === "" || loginData.User_Password === "") {
       setErrorLogin("Không được để trống tên đăng nhập hoặc mật khẩu");
     } else {
       setErrorLogin("");
@@ -26,6 +27,7 @@ const Login = () => {
     setTimeout(() => {
       navigate("/");
     }, 1500);
+
   return (
     <>
       <Header />
@@ -47,25 +49,33 @@ const Login = () => {
           <div className="col-sm-4"></div>
           <div className="col-sm-4 col-sm-push-4 text-center">
             <h1>Đăng Nhập</h1>
-            <Form onSubmit={handleLogin}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control
-                  type="text"
-                  placeholder="Tên Đăng Nhập"
-                  name="username"
-                  value={loginData.username}
-                  onChange={onChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Control
-                  type="password"
-                  placeholder="Mật Khẩu"
-                  name="password"
-                  value={loginData.password}
-                  onChange={onChange}
-                />
-              </Form.Group>
+            <form onSubmit={handleLogin}>
+              <TextField
+                type="text"
+                id="outlined-basic"
+                label="Tên đăng nhập"
+                name="User_UserName"
+                value={loginData.User_UserName}
+                onChange={onChange}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              />
+
+              <TextField
+                type="password"
+                id="outlined-basic"
+                label="Mật khẩu"
+                name="User_Password"
+                value={loginData.User_Password}
+                onChange={onChange}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                }}
+              />
               {errorLogin !== "" && (
                 <div
                   style={{
@@ -78,16 +88,17 @@ const Login = () => {
                 </div>
               )}
               <Button
-                variant="primary"
                 type="submit"
-                className="btn btn-success"
+                variant="contained"
                 style={{
                   backgroundColor: "#00ab9f",
+                  color: "#fff",
+                  padding: "10px",
                 }}
               >
-                Đăng Nhập
+                Đăng nhập
               </Button>
-            </Form>
+            </form>
           </div>
           <div className="col-sm-4"></div>
         </div>

@@ -3,7 +3,7 @@ import productTest from "../../../../../Assets/Img/ProductTest.png";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 const ProductItem = (props) => {
-  const { id, name, newPrice, oldPrice, discount } = props;
+  const { id, name, newPrice, oldPrice, discount } = props.product;
   return (
     <Link to={`/${id}`} className="col-sm-3">
       <Card className="product">

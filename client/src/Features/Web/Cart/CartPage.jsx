@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { Link } from "react-router-dom";
-import { Table, Button, Modal } from "react-bootstrap";
+import { Table, Modal } from "react-bootstrap";
+import { TextField, Button } from "@mui/material";
+
 import "../../../Assets/SCSS/cartPage.scss";
 import product from "../../../Assets/Img/ProductTest.png";
 
@@ -70,8 +72,22 @@ const CartPage = () => {
             Tổng tiền: 88,000 đ
           </div>
           <div className="cartPage__btn d-flex flex-row-reverse">
-            <Button variant="success">Thanh toán</Button>
-            <Button variant="success">Cập nhật</Button>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#00ab9f",
+              }}
+            >
+              Thanh toán
+            </Button>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#00ab9f",
+              }}
+            >
+              Cập nhật
+            </Button>
           </div>
         </div>
       </div>

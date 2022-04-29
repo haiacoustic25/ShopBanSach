@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import Footer from "../../../Components/Footer/Footer";
 import Header from "../../../Components/Header/Header";
-import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
 
 const Register = () => {
   const [dataRegister, setDataRegister] = useState({
-    name: "",
-    username: "",
-    password: "",
-    address: "",
-    phoneNumber: "",
+    User_Name: "",
+    User_Username: "",
+    User_Password: "",
+    User_Address: "",
+    User_Contact: "",
     img: "",
   });
 
@@ -29,15 +29,15 @@ const Register = () => {
   const [selectedImage, setSelectedImage] = useState();
 
   // This function will be triggered when the file field change
-  const imageChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(e.target.files[0]);
-      setDataRegister({
-        ...dataRegister,
-        img: e.target.files[0].name,
-      });
-    }
-  };
+  // const imageChange = (e) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setSelectedImage(e.target.files[0]);
+  //     setDataRegister({
+  //       ...dataRegister,
+  //       img: e.target.files[0].name,
+  //     });
+  //   }
+  // };
 
   return (
     <>
@@ -59,78 +59,88 @@ const Register = () => {
           <div className="col-sm-4"></div>
           <div className="col-sm-4 col-sm-push-4 text-center">
             <h1>Đăng Ký</h1>
-            <Form onSubmit={handleRegister}>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="Tên Người Dùng"
-                  name="name"
-                  value={dataRegister.name}
-                  onChange={onChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="Tên Đăng Nhập"
-                  name="username"
-                  value={dataRegister.username}
-                  onChange={onChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  type="password"
-                  placeholder="Mật Khẩu"
-                  name="password"
-                  value={dataRegister.password}
-                  onChange={onChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Control type="password" placeholder="Nhập Lại Mật Khẩu" />
-              </Form.Group>
-              <Form.Group className="mb-3" c>
-                <Form.Control
-                  type="text"
-                  placeholder="Địa chỉ"
-                  name="address"
-                  value={dataRegister.address}
-                  onChange={onChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="Số điện thoại"
-                  name="phoneNumber"
-                  value={dataRegister.phoneNumber}
-                  onChange={onChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Control type="file" onChange={imageChange} />
-                {selectedImage && (
-                  <div>
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="Thumb"
-                      className="w-50 h-50 mt-3"
-                    />
-                  </div>
-                )}
-              </Form.Group>
+            <form onSubmit={handleRegister}>
+              <TextField
+                type="text"
+                id="outlined-basic"
+                label="Tên người dùng"
+                name="User_Name"
+                value={dataRegister.User_Name}
+                onChange={onChange}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              />
+
+              <TextField
+                type="text"
+                id="outlined-basic"
+                label="Tên đăng nhập"
+                name="User_Username"
+                value={dataRegister.User_Username}
+                onChange={onChange}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                }}
+              />
+              <TextField
+                type="password"
+                id="outlined-basic"
+                label="Mật khẩu"
+                name="User_Password"
+                value={dataRegister.User_Password}
+                onChange={onChange}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                }}
+              />
+              <TextField
+                type="password"
+                id="outlined-basic"
+                label="Nhập lại mật khẩu"
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                }}
+              />
+              <TextField
+                type="text"
+                id="outlined-basic"
+                label="Địa chỉ"
+                name="User_Address"
+                value={dataRegister.User_Address}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                }}
+              />
+              <TextField
+                type="text"
+                id="outlined-basic"
+                label="Số điện thoại"
+                name="User_Contact"
+                value={dataRegister.User_Contact}
+                style={{
+                  width: "350px",
+                  marginBottom: "20px",
+                }}
+              />
               <Button
-                variant="primary"
                 type="submit"
-                className="btn btn-success"
+                variant="contained"
                 style={{
                   backgroundColor: "#00ab9f",
+                  color: "#fff",
+                  padding: "10px",
                 }}
               >
-                Đăng Ký
+                Đăng ký
               </Button>
-            </Form>
+            </form>
           </div>
           <div className="col-sm-4"></div>
         </div>
