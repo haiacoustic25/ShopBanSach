@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
-import { TextField, Button } from "@mui/material";
+import {
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 const Login = () => {
   let navigate = useNavigate();
@@ -10,6 +19,7 @@ const Login = () => {
     User_Username: "",
     User_Password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [errorLogin, setErrorLogin] = useState();
   const onChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -21,13 +31,15 @@ const Login = () => {
     } else {
       setErrorLogin("");
     }
-    console.log(errorLogin);
+    console.log(loginData.User_Username);
   };
   if (errorLogin === "")
     setTimeout(() => {
       navigate("/");
     }, 1500);
-
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <>
       <Header />
@@ -50,32 +62,52 @@ const Login = () => {
           <div className="col-sm-4 col-sm-push-4 text-center">
             <h1>Đăng Nhập</h1>
             <form onSubmit={handleLogin}>
-              <TextField
-                type="text"
-                id="outlined-basic"
-                label="Tên đăng nhập"
-                name="User_UserName"
-                value={loginData.User_UserName}
-                onChange={onChange}
-                style={{
-                  width: "350px",
-                  marginBottom: "20px",
-                  marginTop: "10px",
-                }}
-              />
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Tên đăng nhập
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="User_Username"
+                  value={loginData.User_Username}
+                  onChange={onChange}
+                  label="Tên đăng nhập"
+                  style={{
+                    width: "350px",
+                    marginBottom: "20px",
+                    backgroundColor: "#fff",
+                  }}
+                />
+              </FormControl>
 
-              <TextField
-                type="password"
-                id="outlined-basic"
-                label="Mật khẩu"
-                name="User_Password"
-                value={loginData.User_Password}
-                onChange={onChange}
-                style={{
-                  width: "350px",
-                  marginBottom: "20px",
-                }}
-              />
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Mật khẩu
+                </InputLabel>
+                <OutlinedInput
+                  type={showPassword ? "text" : "password"}
+                  name="User_Password"
+                  value={loginData.User_Password}
+                  onChange={onChange}
+                  label="Mật khẩu"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  style={{
+                    width: "350px",
+                    marginBottom: "20px",
+                    backgroundColor: "#fff",
+                  }}
+                />
+              </FormControl>
               {errorLogin !== "" && (
                 <div
                   style={{
