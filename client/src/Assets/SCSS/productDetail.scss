@@ -135,4 +135,17 @@
       }
     }
   }
+  &__quantity {
+    padding-bottom: 20px;
+    & > button {
+      font-size: 20px;
+      width: 35px !important;
+      height: 35px !important;
+      border-radius: 5px;
+      color: #fff;
+    }
+    & > span {
+      margin: 0 10px;
+    }
+  }
 }

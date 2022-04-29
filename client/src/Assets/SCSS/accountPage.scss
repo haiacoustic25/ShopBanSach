@@ -1,0 +1,47 @@
+@import "constant";
+
+.account {
+  //   background-color: #fff;
+  padding: 20px 0;
+  border-radius: 20px;
+  border-top: 1px solid $btn_color;
+  border-bottom: 1px solid $btn_color;
+  padding-left: 10px;
+  margin-bottom: 30px;
+  &__img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgb(253, 253, 253);
+    display: flex;
+    justify-content: center;
+    & > img {
+      height: 50%;
+      width: 50%;
+      margin: auto;
+    }
+  }
+  &__infor {
+    &--row {
+      padding-left: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-right: 100px;
+      border-right: 1px solid #dfdcdc;
+      line-height: 30px;
+      & > span {
+        font-size: 20px;
+        font-weight: 500;
+        display: block;
+        &:last-child {
+          font-size: 18px;
+          color: rgb(163, 159, 159);
+          font-weight: 300;
+        }
+      }
+      &:last-child {
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -36,7 +36,7 @@ const CartPage = () => {
             <div className="text-uppercase px-2">/ Giỏ hàng</div>
           </div>
         </div>
-        <Table bordered>
+        <Table>
           <thead>
             <tr>
               <th></th>
@@ -85,7 +85,13 @@ const CartPage = () => {
           <Button variant="secondary" onClick={handleClose}>
             Hủy
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button
+            variant="primary"
+            onClick={handleClose}
+            style={{
+              backgroundColor: "#00ab9f",
+            }}
+          >
             Đồng ý
           </Button>
         </Modal.Footer>
