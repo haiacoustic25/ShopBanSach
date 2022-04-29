@@ -134,7 +134,7 @@ export const OrdersTable = ({orders}) => {
                           {order.lineItems.quantity}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="left">
-                          {`$${order.lineItems.totalAmount}`}
+                          {`$${order.lineItems.subtotalAmount}`}
                         </TableCell>
                       </TableRow>
                       <TableRow >
