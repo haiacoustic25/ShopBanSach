@@ -19,7 +19,7 @@ const Login = () => {
     User_Username: "",
     User_Password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
+
   const [errorLogin, setErrorLogin] = useState();
   const onChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -37,6 +37,9 @@ const Login = () => {
     setTimeout(() => {
       navigate("/");
     }, 1500);
+
+  // show password
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
