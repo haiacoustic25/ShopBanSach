@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Footer from "../../../Components/Footer/Footer";
 import Header from "../../../Components/Header/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   OutlinedInput,
@@ -9,46 +9,80 @@ import {
   IconButton,
   FormControl,
   InputLabel,
+  FormHelperText,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Register = () => {
-  const [dataRegister, setDataRegister] = useState({
-    User_Name: "",
-    User_Username: "",
-    User_Password: "",
-    User_Address: "",
-    User_Contact: "",
-    img: "",
+  const styleInput = {
+    width: "350px",
+    marginBottom: "20px",
+    backgroundColor: "#fff",
+  };
+  let navigate = useNavigate();
+  const [registerData, setRegisterData] = useState({
+    user_name: "",
+    user_username: "",
+    user_password: "",
+    user_address: "",
+    user_contact: "",
+    user_email: "",
+  });
+  const [registerError, setRegisterError] = useState({
+    Error_Password: "",
+    Error_ConfirmPassword: "",
+    Error: "",
   });
   const [confirmPassword, setConfirmPassword] = useState();
   const onChange = (event) => {
-    setDataRegister({
-      ...dataRegister,
+    setRegisterData({
+      ...registerData,
       [event.target.name]: event.target.value,
     });
   };
   const handleRegister = (event) => {
     event.preventDefault();
-    if (dataRegister.User_Password === confirmPassword) {
-      console.log(dataRegister);
-    }else console.log("Ádasd")
+    if (
+      registerData.user_name === "" ||
+      registerData.user_username === "" ||
+      registerData.user_password === "" ||
+      registerData.user_address === "" ||
+      registerData.user_contact === "" ||
+      confirmPassword === ""
+    ) {
+      setRegisterError({
+        Error: "Nhập đầy đủ thông tin",
+      });
+    } else if (registerData.user_password.length < 8) {
+      setRegisterError({
+        Error_Password: "Mật khẩu ít nhất 8 kí tự",
+      });
+    } else if (registerData.user_password !== confirmPassword) {
+      setRegisterError({
+        Error_ConfirmPassword: "Nhập lại mật khẩu",
+      });
+    } else {
+      console.log(registerData);
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    }
   };
-
   // preview img
-  const [selectedImage, setSelectedImage] = useState();
+  // const [selectedImage, setSelectedImage] = useState();
 
   // This function will be triggered when the file field change
   // const imageChange = (e) => {
   //   if (e.target.files && e.target.files.length > 0) {
   //     setSelectedImage(e.target.files[0]);
-  //     setDataRegister({
-  //       ...dataRegister,
+  //     setRegisterData({
+  //       ...registerData,
   //       img: e.target.files[0].name,
   //     });
   //   }
   // };
+
   // show password
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -85,8 +119,8 @@ const Register = () => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
-                  name="User_Name"
-                  value={dataRegister.User_Name}
+                  name="user_name"
+                  value={registerData.user_name}
                   onChange={onChange}
                   label="Họ và tên"
                   style={{
@@ -102,15 +136,11 @@ const Register = () => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
-                  name="User_Username"
-                  value={dataRegister.User_Username}
+                  name="user_username"
+                  value={registerData.user_username}
                   onChange={onChange}
                   label="Tên đăng nhập"
-                  style={{
-                    width: "350px",
-                    marginBottom: "20px",
-                    backgroundColor: "#fff",
-                  }}
+                  style={styleInput}
                 />
               </FormControl>
 
@@ -120,8 +150,8 @@ const Register = () => {
                 </InputLabel>
                 <OutlinedInput
                   type={showPassword ? "text" : "password"}
-                  name="User_Password"
-                  value={dataRegister.User_Password}
+                  name="user_password"
+                  value={registerData.user_password}
                   onChange={onChange}
                   label="Mật khẩu"
                   endAdornment={
@@ -135,12 +165,20 @@ const Register = () => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  style={{
-                    width: "350px",
-                    marginBottom: "20px",
-                    backgroundColor: "#fff",
-                  }}
+                  style={styleInput}
                 />
+                {registerError.Error_Password !== "" && (
+                  <FormHelperText
+                    style={{
+                      color: "red",
+                      fontSize: "14px",
+                      marginBottom: "15px",
+                      marginTop: "-20px",
+                    }}
+                  >
+                    {registerError.Error_Password}
+                  </FormHelperText>
+                )}
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -169,12 +207,20 @@ const Register = () => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  style={{
-                    width: "350px",
-                    marginBottom: "20px",
-                    backgroundColor: "#fff",
-                  }}
+                  style={styleInput}
                 />
+                {registerError.Error_ConfirmPassword !== "" && (
+                  <FormHelperText
+                    style={{
+                      color: "red",
+                      fontSize: "14px",
+                      marginBottom: "15px",
+                      marginTop: "-20px",
+                    }}
+                  >
+                    {registerError.Error_ConfirmPassword}
+                  </FormHelperText>
+                )}
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -182,15 +228,11 @@ const Register = () => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
-                  name="User_Address"
-                  value={dataRegister.User_Address}
+                  name="user_address"
+                  value={registerData.user_address}
                   onChange={onChange}
                   label="Địa chỉ"
-                  style={{
-                    width: "350px",
-                    marginBottom: "20px",
-                    backgroundColor: "#fff",
-                  }}
+                  style={styleInput}
                 />
               </FormControl>
               <FormControl>
@@ -199,18 +241,37 @@ const Register = () => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
-                  name="User_Contact"
-                  value={dataRegister.User_Contact}
+                  name="user_contact"
+                  value={registerData.user_contact}
                   onChange={onChange}
                   label="Số điện thoại"
-                  style={{
-                    width: "350px",
-                    marginBottom: "20px",
-                    backgroundColor: "#fff",
-                  }}
+                  style={styleInput}
                 />
               </FormControl>
-
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Email
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="user_email"
+                  value={registerData.user_email}
+                  onChange={onChange}
+                  label="Email"
+                  style={styleInput}
+                />
+              </FormControl>
+              {registerError.Error !== "" && (
+                <div
+                  style={{
+                    color: "red",
+                    fontSize: "14px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {registerError.Error}
+                </div>
+              )}
               <Button
                 type="submit"
                 variant="contained"

@@ -16,8 +16,8 @@ import axios from "axios";
 const Login = () => {
   let navigate = useNavigate();
   const [loginData, setLoginData] = useState({
-    User_Username: "",
-    User_Password: "",
+    user_username: "",
+    user_password: "",
   });
 
   const [errorLogin, setErrorLogin] = useState();
@@ -26,12 +26,11 @@ const Login = () => {
   };
   const handleLogin = (event) => {
     event.preventDefault();
-    if (loginData.User_Username === "" || loginData.User_Password === "") {
+    if (loginData.user_username === "" || loginData.user_password === "") {
       setErrorLogin("Không được để trống tên đăng nhập hoặc mật khẩu");
     } else {
       setErrorLogin("");
     }
-    console.log(loginData.User_Username);
   };
   if (errorLogin === "")
     setTimeout(() => {
@@ -71,8 +70,8 @@ const Login = () => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
-                  name="User_Username"
-                  value={loginData.User_Username}
+                  name="user_username"
+                  value={loginData.user_username}
                   onChange={onChange}
                   label="Tên đăng nhập"
                   style={{
@@ -89,8 +88,8 @@ const Login = () => {
                 </InputLabel>
                 <OutlinedInput
                   type={showPassword ? "text" : "password"}
-                  name="User_Password"
-                  value={loginData.User_Password}
+                  name="user_password"
+                  value={loginData.user_password}
                   onChange={onChange}
                   label="Mật khẩu"
                   endAdornment={

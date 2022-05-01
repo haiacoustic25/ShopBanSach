@@ -78,7 +78,9 @@ const CartPage = () => {
                 backgroundColor: "#00ab9f",
               }}
             >
-              Thanh toán
+              <Link to="/thanh-toan" style={{ color: "#fff" }}>
+                Thanh toán
+              </Link>
             </Button>
             <Button
               variant="contained"
