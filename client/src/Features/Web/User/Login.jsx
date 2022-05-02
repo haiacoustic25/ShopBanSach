@@ -12,36 +12,46 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRedux } from "../../../Redux/Action/action";
 const Login = () => {
   let navigate = useNavigate();
   const [loginData, setLoginData] = useState({
-    user_username: "",
-    user_password: "",
+    username: "",
+    password: "",
   });
-
   const [errorLogin, setErrorLogin] = useState();
+  // redux call api
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user);
   const onChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
   const handleLogin = (event) => {
     event.preventDefault();
-    if (loginData.user_username === "" || loginData.user_password === "") {
+    if (loginData.username === "" || loginData.password === "") {
       setErrorLogin("Không được để trống tên đăng nhập hoặc mật khẩu");
+    } else if (user.error === 0) {
+      setErrorLogin("Tên đăng nhập hoặc mật khẩu không đúng");
     } else {
-      setErrorLogin("");
+      dispatch(loginRedux(loginData));
+      // console.log(user);
     }
   };
-  if (errorLogin === "")
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+  useEffect(() => {
+    if (isAuth)
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+  }, [isAuth]);
 
   // show password
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <>
       <Header />
@@ -70,8 +80,8 @@ const Login = () => {
                 </InputLabel>
                 <OutlinedInput
                   type="text"
-                  name="user_username"
-                  value={loginData.user_username}
+                  name="username"
+                  value={loginData.username}
                   onChange={onChange}
                   label="Tên đăng nhập"
                   style={{
@@ -88,8 +98,8 @@ const Login = () => {
                 </InputLabel>
                 <OutlinedInput
                   type={showPassword ? "text" : "password"}
-                  name="user_password"
-                  value={loginData.user_password}
+                  name="password"
+                  value={loginData.password}
                   onChange={onChange}
                   label="Mật khẩu"
                   endAdornment={
@@ -110,6 +120,7 @@ const Login = () => {
                   }}
                 />
               </FormControl>
+
               {errorLogin !== "" && (
                 <div
                   style={{

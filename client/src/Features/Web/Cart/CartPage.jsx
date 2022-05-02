@@ -3,7 +3,7 @@ import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { Link } from "react-router-dom";
 import { Table, Modal } from "react-bootstrap";
-import { TextField, Button } from "@mui/material";
+import { Button } from "@mui/material";
 
 import "../../../Assets/SCSS/cartPage.scss";
 import product from "../../../Assets/Img/ProductTest.png";
