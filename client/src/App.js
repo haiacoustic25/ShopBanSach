@@ -47,7 +47,7 @@ function App() {
               <Route path="/dang-ky" element={<Register />} />
               <Route path="/dang-nhap" element={<Login />} />
               <Route path="/thanh-toan" element={<PayPage />} />
-              <Route path="/account" element={<Account />} />
+              <Route path="/account/:id" element={<Account />} />
               <Route path="/admin" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="Users" element={<Users />} />

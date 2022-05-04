@@ -57,6 +57,9 @@
     border-right: 1px solid #333333;
 
     font-size: 12px;
+    &:hover {
+      cursor: pointer;
+    }
     &:last-child {
       border: none;
     }

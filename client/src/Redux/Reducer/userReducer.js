@@ -5,6 +5,7 @@ import {
   REGISTER_ERROR,
   REGISTER_SUCCESS,
   REGISTER_REQUEST,
+  LOGOUT_SUCCESS,
 } from "../Action/type";
 
 const INITTAL_STATE = {
@@ -18,7 +19,7 @@ const userReducer = (state = INITTAL_STATE, action) => {
       return { ...state, isAuth: false };
     }
     case LOGIN_SUCCESS: {
-      if (action.payload.user.error === 0) {
+      if (action.payload?.error === 0) {
         return { ...state, user: action.payload, isAuth: false };
       }
       return { ...state, user: action.payload, isAuth: true };
@@ -35,6 +36,11 @@ const userReducer = (state = INITTAL_STATE, action) => {
     }
     case REGISTER_ERROR: {
       return { ...state, isAuth: false };
+    }
+
+    // logout
+    case LOGOUT_SUCCESS: {
+      return { isAuth: false };
     }
     default: {
       return { ...state };

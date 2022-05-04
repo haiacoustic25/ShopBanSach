@@ -1,6 +1,9 @@
 import React from "react";
-
+import { useSelector, useDispatch } from "react-redux";
 const Cart = (props) => {
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user.user);
+  // console.log(user?.user);
   const { products } = props;
   return (
     <div className="cart__product d-flex">

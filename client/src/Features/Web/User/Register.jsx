@@ -18,9 +18,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@material-ui/icons/Add";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerRedux } from "../../../Redux/Action/action";
-import { object } from "prop-types";
+
 const Register = () => {
   const styleInput = {
     width: "350px",
@@ -33,10 +33,9 @@ const Register = () => {
     name: "",
     username: "",
     password: "",
-    // address: "",
+    address: "",
     phone: "",
     email: "",
-    // file_upload: null,
   });
   const [fileUpload, setFileUpload] = useState(null);
   const [registerError, setRegisterError] = useState({
@@ -85,6 +84,8 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user.user);
   const handleRegister = (event) => {
     event.preventDefault();
     if (
@@ -107,23 +108,23 @@ const Register = () => {
         Error_ConfirmPassword: "Nhập lại mật khẩu",
       });
     } else {
-    let formData = new FormData();
-    formData.append("file_upload", fileUpload, fileUpload.name);
-    // formData.append("data", registerData);
-    // console.log(formData.getAll("image"));
-    // setRegisterData({ ...registerData, file_upload: formData });
+      let formData = new FormData();
+      formData.append("file_upload", fileUpload, fileUpload.name);
 
-    Object.keys(registerData).forEach((key) => {
-      formData.append(`${key}`, registerData[key]);
-    });
-    
-
-    dispatch(registerRedux(formData));
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+      Object.keys(registerData).forEach((key) => {
+        formData.append(`${key}`, registerData[key]);
+      });
+      // console.log(formData);
+      dispatch(registerRedux(formData));
     }
   };
+  useEffect(() => {
+    if (user?.user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    }
+  }, [user?.user]);
   return (
     <>
       <Header />
@@ -258,7 +259,7 @@ const Register = () => {
                     )}
                   </FormControl>
                   <br></br>
-                  {/* <FormControl>
+                  <FormControl>
                     <InputLabel htmlFor="outlined-adornment-password">
                       Địa chỉ
                     </InputLabel>
@@ -271,7 +272,7 @@ const Register = () => {
                       style={styleInput}
                     />
                   </FormControl>
-                  <br></br> */}
+                  <br></br>
                   <FormControl>
                     <InputLabel htmlFor="outlined-adornment-password">
                       Số điện thoại

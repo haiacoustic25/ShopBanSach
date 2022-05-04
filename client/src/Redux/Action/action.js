@@ -5,6 +5,7 @@ import {
   REGISTER_ERROR,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  LOGOUT_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -49,12 +50,26 @@ export const registerRedux = (user) => {
     dispatch(registerError());
     try {
       let res = await axios.post("http://localhost:8000/api/register", user);
-      console.log(res);
       if (res.data.status === 200) {
         dispatch(registerSuccess(res.data));
       }
     } catch (error) {
       dispatch(registerError());
+    }
+  };
+};
+
+//  logout
+export const logoutSuccess = () => {
+  return { type: LOGOUT_SUCCESS };
+};
+
+export const logoutRedux = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(logoutSuccess());
+    } catch (error) {
+      console.log(error);
     }
   };
 };

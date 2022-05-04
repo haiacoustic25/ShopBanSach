@@ -21,6 +21,7 @@ const Login = () => {
     password: "",
   });
   const [errorLogin, setErrorLogin] = useState();
+
   // redux call api
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -28,23 +29,28 @@ const Login = () => {
   const onChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
+
   const handleLogin = (event) => {
     event.preventDefault();
     if (loginData.username === "" || loginData.password === "") {
       setErrorLogin("Không được để trống tên đăng nhập hoặc mật khẩu");
-    } else if (user.error === 0) {
-      setErrorLogin("Tên đăng nhập hoặc mật khẩu không đúng");
     } else {
       dispatch(loginRedux(loginData));
-      // console.log(user);
     }
   };
+
   useEffect(() => {
     if (isAuth)
       setTimeout(() => {
         navigate("/");
       }, 500);
   }, [isAuth]);
+
+  useEffect(() => {
+    if (user.user?.error === 0) {
+      setErrorLogin("Tên đăng nhập hoặc mật khẩu không đúng");
+    }
+  }, [user]);
 
   // show password
   const [showPassword, setShowPassword] = useState(false);
