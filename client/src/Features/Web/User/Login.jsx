@@ -1,8 +1,19 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRedux } from "../../../Redux/Action/action";
 const Login = () => {
   let navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -10,22 +21,43 @@ const Login = () => {
     password: "",
   });
   const [errorLogin, setErrorLogin] = useState();
+
+  // redux call api
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user);
   const onChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
+
   const handleLogin = (event) => {
     event.preventDefault();
     if (loginData.username === "" || loginData.password === "") {
       setErrorLogin("Không được để trống tên đăng nhập hoặc mật khẩu");
     } else {
-      setErrorLogin("");
+      dispatch(loginRedux(loginData));
     }
-    console.log(errorLogin);
   };
-  if (errorLogin === "")
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+
+  useEffect(() => {
+    if (isAuth)
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+  }, [isAuth]);
+
+  useEffect(() => {
+    if (user.user?.error === 0) {
+      setErrorLogin("Tên đăng nhập hoặc mật khẩu không đúng");
+    }
+  }, [user]);
+
+  // show password
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <Header />
@@ -47,25 +79,54 @@ const Login = () => {
           <div className="col-sm-4"></div>
           <div className="col-sm-4 col-sm-push-4 text-center">
             <h1>Đăng Nhập</h1>
-            <Form onSubmit={handleLogin}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control
+            <form onSubmit={handleLogin}>
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Tên đăng nhập
+                </InputLabel>
+                <OutlinedInput
                   type="text"
-                  placeholder="Tên Đăng Nhập"
                   name="username"
                   value={loginData.username}
                   onChange={onChange}
+                  label="Tên đăng nhập"
+                  style={{
+                    width: "350px",
+                    marginBottom: "20px",
+                    backgroundColor: "#fff",
+                  }}
                 />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Control
-                  type="password"
-                  placeholder="Mật Khẩu"
+              </FormControl>
+
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Mật khẩu
+                </InputLabel>
+                <OutlinedInput
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={loginData.password}
                   onChange={onChange}
+                  label="Mật khẩu"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  style={{
+                    width: "350px",
+                    marginBottom: "20px",
+                    backgroundColor: "#fff",
+                  }}
                 />
-              </Form.Group>
+              </FormControl>
+
               {errorLogin !== "" && (
                 <div
                   style={{
@@ -78,16 +139,17 @@ const Login = () => {
                 </div>
               )}
               <Button
-                variant="primary"
                 type="submit"
-                className="btn btn-success"
+                variant="contained"
                 style={{
                   backgroundColor: "#00ab9f",
+                  color: "#fff",
+                  padding: "10px",
                 }}
               >
-                Đăng Nhập
+                Đăng nhập
               </Button>
-            </Form>
+            </form>
           </div>
           <div className="col-sm-4"></div>
         </div>

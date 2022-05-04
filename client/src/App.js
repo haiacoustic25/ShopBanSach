@@ -16,6 +16,7 @@ import { Orders } from "./Features/Admin/Pages/Orders/Orders";
 import { Products } from "./Features/Admin/Pages/Products/Products";
 import { Users } from "./Features/Admin/Pages/Users/Users";
 import Account from "./Features/Web/User/Account";
+import PayPage from "./Features/Web/PayPage/PayPage";
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -45,7 +46,8 @@ function App() {
               <Route path="/gio-hang" element={<CartPage />} />
               <Route path="/dang-ky" element={<Register />} />
               <Route path="/dang-nhap" element={<Login />} />
-              <Route path="/account" element={<Account />} />
+              <Route path="/thanh-toan" element={<PayPage />} />
+              <Route path="/account/:id" element={<Account />} />
               <Route path="/admin" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="Users" element={<Users />} />

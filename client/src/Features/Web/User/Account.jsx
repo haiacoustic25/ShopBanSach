@@ -1,41 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../../Components/Header/Header";
 import { Link } from "react-router-dom";
 import Footer from "../../../Components/Footer/Footer";
 import "../../../Assets/SCSS/accountPage.scss";
-import { Modal, Button, Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Modal } from "react-bootstrap";
+import {
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+  Fab,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AddIcon from "@material-ui/icons/Add";
 const Account = () => {
-  const [dataUpdate, setDataUpdate] = useState({
+  const styleInput = {
+    width: "350px",
+    marginBottom: "20px",
+    backgroundColor: "#fff",
+  };
+  const [updateUserData, setUpdateUserData] = useState({
     name: "",
-    address: "",
-    phoneNumber: "",
-    img: "",
+    username: "",
+    password: "",
+    // address: "",
+    phone: "",
+    email: "",
   });
+  const user = useSelector((state) => state.user.user);
 
   const onChange = (event) => {
-    setDataUpdate({
-      ...dataUpdate,
+    setUpdateUserData({
+      ...updateUserData,
       [event.target.name]: event.target.value,
     });
   };
   const handleUpdate = () => {
     setShow(false);
-    console.log(dataUpdate);
+    console.log(updateUserData);
   };
 
   // preview img
-  const [selectedImage, setSelectedImage] = useState();
-
-  // This function will be triggered when the file field change
-  const imageChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(e.target.files[0]);
-      setDataUpdate({
-        ...dataUpdate,
-        img: e.target.files[0].name,
-      });
-    }
-  };
 
   // modal
   const [show, setShow] = useState(false);
@@ -59,23 +69,20 @@ const Account = () => {
         </div>
         <div className="account d-flex">
           <div className="account__img">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
-              alt=""
-            />
+            <img src={user?.user.avatar} alt="" />
           </div>
           <div className="account__infor d-flex">
             <div className="account__infor--row">
-              <span>Hồ Minh Hải</span>
-              <span>admin</span>
+              <span>{user?.user.name}</span>
+              <span>{user?.user.username}</span>
             </div>
             <div className="account__infor--row">
               <span>Địa chỉ</span>
-              <span>Tân Kỳ - Nghệ An</span>
+              <span>{user?.user.address}</span>
             </div>
             <div className="account__infor--row">
               <span>Số điện thoại</span>
-              <span>0123456789</span>
+              <span>{user?.user.phone}</span>
             </div>
             <div className="account__infor--row">
               <span onClick={handleShow}>Sửa</span>
@@ -89,62 +96,129 @@ const Account = () => {
           <Modal.Title>Sửa thông tin cá nhân</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Tên Người Dùng"
-                name="name"
-                value={dataUpdate.name}
-                onChange={onChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Địa chỉ"
-                name="address"
-                value={dataUpdate.address}
-                onChange={onChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Số điện thoại"
-                name="phoneNumber"
-                value={dataUpdate.phoneNumber}
-                onChange={onChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Control type="file" onChange={imageChange} />
-              {selectedImage && (
-                <div>
-                  <img
-                    src={URL.createObjectURL(selectedImage)}
-                    alt="Thumb"
-                    className="w-50 h-50 mt-3"
+          <form>
+            <div className="d-flex">
+              <div className="register__form--left ">
+                <FormControl>
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Họ và tên
+                  </InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    name="name"
+                    value={updateUserData.name}
+                    onChange={onChange}
+                    label="Họ và tên"
+                    style={{
+                      width: "350px",
+                      marginBottom: "20px",
+                      backgroundColor: "#fff",
+                    }}
                   />
+                </FormControl>
+                <br></br>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Tên đăng nhập
+                  </InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    name="username"
+                    value={updateUserData.username}
+                    onChange={onChange}
+                    label="Tên đăng nhập"
+                    style={styleInput}
+                  />
+                </FormControl>
+                <br></br>
+
+                <FormControl>
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Địa chỉ
+                  </InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    name="address"
+                    value={updateUserData.address}
+                    onChange={onChange}
+                    label="Địa chỉ"
+                    style={styleInput}
+                  />
+                </FormControl>
+                <br></br>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Số điện thoại
+                  </InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    name="phone"
+                    value={updateUserData.phone}
+                    onChange={onChange}
+                    label="Số điện thoại"
+                    style={styleInput}
+                  />
+                </FormControl>
+                <br></br>
+                <FormControl>
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Email
+                  </InputLabel>
+                  <OutlinedInput
+                    type="text"
+                    name="email"
+                    value={updateUserData.email}
+                    onChange={onChange}
+                    label="Email"
+                    style={styleInput}
+                  />
+                </FormControl>
+              </div>
+              {/* <div className="register__form--right">
+                <div className="register__form--right-img">
+                  <img src="{previewImg ? previewImg : default_img}" alt="" />
                 </div>
-              )}
-            </Form.Group>
-          </Form>
+                <label
+                  htmlFor="upload-photo"
+                  className="register__form--right-upload"
+                >
+                  <input
+                    style={{ display: "none" }}
+                    id="upload-photo"
+                    name="upload-photo"
+                    type="file"
+                    // onChange={imageChange}
+                  />
+
+                  <Fab
+                    color="primary"
+                    size="small"
+                    component="span"
+                    aria-label="add"
+                  >
+                    <AddIcon />
+                  </Fab>
+                </label>
+              </div> */}
+            </div>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button
+                typr="submit"
+                variant="primary"
+                onClick={handleUpdate}
+                style={{
+                  backgroundColor: "#00ab9f",
+                }}
+              >
+                Lưu
+              </Button>
+            </Modal.Footer>
+          </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Hủy
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleUpdate}
-            style={{
-              backgroundColor: "#00ab9f",
-            }}
-          >
-            Lưu
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

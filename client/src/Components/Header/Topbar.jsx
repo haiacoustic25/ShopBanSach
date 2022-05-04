@@ -1,7 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutRedux } from "../../Redux/Action/action";
 const TopBar = () => {
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    setTimeout(() => {
+      dispatch(logoutRedux());
+      navigate("/");
+    }, 2000);
+  };
   return (
     <div className="topbar">
       <div className="body">
@@ -29,18 +40,32 @@ const TopBar = () => {
             </ul>
           </div>
           <div className="col-sm-4 ">
-            <ul className="topbar__right">
-              <li>
-                <Link to="/dang-nhap" className="topbar__right--link">
-                  Đăng Nhập
-                </Link>
-              </li>
-              <li>
-                <Link to="/dang-ky" className="topbar__right--link">
-                  Đăng Ký
-                </Link>
-              </li>
-            </ul>
+            {!isAuth ? (
+              <ul className="topbar__right">
+                <li>
+                  <Link to="/dang-nhap" className="topbar__right--link">
+                    Đăng Nhập
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dang-ky" className="topbar__right--link">
+                    Đăng Ký
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="topbar__right">
+                <li>
+                  <Link
+                    to={`/account/${user.user.id}`}
+                    className="topbar__right--link"
+                  >
+                    Chào, {user.user.name}
+                  </Link>
+                </li>
+                <li onClick={handleLogout}>Đăng xuất</li>
+              </ul>
+            )}
           </div>
         </div>
       </div>

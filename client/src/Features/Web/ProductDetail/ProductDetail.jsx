@@ -125,7 +125,9 @@ const ProductDetail = () => {
                       backgroundColor: "#00ab9f",
                     }}
                   >
-                    Mua Ngay
+                    <Link to="/thanh-toan" style={{ color: "#fff" }}>
+                      Mua ngay
+                    </Link>
                   </Button>
                 </div>
               </div>
