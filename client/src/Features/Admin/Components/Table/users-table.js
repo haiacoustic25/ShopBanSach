@@ -27,17 +27,20 @@ import {
   DropdownToggle,
 } from "reactstrap";
 
-function createData(name, phone, email, created) {
+import test from '../../../../Assets/Img/logo.png'
+
+function createData(name, phone, email, created, img) {
   return {
     name,
     phone,
     email,
-    created
+    created,
+    img
   };
 }
 
 const rows = [
-  createData('Cupcake', '814-804-8230', 'wengallg@state.tx.us', new Date('2021-09-09T10:10:45.475Z')),
+  createData('Cupcake', '814-804-8230', 'wengallg@state.tx.us', new Date('2021-09-09T10:10:45.475Z'),'../../../../Assets/Img/ProductTest.png'),
   createData('Donut', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
   createData('Eclair', '440-345-1150', 'sodocherty4@army.mil', new Date('2021-09-09T10:10:45.475Z')),
   createData('Frozen yoghurt', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
@@ -332,6 +335,15 @@ export default function EnhancedTable() {
                         padding="none"
                         width={250}
                       >
+                        <img src={test} alt="" 
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            marginRight: '10px',
+                            
+                          }}
+                        />
                         {row.name}
                       </TableCell>
                       <TableCell align="left">{row.phone}</TableCell>
