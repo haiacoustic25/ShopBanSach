@@ -20,7 +20,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@material-ui/icons/Add";
 const Account = () => {
   const styleInput = {
-    width: "350px",
+    width: "250px",
     marginBottom: "20px",
     backgroundColor: "#fff",
   };
@@ -32,6 +32,8 @@ const Account = () => {
     phone: "",
     email: "",
   });
+  const [selectedImage, setSelectedImage] = useState();
+  const [previewImg, setPreviewImg] = useState();
   const user = useSelector((state) => state.user.user);
 
   const onChange = (event) => {
@@ -46,7 +48,23 @@ const Account = () => {
   };
 
   // preview img
+  useEffect(() => {
+    if (!selectedImage) {
+      setPreviewImg(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(selectedImage);
+    setPreviewImg(objectUrl);
 
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedImage]);
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+      // setFileUpload(e.target.files[0]);
+    }
+  };
   // modal
   const [show, setShow] = useState(false);
 
@@ -91,14 +109,44 @@ const Account = () => {
         </div>
       </div>
       <Footer />
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ width: "auto !important" }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Sửa thông tin cá nhân</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
             <div className="d-flex">
-              <div className="register__form--left ">
+              <div className="account__form--left">
+                <div className="account__form--left-img">
+                  <img src={previewImg} alt="" />
+                </div>
+                <label
+                  htmlFor="upload-photo"
+                  className="account__form--left-upload"
+                >
+                  <input
+                    style={{ display: "none" }}
+                    id="upload-photo"
+                    name="upload-photo"
+                    type="file"
+                    onChange={imageChange}
+                  />
+
+                  <Fab
+                    color="primary"
+                    size="small"
+                    component="span"
+                    aria-label="add"
+                  >
+                    <AddIcon />
+                  </Fab>
+                </label>
+              </div>
+              <div className="account__form--right">
                 <FormControl>
                   <InputLabel htmlFor="outlined-adornment-password">
                     Họ và tên
@@ -109,11 +157,7 @@ const Account = () => {
                     value={updateUserData.name}
                     onChange={onChange}
                     label="Họ và tên"
-                    style={{
-                      width: "350px",
-                      marginBottom: "20px",
-                      backgroundColor: "#fff",
-                    }}
+                    style={styleInput}
                   />
                 </FormControl>
                 <br></br>
@@ -174,32 +218,6 @@ const Account = () => {
                   />
                 </FormControl>
               </div>
-              {/* <div className="register__form--right">
-                <div className="register__form--right-img">
-                  <img src="{previewImg ? previewImg : default_img}" alt="" />
-                </div>
-                <label
-                  htmlFor="upload-photo"
-                  className="register__form--right-upload"
-                >
-                  <input
-                    style={{ display: "none" }}
-                    id="upload-photo"
-                    name="upload-photo"
-                    type="file"
-                    // onChange={imageChange}
-                  />
-
-                  <Fab
-                    color="primary"
-                    size="small"
-                    component="span"
-                    aria-label="add"
-                  >
-                    <AddIcon />
-                  </Fab>
-                </label>
-              </div> */}
             </div>
 
             <Modal.Footer>
