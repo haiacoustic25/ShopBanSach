@@ -117,9 +117,11 @@ const Register = () => {
   };
   useEffect(() => {
     if (user?.user) {
-      setTimeout(() => {
+      const nextPageTime = setTimeout(() => {
         navigate("/");
-      }, 1500);
+      }, 500);
+
+      return () => clearTimeout(nextPageTime);
     }
   }, [user?.user]);
   return (

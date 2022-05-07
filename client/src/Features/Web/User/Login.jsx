@@ -40,10 +40,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuth)
-      setTimeout(() => {
+    if (isAuth) {
+      let nextPageTime = setTimeout(() => {
         navigate("/");
       }, 500);
+
+      return () => clearTimeout(nextPageTime);
+    }
   }, [isAuth]);
 
   useEffect(() => {
