@@ -181,6 +181,9 @@ button:focus {
   z-index: 1;
   width: 100%;
 
+  animation: rotateMenu 400ms ease-in-out;
+  transform-origin: top center;
+
   display: none;
   & > a {
     display: block;
@@ -228,7 +231,10 @@ button:focus {
 
   display: none;
 
-  animation: moveRight ease-in-out 0.3s;
+  // animation: moveRight ease-in-out 0.3s;
+
+  animation: rotateMenu 400ms ease-in-out;
+  transform-origin: top center;
 
   z-index: 1000;
   &::after {
@@ -287,5 +293,17 @@ button:focus {
         text-overflow: ellipsis;
       }
     }
+  }
+}
+
+@keyframes rotateMenu {
+  0% {
+    transform: rotateX(-90deg);
+  }
+  70% {
+    transform: rotateX(20deg);
+  }
+  100% {
+    transform: rotateX(0deg);
   }
 }

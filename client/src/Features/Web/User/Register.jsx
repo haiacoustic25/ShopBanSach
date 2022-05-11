@@ -17,7 +17,6 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@material-ui/icons/Add";
-
 import { useDispatch, useSelector } from "react-redux";
 import { registerRedux } from "../../../Redux/Action/action";
 
@@ -84,7 +83,6 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const isAuth = useSelector((state) => state.user.isAuth);
   const user = useSelector((state) => state.user.user);
   const handleRegister = (event) => {
     event.preventDefault();
@@ -114,15 +112,16 @@ const Register = () => {
       Object.keys(registerData).forEach((key) => {
         formData.append(`${key}`, registerData[key]);
       });
-      // console.log(formData);
       dispatch(registerRedux(formData));
     }
   };
   useEffect(() => {
     if (user?.user) {
-      setTimeout(() => {
+      const nextPageTime = setTimeout(() => {
         navigate("/");
-      }, 1500);
+      }, 500);
+
+      return () => clearTimeout(nextPageTime);
     }
   }, [user?.user]);
   return (

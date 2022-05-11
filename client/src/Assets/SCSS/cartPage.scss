@@ -2,13 +2,27 @@
 
 .cartPage {
   &__img {
-    width: 150px;
+    // width: 150px;
+    width: auto;
+    height: auto;
+
+    max-width: 150px;
+    max-height: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin: auto;
   }
   &__name {
-    color: $btn_color !important;
+    color: $btn_color;
+    cursor: auto;
+    font-size: 18px;
     & > span {
       display: block;
       padding: 10px;
+      // color: $text_color;
+      font-size: 14px;
       &:hover {
         cursor: pointer;
       }

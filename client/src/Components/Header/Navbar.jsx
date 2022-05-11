@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../Assets/Img/logo.png";
 import emptyCart from "../../Assets/Img/empty-cart.png";
 import products from "../../Assets/Img/ProductTest.png";
 import Cart from "./Cart";
-
+import { useSelector } from "react-redux";
 const Navbar = () => {
   const [search, setSearch] = useState({ search: "" });
 
@@ -13,7 +13,12 @@ const Navbar = () => {
     console.log(e.target.value);
     setSearch({ ...search, [e.target.name]: e.target.value });
   };
-
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user?.user);
+  useEffect(() => {
+    // console.log(isAuth);
+    // console.log(user);
+  }, [user]);
   const handleSearch = () => {};
   return (
     <div className="body">
@@ -48,18 +53,24 @@ const Navbar = () => {
             <div>
               Giỏ Hàng Của Bạn
               <i className="fas fa-shopping-cart">
-                <div className="navbar__cart--count">0</div>
+                {isAuth && <div className="navbar__cart--count">0</div>}
               </i>
             </div>
             <div className="cart">
-              {/* <div className="cart__img">
-                <img src={emptyCart} alt="" />
-              </div> */}
-              <Cart products={products}/>
-              <Cart products={products}/>
-              
+              {!isAuth ? (
+                <div className="cart__img">
+                  <img src={emptyCart} alt="" />
+                </div>
+              ) : (
+                <>
+                  <Cart products={products} />
+                  <Cart products={products} />
+                </>
+              )}
               <div className="cart__all">
-                <Link to="/gio-hang">Xem tất cả </Link>
+                <Link to={!isAuth ? "/dang-nhap" : "/gio-hang"}>
+                  Xem tất cả{" "}
+                </Link>
               </div>
             </div>
           </div>

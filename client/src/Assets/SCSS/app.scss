@@ -18,6 +18,9 @@ body {
 a {
   text-decoration: none;
   color: $text_color;
+  &:hover {
+    color: $btn_color;
+  }
 }
 
 .App {

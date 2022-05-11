@@ -36,23 +36,22 @@
 .product {
   cursor: pointer;
   position: relative;
-  &:hover .product__img--animation {
-    top: 8px;
-  }
+  padding-bottom: 0px !important;
+
   &:hover .product__name {
     color: $btn_color;
   }
   &__img {
-    width: 195px !important;
+    min-width: 195px !important;
     height: 198px !important;
-
-    padding: 20px;
-    margin: auto;
 
     position: relative;
     &--animation {
-      width: 100%;
-      height: 100%;
+      width: auto;
+      height: auto;
+
+      max-height: 100%;
+      max-width: 100%;
 
       position: absolute;
       top: 15px;
@@ -60,6 +59,12 @@
       transform: translateX(-50%);
 
       transition: 0.5s ease;
+
+      overflow: hidden;
+
+      &:hover {
+        top: 8px;
+      }
     }
   }
   &__name {
