@@ -2,12 +2,12 @@ import { Helmet } from 'react-helmet';
 import { Box, Card, CardHeader, Container, Divider, Grid, Typography } from '@material-ui/core';
 import { SummaryItem } from '../../Components/Dashboard/summary-item';
 import { PerformanceIndicators } from '../../Components/Dashboard/performance-indicators';
-import { OrdersTable } from '../../Components/Table/orders-table';
+import { OrdersTable } from '../../Components/orders/orders-table';
 import { Cube as CubeIcon } from '../../icons/cube';
 import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
 import { User as UserIcon } from '../../icons/user';
 import { Author as AuthorIcon } from '../../icons/author';
-import { Producer as ProducerIcon } from '../../icons/producer';
+import { Category as CategoryIcon } from '../../icons/category';
 import { latestOrders } from '../../../../Database/dashboard';
 import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts';
@@ -35,8 +35,8 @@ const stats = [
   },
   {
     content: '3450',
-    icon: ProducerIcon,
-    label: 'Producers'
+    icon: CategoryIcon,
+    label: 'Categorys'
   }
 ];
 
@@ -90,12 +90,12 @@ export const Dashboard = () => (
               />
             </Grid>
           ))}
-          <Grid
+          {/* <Grid
             item
             xs={12}
           >
             <PerformanceIndicators />
-          </Grid>
+          </Grid> */}
           <Grid
             item
             md={6}

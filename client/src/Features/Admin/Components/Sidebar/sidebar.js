@@ -6,7 +6,7 @@ import { User as UserIcon } from '../../icons/user';
 import { Cube as CubeIcon } from '../../icons/cube';
 import { Logout as LogoutIcon } from '../../icons/logout';
 import { Author as AuthorIcon } from '../../icons/author';
-import { Producer as ProducerIcon } from '../../icons/producer';
+import { Category as CategoryIcon } from '../../icons/category';
 
 const items = [
   {
@@ -35,9 +35,9 @@ const items = [
     label: 'Author'
   },
   {
-    href: '/admin/producers',
-    icon: ProducerIcon,
-    label: 'Producer'
+    href: '/admin/categorys',
+    icon: CategoryIcon,
+    label: 'Category'
   },
   {
     href: '/',
