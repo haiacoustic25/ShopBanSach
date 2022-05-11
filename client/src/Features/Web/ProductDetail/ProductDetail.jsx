@@ -31,8 +31,8 @@ const ProductDetail = () => {
 
   const [isDisplay, setIsDisplay] = useState(false);
   useEffect(() => {
+    window.scrollTo(0, 0);
     setTimeout(() => {
-      window.scrollTo(0, 0);
       setIsDisplay(true);
     }, 1000);
   }, [isDisplay]);
