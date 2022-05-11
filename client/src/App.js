@@ -7,7 +7,6 @@ import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
 import Register from "./Features/Web/User/Register";
 import Login from "./Features/Web/User/Login";
-
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { theme } from "./Features/Admin/theme";
 import { Layout } from "./Features/Admin/Pages/Layout";
@@ -17,6 +16,8 @@ import { Products } from "./Features/Admin/Pages/Products/Products";
 import { Users } from "./Features/Admin/Pages/Users/Users";
 import Account from "./Features/Web/User/Account";
 import PayPage from "./Features/Web/PayPage/PayPage";
+import { Authors } from "./Features/Admin/Pages/Authors/Authors";
+import { Categorys } from "./Features/Admin/Pages/Category/Categorys";
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -50,9 +51,15 @@ function App() {
               <Route path="/account/:id" element={<Account />} />
               <Route path="/admin" element={<Layout />}>
                 <Route index element={<Dashboard />} />
-                <Route path="Users" element={<Users />} />
-                <Route path="Products" element={<Products />} />
+                <Route path="Users" >
+                  <Route index element={<Users />} />
+                </Route>
+                <Route path="Products" >
+                <Route index element={<Products />} />
+                </Route>
                 <Route path="Orders" element={<Orders />} />
+                <Route path="Authors" element={<Authors />} />
+                <Route path="Categorys" element={<Categorys />} />
               </Route>
             </Route>
           </Routes>

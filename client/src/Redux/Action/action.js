@@ -6,6 +6,15 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   LOGOUT_SUCCESS,
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_ERROR,
+  FETCH_PRODUCT_REQUEST,
+  FETCH_PRODUCT_SUCCESS,
+  FETCH_PRODUCT_ERROR,
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_ERROR,
 } from "./type";
 import axios from "axios";
 
@@ -73,3 +82,95 @@ export const logoutRedux = () => {
     }
   };
 };
+
+// Infor Users
+export const fetchUsersRequest = () => {
+  return{
+    type: FETCH_USER_REQUEST
+  }
+}
+
+export const fetchUsersSuccess = (payload) => {
+  return{
+    type: FETCH_USER_SUCCESS,
+    payload
+  }
+}
+
+export const fetchUsersError= () => {
+  return{
+    type: FETCH_USER_ERROR
+  }
+}
+
+export const fetchAllUsers = () =>{
+  return (dispatch, getState) => {
+    // const res = await axios.get("")
+  }
+}
+
+// Infor Products
+export const fetchProductsRequest = () => {
+  return{
+    type: FETCH_PRODUCT_REQUEST
+  }
+}
+
+export const fetchProductsSuccess = (data) => {
+  return{
+    type: FETCH_PRODUCT_SUCCESS,
+    dataProducts: data
+  }
+}
+
+export const fetchProductsError= () => {
+  return{
+    type: FETCH_PRODUCT_ERROR
+  }
+}
+
+export const fetchAllProducts = () =>{
+  return async (dispatch, getState) => {
+    dispatch(fetchProductsRequest())
+    try{
+      const res = await axios.get("http://localhost:8000/api/book");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchProductsSuccess(data))
+    } catch (error){
+      dispatch(fetchProductsError())
+    }
+  }
+}
+
+// Create Product
+export const createProductsRequest = () => {
+  return{
+    type: CREATE_PRODUCT_REQUEST
+  }
+}
+
+export const createProductsSuccess = () => {
+  return{
+    type: CREATE_PRODUCT_SUCCESS
+  }
+}
+
+export const createProductsError= () => {
+  return{
+    type: CREATE_PRODUCT_ERROR
+  }
+}
+
+export const createNewProductsRedux = (product) => {
+  return async (dispatch, getState) => {
+    dispatch(createProductsRequest());
+    try{
+      let res = await axios.post("http://localhost:8000/api/add-book", product)
+      
+    }catch(error){
+      console.log(error);
+      dispatch(createProductsError())
+    }
+  }
+}
+

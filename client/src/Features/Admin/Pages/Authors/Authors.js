@@ -17,7 +17,7 @@ import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
 import Add from '../../Components/Form/Add';
-import { productInputs } from "../../../../Database/formSource"
+import { userInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
@@ -58,7 +58,7 @@ const headCells = [
   { id: 'created', label: 'CREATED', disableSorting: true},
 ];
 
-export const Products = () => {
+export const Authors = () => {
 
   const [listUsers, setListUsers] = useState(rows);
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
@@ -91,7 +91,7 @@ export const Products = () => {
   return (
     <>
       <Helmet>
-        <title>Products | Ca Chep Admin</title>
+        <title>Authors | Ca Chep Admin</title>
       </Helmet>
       <Box
         sx={{
@@ -109,7 +109,7 @@ export const Products = () => {
             }}
           >
             <Typography color="textPrimary" variant="h4">
-              Products
+                Authors
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Button color="success" size="large" variant="contained" onClick={handleClickOpen}>
@@ -120,13 +120,13 @@ export const Products = () => {
               />
               Add
             </Button>
-            <Add inputs={productInputs} title="Add New Product" handleClose={handleClose} open={open}/>
+            <Add inputs={userInputs} title="Add New Author" handleClose={handleClose} open={open}/>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
             <Toolbar>
               <Controls.Input
-                    label="Search Products"
+                    label="Search Authors"
                     InputProps = {{
                       startAdornment: (
                         <InputAdornment position="start">
