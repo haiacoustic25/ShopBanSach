@@ -169,7 +169,6 @@ const Products = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
     window.scrollTo(0, 1000);
@@ -193,6 +192,7 @@ const Products = () => {
         currentPage={currentPage}
         handleNextPage={handleNextPage}
         handleComeBackPage={handleComeBackPage}
+        currentProductLength={currentProduct.length}
       />
     </div>
   );
