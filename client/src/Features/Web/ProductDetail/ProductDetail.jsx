@@ -58,7 +58,7 @@ const ProductDetail = () => {
           </div>
           <div className="row my-4">
             <div className="inforProduct__img col-sm-4">
-              <img src={img} alt="" width="300px" height="300px" />
+              <img src={img} alt=""/>
             </div>
             <div className="col-sm-7 p-0">
               <div className="inforProduct__name row text-uppercase m-0"></div>

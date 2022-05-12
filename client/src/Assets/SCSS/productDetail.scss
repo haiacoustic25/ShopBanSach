@@ -1,6 +1,18 @@
 .inforProduct {
   &__img {
     position: relative;
+    width: 400px;
+    height: 400px;
+
+    display: flex;
+    justify-content: center;
+    & > img {
+      max-width: 100%;
+      max-height: 100%;
+
+      width: auto;
+      height: auto;
+    }
   }
   &__discount {
     width: 40px;
