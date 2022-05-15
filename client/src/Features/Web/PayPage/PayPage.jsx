@@ -14,8 +14,8 @@ const PayPage = () => {
     pay_totalPrice: "",
   });
   const [isDisplay, setIsDisplay] = useState(false);
-  const user = useSelector((state) => state.user?.user.user);
-  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state?.user?.user.user);
+  const isAuth = useSelector((state) => state?.user.isAuth);
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);

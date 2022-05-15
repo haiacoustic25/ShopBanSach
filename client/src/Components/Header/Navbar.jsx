@@ -3,22 +3,24 @@ import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../Assets/Img/logo.png";
 import emptyCart from "../../Assets/Img/empty-cart.png";
-import products from "../../Assets/Img/ProductTest.png";
 import Cart from "./Cart";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllCartReduct } from "../../Redux/Action/action";
 const Navbar = () => {
   const [search, setSearch] = useState({ search: "" });
-
+  const dispatch = useDispatch();
   const handleEnterSearch = (e) => {
-    console.log(e.target.value);
     setSearch({ ...search, [e.target.name]: e.target.value });
   };
   const isAuth = useSelector((state) => state.user.isAuth);
   const user = useSelector((state) => state.user?.user);
+  const listProducts = useSelector((state) => state.cart.listProducts);
+
   useEffect(() => {
-    // console.log(isAuth);
-    // console.log(user);
-  }, [user]);
+    if (user?.user?.username) {
+      dispatch(fetchAllCartReduct(user?.user?.username));
+    }
+  }, []);
   const handleSearch = () => {};
   return (
     <div className="body">
@@ -53,7 +55,11 @@ const Navbar = () => {
             <div>
               Giỏ Hàng Của Bạn
               <i className="fas fa-shopping-cart">
-                {isAuth && <div className="navbar__cart--count">0</div>}
+                {isAuth && (
+                  <div className="navbar__cart--count">
+                    {listProducts?.gh?.length}
+                  </div>
+                )}
               </i>
             </div>
             <div className="cart">
@@ -63,8 +69,9 @@ const Navbar = () => {
                 </div>
               ) : (
                 <>
-                  <Cart products={products} />
-                  <Cart products={products} />
+                  {listProducts?.books?.map((book, index) => (
+                    <Cart products={book} key={index} />
+                  ))}
                 </>
               )}
               <div className="cart__all">

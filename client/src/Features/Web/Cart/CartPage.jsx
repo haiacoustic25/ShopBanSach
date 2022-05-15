@@ -6,23 +6,18 @@ import { Table, Modal } from "react-bootstrap";
 import { Button } from "@mui/material";
 
 import "../../../Assets/SCSS/cartPage.scss";
-import product from "../../../Assets/Img/ProductTest.png";
+
+import { useSelector } from "react-redux";
 
 const CartPage = () => {
-  const [quantity, setQuantity] = useState(0);
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-  const handleReductionQuantity = () => {
-    if (quantity > 0) setQuantity(quantity - 1);
-    else setQuantity(0);
-  };
+  const listProducts = useSelector((state) => state?.cart?.listProducts.books);
 
   // modal
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   return (
     <div>
       <Header />
@@ -49,22 +44,38 @@ const CartPage = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <img src={product} alt="" className="cartPage__img" />
-              </td>
-              <td className="cartPage__name">
-                10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2
-                <span onClick={handleShow}>Xóa</span>
-              </td>
-              <td>88,200 đ</td>
-              <td className="cartPage__quantity">
-                <button onClick={handleReductionQuantity}>-</button>
-                <span>{quantity}</span>
-                <button onClick={handleIncreaseQuantity}>+</button>
-              </td>
-              <td>88,200 đ</td>
-            </tr>
+            {listProducts.map((product, index) => (
+              <tr key={index}>
+                <td>
+                  <img
+                    src={
+                      require(`../../../Assets/Img/${product.s_image}`).default
+                    }
+                    alt=""
+                    className="cartPage__img"
+                  />
+                </td>
+                <td className="cartPage__name">
+                  {product.s_name}
+                  <span onClick={handleShow}>Xóa</span>
+                </td>
+                <td>
+                  {Number(product?.s_price).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
+                <td className="cartPage__quantity">
+                  <span>{product.s_amount}</span>
+                </td>
+                <td>
+                  {Number(product?.s_price).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
         <div>
@@ -81,14 +92,6 @@ const CartPage = () => {
               <Link to="/thanh-toan" style={{ color: "#fff" }}>
                 Thanh toán
               </Link>
-            </Button>
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#00ab9f",
-              }}
-            >
-              Cập nhật
             </Button>
           </div>
         </div>

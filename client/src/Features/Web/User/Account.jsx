@@ -87,20 +87,20 @@ const Account = () => {
         </div>
         <div className="account d-flex">
           <div className="account__img">
-            <img src={user?.user.avatar} alt="" />
+            <img src={user?.user?.avatar} alt="" />
           </div>
           <div className="account__infor d-flex">
             <div className="account__infor--row">
-              <span>{user?.user.name}</span>
-              <span>{user?.user.username}</span>
+              <span>{user?.user?.name}</span>
+              <span>{user?.user?.username}</span>
             </div>
             <div className="account__infor--row">
               <span>Địa chỉ</span>
-              <span>{user?.user.address}</span>
+              <span>{user?.user?.address}</span>
             </div>
             <div className="account__infor--row">
               <span>Số điện thoại</span>
-              <span>{user?.user.phone}</span>
+              <span>{user?.user?.phone}</span>
             </div>
             <div className="account__infor--row">
               <span onClick={handleShow}>Sửa</span>

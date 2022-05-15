@@ -54,10 +54,10 @@ const TopBar = () => {
               <ul className="topbar__right">
                 <li>
                   <Link
-                    to={`/account/${user.user.id}`}
+                    to={`/account/${user.user?.id}`}
                     className="topbar__right--link"
                   >
-                    Chào, {user.user.name}
+                    Chào, {user.user?.name}
                   </Link>
                 </li>
                 <li onClick={handleLogout}>Đăng xuất</li>
