@@ -15,6 +15,13 @@ import {
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_ERROR,
+  FETCH_CATEGORY_REQUEST,
+  FETCH_CATEGORY_SUCCESS,
+  FETCH_CATEGORY_ERROR,
+  CREATE_CATEGORY_REQUEST,
+  CREATE_CATEGORY_SUCCESS,
+  CREATE_CATEGORY_ERROR,
+
 } from "./type";
 import axios from "axios";
 
@@ -170,6 +177,73 @@ export const createNewProductsRedux = (product) => {
     }catch(error){
       console.log(error);
       dispatch(createProductsError())
+    }
+  }
+}
+
+// Infor Categorys
+export const fetchCategorysRequest = () => {
+  return{
+    type: FETCH_CATEGORY_REQUEST
+  }
+}
+
+export const fetchCategorysSuccess = (data) => {
+  return{
+    type: FETCH_CATEGORY_SUCCESS,
+    dataCategorys: data
+  }
+}
+
+export const fetchCategorysError= () => {
+  return{
+    type: FETCH_CATEGORY_ERROR
+  }
+}
+
+export const fetchAllCategorys = () => {
+  return async (dispatch, getState) => {
+    dispatch(fetchCategorysRequest())
+    try{
+      const res = await axios.get("http://localhost:8000/api/category");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchCategorysSuccess(data))
+    }catch(error){
+      dispatch(fetchCategorysError)
+    }
+  }
+}
+
+// Create Categorys
+export const createCategorysRequest = () => {
+  return{
+    type: CREATE_CATEGORY_REQUEST
+  }
+}
+
+export const createCategorysSuccess = () => {
+  return{
+    type: CREATE_CATEGORY_SUCCESS,
+  }
+}
+
+export const createCategorysError= () => {
+  return{
+    type: CREATE_CATEGORY_ERROR
+  }
+}
+
+export const createNewCategory = (tl_name) => {
+  return async (dispatch, getState) =>{
+    dispatch(createCategorysRequest())
+    try{
+      let res = await axios.post("http://localhost:8000/api/add-category", {tl_name})
+      if (res.data.status === 200) {
+        dispatch(createCategorysSuccess());
+        fetchAllCategorys();
+      }
+    }catch (error) {
+      dispatch(createCategorysError())
     }
   }
 }

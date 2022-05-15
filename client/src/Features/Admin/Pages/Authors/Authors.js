@@ -21,6 +21,8 @@ import { userInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -29,12 +31,13 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }));
 
-function createData(id, name, phone, email, created, img) {
+function createData(id, name, phone, description, birthday, img) {
   return {
+    id,
     name,
     phone,
-    email,
-    created,
+    description,
+    birthday,
     img
   };
 }
@@ -54,28 +57,29 @@ const rows = [
 const headCells = [
   { id: 'name', label: 'NAME'},
   { id: 'phone', label: 'PHONE'},
-  { id: 'email', label: 'EMAIL'},
-  { id: 'created', label: 'CREATED', disableSorting: true},
+  { id: 'birthday', label: 'BIRTHDAY', disableSorting: true},
+  { id: 'description', label: 'DESCRIPTION', disableSorting: true},
+  { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Authors = () => {
 
-  const [listUsers, setListUsers] = useState(rows);
-  const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
+  const [listAuthors, setListAuthors] = useState(rows);
+  const [filterFn, setFilterFn] = useState({ fn: Authors => { return Authors; } })
   const { 
     tblContainer, 
     tblHead,
     tblPagination,
     daTaAfterPagingAndSorting
-  } =  useTable(listUsers, headCells, filterFn);
+  } =  useTable(listAuthors, headCells, filterFn);
   const handleSearch = e => {
     let target = e.target;
     setFilterFn({
-        fn: Users => {
+        fn: Authors => {
             if (target.value == "")
-                return Users;
+                return Authors;
             else
-                return Users.filter(x => x.name.toLowerCase().includes(target.value))
+                return Authors.filter(x => x.name.toLowerCase().includes(target.value))
         }
     })
   }
@@ -146,13 +150,21 @@ export const Authors = () => {
               { tblHead() }
               <TableBody>
                 {
-                  daTaAfterPagingAndSorting().map(User => (
-                      <StyledTableRow key={User.id}>
-                        <TableCell width={400} align="left">{User.name}</TableCell>
-                        <TableCell width={400}>{User.phone}</TableCell>
-                        <TableCell width={400}>{User.email}</TableCell>
+                  daTaAfterPagingAndSorting().map(Author => (
+                      <StyledTableRow key={Author.id}>
+                        <TableCell width={400} align="left">{Author.name}</TableCell>
+                        <TableCell width={400}>{Author.phone}</TableCell>
                         <TableCell width={400}>
-                            {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
+                            {format(new Date(Author.birthday), 'dd/MM/yyyy')}
+                        </TableCell>
+                        <TableCell width={400}>{Author.description}</TableCell>
+                        <TableCell>
+                          <Controls.ActionButton>
+                            <EditOutlinedIcon fontSize="small" color="success"/>
+                          </Controls.ActionButton>
+                          <Controls.ActionButton>
+                            <DeleteOutlinedIcon fontSize="small" color="error"/>
+                          </Controls.ActionButton>
                         </TableCell>
                       </StyledTableRow>
                     ))

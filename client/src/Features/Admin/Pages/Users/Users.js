@@ -16,11 +16,14 @@ import {
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
-import Add from '../../Components/Form/Add';
 import { userInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import Popup from "../../Components/controls/Popup";
+import UserForm from "../../Components/Form/UserForm";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -56,11 +59,13 @@ const headCells = [
   { id: 'phone', label: 'PHONE'},
   { id: 'email', label: 'EMAIL'},
   { id: 'created', label: 'CREATED', disableSorting: true},
+  { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Users = () => {
 
   const [listUsers, setListUsers] = useState(rows);
+  const [editUser, setEditUser] = useState(null)
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
   const { 
     tblContainer, 
@@ -81,9 +86,12 @@ export const Users = () => {
   }
 
   const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
+
+  const handleClickOpen = (User) => {
+    editUser(User);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -112,15 +120,6 @@ export const Users = () => {
               Users
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Button color="success" size="large" variant="contained" onClick={handleClickOpen}>
-              <Plus 
-                sx={{
-                  marginRight: 2
-                }}
-              />
-              Add
-            </Button>
-            <Add inputs={userInputs} title="Add New User" handleClose={handleClose} open={open}/>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
@@ -135,11 +134,24 @@ export const Users = () => {
                       )
                     }}
                     sx={{
-                      width: '100%',
+                      width: '85%',
                       marginTop: '12px',
                       marginBottom: '12px'
                     }}
                     onChange={handleSearch}
+                />
+                <Controls.Button 
+                  text="Add New"
+                  variant="outlined"
+                  startIcon={<Plus />}
+                  sx={{
+                    marginLeft: 2,
+                    color: 'black',
+                    backgroundColor: '#59ac59',
+                    lineHeight: '56px',
+                    marginLeft: '32px'
+                  }}
+                  onClick={() => { setOpen(true); setEditUser(null); }}
                 />
             </Toolbar>
             <tblContainer>
@@ -154,6 +166,16 @@ export const Users = () => {
                         <TableCell width={400}>
                             {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
                         </TableCell>
+                        <TableCell>
+                          <Controls.ActionButton
+                            onClick={() => { handleClickOpen(User) }}
+                          >
+                            <EditOutlinedIcon fontSize="small" color="success"/>
+                          </Controls.ActionButton>
+                          <Controls.ActionButton>
+                            <DeleteOutlinedIcon fontSize="small" color="error"/>
+                          </Controls.ActionButton>
+                        </TableCell>
                       </StyledTableRow>
                     ))
                 }
@@ -162,6 +184,16 @@ export const Users = () => {
             <Divider style={{color: '#9b9595'}} />
             { tblPagination() }
           </Paper>
+          <Popup
+            open={open}
+            setOpen={setOpen}
+          >
+              <UserForm 
+                inputs={userInputs} 
+                title="Add New User" 
+                handleClose={handleClose}
+              />
+          </Popup>
         </Container>
       </Box>
     </>

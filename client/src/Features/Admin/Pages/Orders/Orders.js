@@ -21,6 +21,8 @@ import { productInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -56,6 +58,7 @@ const headCells = [
   { id: 'phone', label: 'PHONE'},
   { id: 'email', label: 'EMAIL'},
   { id: 'created', label: 'CREATED', disableSorting: true},
+  { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Orders = () => {
@@ -153,6 +156,14 @@ export const Orders = () => {
                         <TableCell width={400}>{User.email}</TableCell>
                         <TableCell width={400}>
                             {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
+                        </TableCell>
+                        <TableCell>
+                          <Controls.ActionButton>
+                            <EditOutlinedIcon fontSize="small" color="success"/>
+                          </Controls.ActionButton>
+                          <Controls.ActionButton>
+                            <DeleteOutlinedIcon fontSize="small" color="error"/>
+                          </Controls.ActionButton>
                         </TableCell>
                       </StyledTableRow>
                     ))

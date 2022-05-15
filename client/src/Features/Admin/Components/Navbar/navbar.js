@@ -1,4 +1,6 @@
 import { AppBar, Avatar, Box, Link, Toolbar } from '@material-ui/core';
+import logo from '../../../../Assets/Img/Admin.png'
+
 
 export const Navbar = () => (
   <AppBar
@@ -30,8 +32,8 @@ export const Navbar = () => (
       </Box>
       <Box sx={{ flexGrow: 1 }} />
       <Avatar
-        alt="User"
-        src="/static/user-chen_simmons.png"
+        alt="Admin"
+        src={logo}
       />
     </Toolbar>
   </AppBar>

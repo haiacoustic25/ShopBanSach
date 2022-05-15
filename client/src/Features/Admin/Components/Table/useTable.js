@@ -39,7 +39,7 @@ export default function useTable(data, headCells, filterFn) {
                     {
                         headCells.map(headCell => (
                             <StyledTableCell 
-                                key={headCell.id} 
+                                key={headCell.id}
                                 width={400} 
                                 sortDirection={orderBy === headCell.id ? order:false}
                             >
@@ -75,20 +75,20 @@ export default function useTable(data, headCells, filterFn) {
             page={page}
             rowsPerPageOptions={pages}
             rowsPerPage={rowsPerPage}
-            count={data.length}
+            count={data?.length}
             onPageChange={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
     )
 
     function stableSort(array, comparator){
-        const stabilizedThis = array.map((e1, index) => [e1, index]);
-        stabilizedThis.sort((a, b) => {
+        const stabilizedThis = array?.map((e1, index) => [e1, index]);
+        stabilizedThis?.sort((a, b) => {
             const order = comparator(a[0], b[0]);
             if (order !== 0) return order;
             return a[1] - b[1];
         });
-        return stabilizedThis.map((e1) => e1[0]);
+        return stabilizedThis?.map((e1) => e1[0]);
     }
 
     function getComparator(order, orderBy) {
@@ -109,7 +109,7 @@ export default function useTable(data, headCells, filterFn) {
 
     const daTaAfterPagingAndSorting = () => {
         return stableSort(filterFn.fn(data), getComparator(order, orderBy))
-            .slice(page*rowsPerPage, (page+1)*rowsPerPage)
+            ?.slice(page*rowsPerPage, (page+1)*rowsPerPage)
     }
 
     return {

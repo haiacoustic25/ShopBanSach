@@ -16,11 +16,15 @@ import {
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
-import Add from '../../Components/Form/Add';
 import { productInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import Popup from "../../Components/controls/Popup";
+import UserForm from "../../Components/Form/UserForm";
+
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -56,6 +60,7 @@ const headCells = [
   { id: 'phone', label: 'PHONE'},
   { id: 'email', label: 'EMAIL'},
   { id: 'created', label: 'CREATED', disableSorting: true},
+  { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Products = () => {
@@ -112,35 +117,39 @@ export const Products = () => {
               Products
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Button color="success" size="large" variant="contained" onClick={handleClickOpen}>
-              <Plus 
-                sx={{
-                  marginRight: 2
-                }}
-              />
-              Add
-            </Button>
-            <Add inputs={productInputs} title="Add New Product" handleClose={handleClose} open={open}/>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
-            <Toolbar>
-              <Controls.Input
-                    label="Search Products"
-                    InputProps = {{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Search />
-                        </InputAdornment>
-                      )
-                    }}
-                    sx={{
-                      width: '100%',
-                      marginTop: '12px',
-                      marginBottom: '12px'
-                    }}
-                    onChange={handleSearch}
-                />
+          <Toolbar>
+            <Controls.Input
+                  label="Search Users"
+                  InputProps = {{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    )
+                  }}
+                  sx={{
+                    width: '85%',
+                    marginTop: '12px',
+                    marginBottom: '12px'
+                  }}
+                  onChange={handleSearch}
+              />
+              <Controls.Button 
+                text="Add New"
+                variant="outlined"
+                startIcon={<Plus />}
+                sx={{
+                  marginLeft: 2,
+                  color: 'black',
+                  backgroundColor: '#59ac59',
+                  lineHeight: '56px',
+                  marginLeft: '32px'
+                }}
+                onClick={() => { setOpen(true)}}
+              />
             </Toolbar>
             <tblContainer>
               { tblHead() }
@@ -154,6 +163,14 @@ export const Products = () => {
                         <TableCell width={400}>
                             {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
                         </TableCell>
+                        <TableCell>
+                          <Controls.ActionButton>
+                            <EditOutlinedIcon fontSize="small" color="success"/>
+                          </Controls.ActionButton>
+                          <Controls.ActionButton>
+                            <DeleteOutlinedIcon fontSize="small" color="error"/>
+                          </Controls.ActionButton>
+                        </TableCell>
                       </StyledTableRow>
                     ))
                 }
@@ -162,6 +179,16 @@ export const Products = () => {
             <Divider style={{color: '#9b9595'}} />
             { tblPagination() }
           </Paper>
+          <Popup
+            open={open}
+            setOpen={setOpen}
+          >
+              <UserForm 
+                inputs={productInputs} 
+                title="Add New Product" 
+                handleClose={handleClose}
+              />
+          </Popup>
         </Container>
       </Box>
     </>
