@@ -11,7 +11,7 @@ const TopBar = () => {
     setTimeout(() => {
       dispatch(logoutRedux());
       navigate("/");
-    }, 2000);
+    }, 500);
   };
   return (
     <div className="topbar">
@@ -20,10 +20,7 @@ const TopBar = () => {
           <div className=" col-sm-8 ">
             <ul className="topbar__left p-0">
               <li>
-                <Link
-                  to="/pages/he-thong-cua-hang"
-                  className="topbar__right--link"
-                >
+                <Link to="" className="topbar__right--link">
                   Hệ Thống Cửa Hàng
                 </Link>
               </li>
@@ -57,10 +54,10 @@ const TopBar = () => {
               <ul className="topbar__right">
                 <li>
                   <Link
-                    to={`/account/${user.user.id}`}
+                    to={`/account/${user.user?.id}`}
                     className="topbar__right--link"
                   >
-                    Chào, {user.user.name}
+                    Chào, {user.user?.name}
                   </Link>
                 </li>
                 <li onClick={handleLogout}>Đăng xuất</li>

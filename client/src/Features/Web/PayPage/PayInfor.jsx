@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
-const PayInfor = () => {
+const PayInfor = (props) => {
+  const { user, isAuth, payInfor, setPayInfor } = props;
+
   const styleInput = {
     width: "500px",
     marginBottom: "20px",
     backgroundColor: "#fff",
   };
-  const [payInfor, setPayInfor] = useState({
-    pay_name: "",
-    pay_contact: "",
-    pay_email: "",
-    pay_address: "",
-    pay_totalPrice: "",
-  });
+
   const onChange = (event) => {
     event.preventDefault();
     setPayInfor({ ...payInfor, [event.target.name]: event.target.value });
@@ -47,49 +43,53 @@ const PayInfor = () => {
 
       <form className="payInfor__body" onSubmit={handlePay}>
         <TextField
+          disabled={isAuth}
           id="standard-textarea"
           label="Họ và tên"
           placeholder="Họ và tên"
           multiline
           variant="standard"
           name="pay_name"
-          value={payInfor.pay_name}
+          value={isAuth ? user?.name : payInfor.pay_name}
           style={styleInput}
           onChange={onChange}
         />
         <br></br>
         <TextField
+          disabled={isAuth}
           id="standard-textarea"
           label="Số điện thoại"
           placeholder="Số điện thoại"
           multiline
           variant="standard"
           name="pay_contact"
-          value={payInfor.pay_contact}
+          value={isAuth ? user?.phone : payInfor.pay_contact}
           onChange={onChange}
           style={styleInput}
         />
         <br></br>
         <TextField
+          disabled={isAuth}
           id="standard-textarea"
           label="Email"
           placeholder="Email"
           multiline
           variant="standard"
           name="pay_email"
-          value={payInfor.pay_email}
+          value={isAuth ? user?.email : payInfor.pay_email}
           onChange={onChange}
           style={styleInput}
         />
         <br></br>
         <TextField
+          disabled={isAuth}
           id="standard-textarea"
           label="Địa chỉ"
           placeholder="Địa chỉ"
           multiline
           variant="standard"
           name="pay_address"
-          value={payInfor.pay_address}
+          value={isAuth ? user?.address : payInfor.pay_address}
           style={styleInput}
         />
         <br></br>

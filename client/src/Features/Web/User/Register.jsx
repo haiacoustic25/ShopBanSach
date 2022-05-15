@@ -123,7 +123,7 @@ const Register = () => {
 
       return () => clearTimeout(nextPageTime);
     }
-  }, [user?.user]);
+  }, [user?.user, navigate]);
   return (
     <>
       <Header />

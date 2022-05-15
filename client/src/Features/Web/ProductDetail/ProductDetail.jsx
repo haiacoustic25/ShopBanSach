@@ -11,7 +11,11 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProductByIdRedux } from "../../../Redux/Action/action";
 const ProductDetail = () => {
+  const { id } = useParams();
   const [descFull, setDescFull] = useState(true);
   const [quantity, setQuantity] = useState(0);
   const handleIncreaseQuantity = () => {
@@ -31,11 +35,17 @@ const ProductDetail = () => {
 
   const [isDisplay, setIsDisplay] = useState(false);
   useEffect(() => {
+    window.scrollTo(0, 0);
     setTimeout(() => {
-      window.scrollTo(0, 0);
       setIsDisplay(true);
     }, 1000);
   }, [isDisplay]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProductByIdRedux(id));
+  }, []);
+  const inforProduct = useSelector((state) => state.product.inforProductById);
   return (
     <div>
       <Header />
@@ -51,21 +61,26 @@ const ProductDetail = () => {
               }}
             >
               <Link to="/">TRANG CHỦ</Link>
-              <div className="text-uppercase px-2">
-                / Storytelling With Data - Kể Chuyện Thông Qua Dữ Liệu
-              </div>
+              <div className="text-uppercase px-2">/ {inforProduct.s_name}</div>
             </div>
           </div>
           <div className="row my-4">
             <div className="inforProduct__img col-sm-4">
-              <img src={img} alt="" width="300px" height="300px" />
+              <img
+                src={
+                  require(`../../../Assets/Img/${inforProduct.s_image}`).default
+                }
+                alt=""
+              />
             </div>
             <div className="col-sm-7 p-0">
-              <div className="inforProduct__name row text-uppercase m-0"></div>
+              <div className="inforProduct__name row text-uppercase m-0">
+                {inforProduct.s_name}
+              </div>
               <div className="row mt-1 mb-3">
                 <div className="inforProduct__note d-flex">
                   <div>
-                    Nhà cung cấp: <span></span>
+                    Nhà cung cấp: <span>{inforProduct.s_nsx}</span>
                   </div>
                   <div>
                     Loại sách: <span></span>
@@ -74,10 +89,23 @@ const ProductDetail = () => {
               </div>
               <div className="row">
                 <div className="inforProduct__price d-flex">
-                  <div className="inforProduct__price--new"></div>
-                  <div className="inforProduct__price--old"></div>
+                  <div className="inforProduct__price--new">
+                    {Number(inforProduct.s_price).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </div>
+                  <div className="inforProduct__price--old">
+                    {Number(
+                      inforProduct.s_price -
+                        (inforProduct.s_price * inforProduct.s_discount) / 100
+                    ).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </div>
                   <div className="inforProduct__price--note">
-                    (Giảm giá <span></span> )
+                    (Giảm giá <span>{inforProduct.s_discount}%</span> )
                   </div>
                 </div>
               </div>
@@ -141,13 +169,13 @@ const ProductDetail = () => {
                   <td style={{ width: "250px" }}>
                     <b>Mã hàng</b>
                   </td>
-                  <td>Mark</td>
+                  <td>{inforProduct.id}</td>
                 </tr>
                 <tr>
                   <td>
                     <b>Nhà xuất bản</b>
                   </td>
-                  <td>Mark</td>
+                  <td>{inforProduct.s_nsx}</td>
                 </tr>
                 <tr>
                   <td>
@@ -170,38 +198,7 @@ const ProductDetail = () => {
                   descFull ? "collapse" : "full"
                 }`}
               >
-                Tam Quốc Diễn Nghĩa (Trọn Bộ 3 Tập) - Không kèm hộp. Tam Quốc
-                diễn nghĩa của La Quán Trung là một trong những kiệt tác của văn
-                học thế giới. Ngay từ khi được dịch sang chữ quốc ngữ vào đầu
-                thế kỷ XX, tiểu thuyết này đã được bạn đọc Việt Nam đón nhận
-                nồng nhiệt; từ đó đến nay có vô vàn ấn bản Tam Quốc ra đời, mỗi
-                ấn bản lại mang một màu sắc khác nhau. Những nội dung đáng chú ý
-                của bản in này: - Lời giới thiệu bộ Tam Quốc diễn nghĩa của NXB
-                Phổ thông – Bộ Văn hóa, 1959 – 1960 - Lời nói đầu - Bài viết cho
-                bản Tam Quốc diễn nghĩa xuất bản năm 1959 của Bộ Biên tập, Nhân
-                dân Văn học Xuất bản xã Bắc Kinh, Trung Quốc - Hành trình truyện
-                Tam Quốc diễn nghĩa ở Việt Nam, Tác giả: Yên Ba. - Hình một số
-                nhân vật chính - Bảng tra cứu các nhân vật trong Tam Quốc diễn
-                nghĩa - 120 hồi nội dung chính, cuối mỗi hồi có Lời bàn của Mao
-                Tôn Cương - Bảng đối chiếu địa danh xưa và nay (theo bản in của
-                NXB Đại học và Trung học chuyên nghiệp, năm 1987) - Niên biểu
-                các sự kiện chính trong Tam Quốc diễn nghĩaam Quốc Diễn Nghĩa
-                (Trọn Bộ 3 Tập) - Không kèm hộp. Tam Quốc diễn nghĩa của La Quán
-                Trung là một trong những kiệt tác của văn học thế giới. Ngay từ
-                khi được dịch sang chữ quốc ngữ vào đầu thế kỷ XX, tiểu thuyết
-                này đã được bạn đọc Việt Nam đón nhận nồng nhiệt; từ đó đến nay
-                có vô vàn ấn bản Tam Quốc ra đời, mỗi ấn bản lại mang một màu
-                sắc khác nhau. Những nội dung đáng chú ý của bản in này: - Lời
-                giới thiệu bộ Tam Quốc diễn nghĩa của NXB Phổ thông – Bộ Văn
-                hóa, 1959 – 1960 - Lời nói đầu - Bài viết cho bản Tam Quốc diễn
-                nghĩa xuất bản năm 1959 của Bộ Biên tập, Nhân dân Văn học Xuất
-                bản xã Bắc Kinh, Trung Quốc - Hành trình truyện Tam Quốc diễn
-                nghĩa ở Việt Nam, Tác giả: Yên Ba. - Hình một số nhân vật chính
-                - Bảng tra cứu các nhân vật trong Tam Quốc diễn nghĩa - 120 hồi
-                nội dung chính, cuối mỗi hồi có Lời bàn của Mao Tôn Cương - Bảng
-                đối chiếu địa danh xưa và nay (theo bản in của NXB Đại học và
-                Trung học chuyên nghiệp, năm 1987) - Niên biểu các sự kiện chính
-                trong Tam Quốc diễn nghĩa
+                {inforProduct.s_description}
               </span>
               {descFull ? (
                 <Button

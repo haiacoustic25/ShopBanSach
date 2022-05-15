@@ -47,7 +47,7 @@ const Login = () => {
 
       return () => clearTimeout(nextPageTime);
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
 
   useEffect(() => {
     if (user.user?.error === 0) {

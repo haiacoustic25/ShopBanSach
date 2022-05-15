@@ -21,7 +21,12 @@ import {
   CREATE_CATEGORY_REQUEST,
   CREATE_CATEGORY_SUCCESS,
   CREATE_CATEGORY_ERROR,
-
+  FETCH_PRODUCTBYID_ERROR,
+  FETCH_PRODUCTBYID_REQUEST,
+  FETCH_PRODUCTBYID_SUCCESS,
+  FETCH_CART_REQUUEST,
+  FETCH_CART_ERROR,
+  FETCH_CART_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -90,93 +95,150 @@ export const logoutRedux = () => {
   };
 };
 
+// cart
+export const fetchCartRequest = () => {
+  return {
+    type: FETCH_CART_REQUUEST,
+  };
+};
+export const fetchCartSuccess = (payload) => {
+  return {
+    type: FETCH_CART_SUCCESS,
+    payload,
+  };
+};
+export const fetchCartError = () => {
+  return {
+    type: FETCH_CART_ERROR,
+  };
+};
+
+export const fetchAllCartReduct = (username) => {
+  return async (dispatch, getState) => {
+    dispatch(fetchCartRequest());
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/show-product/${username}`
+      );
+      // console.log(res.data);
+      if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
+    } catch (error) {
+      dispatch(fetchCartError());
+    }
+  };
+};
+
 // Infor Users
 export const fetchUsersRequest = () => {
-  return{
-    type: FETCH_USER_REQUEST
-  }
-}
+  return {
+    type: FETCH_USER_REQUEST,
+  };
+};
 
 export const fetchUsersSuccess = (payload) => {
-  return{
+  return {
     type: FETCH_USER_SUCCESS,
-    payload
-  }
-}
+    payload,
+  };
+};
 
-export const fetchUsersError= () => {
-  return{
-    type: FETCH_USER_ERROR
-  }
-}
+export const fetchUsersError = () => {
+  return {
+    type: FETCH_USER_ERROR,
+  };
+};
 
-export const fetchAllUsers = () =>{
+export const fetchAllUsers = () => {
   return (dispatch, getState) => {
     // const res = await axios.get("")
-  }
-}
+  };
+};
 
 // Infor Products
 export const fetchProductsRequest = () => {
-  return{
-    type: FETCH_PRODUCT_REQUEST
-  }
-}
+  return {
+    type: FETCH_PRODUCT_REQUEST,
+  };
+};
 
 export const fetchProductsSuccess = (data) => {
-  return{
+  return {
     type: FETCH_PRODUCT_SUCCESS,
-    dataProducts: data
-  }
-}
+    dataProducts: data,
+  };
+};
 
-export const fetchProductsError= () => {
-  return{
-    type: FETCH_PRODUCT_ERROR
-  }
-}
+export const fetchProductsError = () => {
+  return {
+    type: FETCH_PRODUCT_ERROR,
+  };
+};
 
-export const fetchAllProducts = () =>{
+export const fetchAllProducts = () => {
   return async (dispatch, getState) => {
-    dispatch(fetchProductsRequest())
-    try{
+    dispatch(fetchProductsRequest());
+    try {
       const res = await axios.get("http://localhost:8000/api/book");
       const data = res && res.data ? res.data : [];
-      dispatch(fetchProductsSuccess(data))
-    } catch (error){
-      dispatch(fetchProductsError())
+      dispatch(fetchProductsSuccess(data));
+    } catch (error) {
+      dispatch(fetchProductsError());
     }
-  }
-}
+  };
+};
+
+// fetch product by id
+export const fetchProductByIdRequest = () => {
+  return { type: FETCH_PRODUCTBYID_REQUEST };
+};
+export const fetchProductByIdSuccess = (payload) => {
+  return { type: FETCH_PRODUCTBYID_SUCCESS, payload };
+};
+export const fetchProductByIdError = () => {
+  return { type: FETCH_PRODUCTBYID_ERROR };
+};
+
+export const fetchProductByIdRedux = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(fetchProductByIdRequest());
+    try {
+      const res = await axios.get(`http://localhost:8000/api/edit-book/${id}`);
+      if (res.data.status === 200) {
+        dispatch(fetchProductByIdSuccess(res.data.book));
+      }
+    } catch (error) {
+      dispatch(fetchProductByIdError());
+    }
+  };
+};
 
 // Create Product
 export const createProductsRequest = () => {
-  return{
-    type: CREATE_PRODUCT_REQUEST
-  }
-}
+  return {
+    type: CREATE_PRODUCT_REQUEST,
+  };
+};
 
 export const createProductsSuccess = () => {
-  return{
-    type: CREATE_PRODUCT_SUCCESS
-  }
-}
+  return {
+    type: CREATE_PRODUCT_SUCCESS,
+  };
+};
 
-export const createProductsError= () => {
-  return{
-    type: CREATE_PRODUCT_ERROR
-  }
-}
+export const createProductsError = () => {
+  return {
+    type: CREATE_PRODUCT_ERROR,
+  };
+};
 
 export const createNewProductsRedux = (product) => {
   return async (dispatch, getState) => {
     dispatch(createProductsRequest());
-    try{
-      let res = await axios.post("http://localhost:8000/api/add-book", product)
-      
-    }catch(error){
+    try {
+      let res = await axios.post("http://localhost:8000/api/add-book", product);
+    } catch (error) {
       console.log(error);
-      dispatch(createProductsError())
+      dispatch(createProductsError());
     }
   }
 }

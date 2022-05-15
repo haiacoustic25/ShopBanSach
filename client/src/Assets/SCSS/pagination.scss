@@ -19,7 +19,15 @@
     align-items: center;
     display: flex;
     padding: 10px;
-
+    color: $text_color;
+    &:hover {
+      background-color: $btn_color;
+      color: #fff;
+    }
+    &:disabled {
+      background-color: #fff;
+      color: $text_color;
+    }
     &.icon {
       cursor: pointer;
     }

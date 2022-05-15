@@ -1,6 +1,7 @@
 import React from "react";
 import ProductTest from "../../../Assets/Img/ProductTest.png";
 const PayProduct = () => {
+  
   return (
     <div className="payProduct">
       <div className="payProduct__list">

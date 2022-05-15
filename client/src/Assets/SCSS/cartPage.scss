@@ -18,10 +18,10 @@
     color: $btn_color;
     cursor: auto;
     font-size: 18px;
+    text-transform: uppercase;
     & > span {
       display: block;
       padding: 10px;
-      // color: $text_color;
       font-size: 14px;
       &:hover {
         cursor: pointer;
@@ -32,7 +32,6 @@
     & > button {
       width: 30px !important;
       height: 30px !important;
-      // border: 1px solid $text_color;
       border-radius: 5px;
       color: #fff;
     }
