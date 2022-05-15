@@ -15,6 +15,9 @@ import {
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_ERROR,
+  FETCH_PRODUCTBYID_ERROR,
+  FETCH_PRODUCTBYID_REQUEST,
+  FETCH_PRODUCTBYID_SUCCESS,
   FETCH_CART_REQUUEST,
   FETCH_CART_ERROR,
   FETCH_CART_SUCCESS,
@@ -174,6 +177,31 @@ export const fetchAllProducts = () => {
       dispatch(fetchProductsSuccess(data));
     } catch (error) {
       dispatch(fetchProductsError());
+    }
+  };
+};
+
+// fetch product by id
+export const fetchProductByIdRequest = () => {
+  return { type: FETCH_PRODUCTBYID_REQUEST };
+};
+export const fetchProductByIdSuccess = (payload) => {
+  return { type: FETCH_PRODUCTBYID_SUCCESS, payload };
+};
+export const fetchProductByIdError = () => {
+  return { type: FETCH_PRODUCTBYID_ERROR };
+};
+
+export const fetchProductByIdRedux = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(fetchProductByIdRequest());
+    try {
+      const res = await axios.get(`http://localhost:8000/api/edit-book/${id}`);
+      if (res.data.status === 200) {
+        dispatch(fetchProductByIdSuccess(res.data.book));
+      }
+    } catch (error) {
+      dispatch(fetchProductByIdError());
     }
   };
 };

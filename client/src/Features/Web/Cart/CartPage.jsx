@@ -69,10 +69,13 @@ const CartPage = () => {
                   <span>{product.s_amount}</span>
                 </td>
                 <td>
-                  {Number(product?.s_price).toLocaleString("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
+                  {Number(product?.s_price * product?.s_amount).toLocaleString(
+                    "vi-VN",
+                    {
+                      style: "currency",
+                      currency: "VND",
+                    }
+                  )}
                 </td>
               </tr>
             ))}

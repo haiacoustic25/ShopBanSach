@@ -28,7 +28,7 @@ const Account = () => {
     name: "",
     username: "",
     password: "",
-    // address: "",
+    address: "",
     phone: "",
     email: "",
   });

@@ -1,174 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../../../Assets/SCSS/products.scss";
 import ProductItem from "./ProductItem";
 import Filter from "./Filter";
 import Pagination from "../Pagination";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllProducts } from "../../../../../Redux/Action/action";
 const Products = () => {
-  const [products] = useState([
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-    {
-      id: 1,
-      name: "10 CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN - TIẾNG VIỆT 2",
-      newPrice: "88,200",
-      oldPrice: "98,000",
-      discount: "10",
-    },
-  ]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, []);
+
+  const products = useSelector((state) => state.product.listProducts.books);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [productPerPage, setProductPerPage] = useState(12);
   const indexOfLastProduct = currentPage * productPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productPerPage;
-  const currentProduct = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  let currentProduct;
+  if (products) {
+    currentProduct = products?.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
+  }
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
     window.scrollTo(0, 1000);
@@ -184,7 +40,7 @@ const Products = () => {
         <div className="row">
           {products &&
             currentProduct.map((product, index) => (
-              <ProductItem product={product} />
+              <ProductItem product={product} key = {index} />
             ))}
         </div>
       </div>
@@ -192,7 +48,7 @@ const Products = () => {
         currentPage={currentPage}
         handleNextPage={handleNextPage}
         handleComeBackPage={handleComeBackPage}
-        currentProductLength={currentProduct.length}
+        currentProductLength={currentProduct?.length}
       />
     </div>
   );
