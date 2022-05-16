@@ -21,6 +21,7 @@ import {
   CREATE_CATEGORY_REQUEST,
   CREATE_CATEGORY_SUCCESS,
   CREATE_CATEGORY_ERROR,
+  DELETE_CATEGORY_SUCCESS,
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
@@ -299,13 +300,34 @@ export const createNewCategory = (tl_name) => {
   return async (dispatch, getState) =>{
     dispatch(createCategorysRequest())
     try{
-      let res = await axios.post("http://localhost:8000/api/add-category", {tl_name})
+      let res = await axios.post("http://localhost:8000/api/add-category", tl_name)
+      console.log(res.data)
       if (res.data.status === 200) {
         dispatch(createCategorysSuccess());
-        fetchAllCategorys();
+        dispatch(fetchAllCategorys());
       }
     }catch (error) {
       dispatch(createCategorysError())
+    }
+  }
+}
+
+export const deleteCategorysSuccess = () => {
+  return{
+    type: DELETE_CATEGORY_SUCCESS,
+  }
+}
+
+export const deleteCategory = (id) =>{
+  return async (dispatch, getState) => {
+    try{
+      let res = await axios.delete(`http://localhost:8000/api/delete-category/${id}`)
+      if (res && res.data.status === 200){
+        dispatch(deleteCategorysSuccess());
+        dispatch(fetchAllCategorys());
+      }
+    } catch (error){
+
     }
   }
 }

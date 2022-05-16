@@ -13,18 +13,18 @@ import {
   Toolbar,
   InputAdornment,
 } from "@material-ui/core";
+import Modal from '@mui/material/Modal';
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Popup from "../../Components/controls/Popup";
 import CategoryForm from "../../Components/Form/CategoryForm";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, deleteCategory } from "../../../../Redux/Action/action"
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -32,6 +32,18 @@ const StyledTableRow = styled(TableRow)(() => ({
       cursor:'pointer'
   }
 }));
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const headCells = [
   { id: 'id', label: 'ID'},
@@ -48,8 +60,11 @@ export const Categorys = () => {
     dispatch(fetchAllCategorys())
   }, [])
 
+  const handleDeleteCategory = (Category) => {
+    dispatch(deleteCategory(Category.id))
+  }
 
-  const [editCategory, setEditCategory] = useState(null)
+
   const [filterFn, setFilterFn] = useState({ fn: Categorys => { return Categorys; } })
   const { 
     tblContainer, 
@@ -107,7 +122,7 @@ export const Categorys = () => {
           <Divider style={{color: '#9b9595'}} />
             <Toolbar>
               <Controls.Input
-                    label="Search Users"
+                    label="Search Categorys"
                     InputProps = {{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -149,11 +164,8 @@ export const Categorys = () => {
                         </TableCell>
                         <TableCell>
                           <Controls.ActionButton
-                            onClick={handleClickOpen}
+                            onClick={() => {handleDeleteCategory(Category)}}
                           >
-                            <EditOutlinedIcon fontSize="small" color="success"/>
-                          </Controls.ActionButton>
-                          <Controls.ActionButton>
                             <DeleteOutlinedIcon fontSize="small" color="error"/>
                           </Controls.ActionButton>
                         </TableCell>
