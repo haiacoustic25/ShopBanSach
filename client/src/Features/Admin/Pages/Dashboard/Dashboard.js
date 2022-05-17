@@ -13,7 +13,7 @@ import { latestOrders } from '../../../../Database/dashboard';
 import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts } from "../../../../Redux/Action/action"
 
 const options = {
     series: [10, 10, 10, 70],
@@ -28,6 +28,16 @@ export const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchAllCategorys())
   }, [])
+
+  const listAuthors = useSelector((state) => state.author.listAuthors.authors);
+  useEffect(() => {
+    dispatch(fetchAllAuthors())
+  }, [])
+
+  const listProducts = useSelector((state) => state.product.listProducts.books);
+  useEffect(() => {
+    dispatch(fetchAllProducts())
+  }, [])
   const stats = [
     {
       content: '3456',
@@ -35,7 +45,7 @@ export const Dashboard = () => {
       label: 'Users'
     },
     {
-      content: '3456',
+      content: listProducts?.length.toString(),
       icon: ShoppingCartIcon,
       label: 'Products'
     },
@@ -45,7 +55,7 @@ export const Dashboard = () => {
       label: 'Orders'
     },
     {
-      content: '3450',
+      content: listAuthors?.length.toString(),
       icon: AuthorIcon,
       label: 'Authors'
     },

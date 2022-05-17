@@ -16,13 +16,13 @@ import {
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
-import Add from '../../Components/Form/Add';
-import { productInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import ProductForm from "../../Components/Form/ProductForm";
+import Popup from "../../Components/controls/Popup";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -115,16 +115,7 @@ export const Orders = () => {
               Orders
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Button color="success" size="large" variant="contained" onClick={handleClickOpen}>
-              <Plus 
-                sx={{
-                  marginRight: 2
-                }}
-              />
-              Add
-            </Button>
-            <Add inputs={productInputs} title="Add New Order" handleClose={handleClose} open={open}/>
-          </Box>
+            </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
             <Toolbar>
@@ -138,11 +129,24 @@ export const Orders = () => {
                       )
                     }}
                     sx={{
-                      width: '100%',
+                      width: '85%',
                       marginTop: '12px',
                       marginBottom: '12px'
                     }}
                     onChange={handleSearch}
+                />
+                <Controls.Button 
+                  text="Add New"
+                  variant="outlined"
+                  startIcon={<Plus />}
+                  sx={{
+                    marginLeft: 2,
+                    color: 'black',
+                    backgroundColor: '#59ac59',
+                    lineHeight: '56px',
+                    marginLeft: '32px'
+                  }}
+                  onClick={() => { setOpen(true)}}
                 />
             </Toolbar>
             <tblContainer>
@@ -173,6 +177,15 @@ export const Orders = () => {
             <Divider style={{color: '#9b9595'}} />
             { tblPagination() }
           </Paper>
+          <Popup
+            open={open}
+            setOpen={setOpen}
+          >
+              <ProductForm 
+                title="Add New Order" 
+                handleClose={handleClose}
+              />
+          </Popup>
         </Container>
       </Box>
     </>

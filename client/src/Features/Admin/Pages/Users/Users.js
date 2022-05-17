@@ -16,7 +16,6 @@ import {
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
-import { userInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
@@ -189,7 +188,6 @@ export const Users = () => {
             setOpen={setOpen}
           >
               <UserForm 
-                inputs={userInputs} 
                 title="Add New User" 
                 handleClose={handleClose}
               />

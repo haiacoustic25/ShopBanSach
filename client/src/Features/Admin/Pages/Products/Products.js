@@ -1,4 +1,4 @@
-import { useState  } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import {
   Paper,
@@ -13,18 +13,17 @@ import {
   Toolbar,
   InputAdornment,
 } from "@material-ui/core";
-import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
-import { productInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Popup from "../../Components/controls/Popup";
-import UserForm from "../../Components/Form/UserForm";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
+import ProductForm from "../../Components/Form/ProductForm";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -33,54 +32,39 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }));
 
-function createData(id, name, phone, email, created, img) {
-  return {
-    name,
-    phone,
-    email,
-    created,
-    img
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', '814-804-8230', 'wengallg@state.tx.us', new Date('2021-09-09T10:10:45.475Z'),'../../../../Assets/Img/ProductTest.png'),
-  createData(2, 'Donut', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(3, 'Eclair', '440-345-1150', 'sodocherty4@army.mil', new Date('2021-09-09T10:10:45.475Z')),
-  createData(4, 'Frozen yoghurt', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(5, 'Gingerbread', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(6, 'Honeycomb', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(7, 'Ice cream sandwich', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(8, 'Jelly Bean', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(9, 'KitKat', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-];
-
 const headCells = [
-  { id: 'name', label: 'NAME'},
-  { id: 'phone', label: 'PHONE'},
-  { id: 'email', label: 'EMAIL'},
-  { id: 'created', label: 'CREATED', disableSorting: true},
+  { id: 's_name', label: 'NAME'},
+  { id: 's_amount', label: 'AMOUNT'},
+  { id: 's_price', label: 'PRICE'},
+  { id: 's_status', label: 'STATUS'},
   { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Products = () => {
+  const dispatch = useDispatch();
+  const listProducts = useSelector((state) => state.product.listProducts.books);
+  useEffect(() => {
+    dispatch(fetchAllProducts())
+  }, [])
 
-  const [listUsers, setListUsers] = useState(rows);
-  const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
+  const handleDeleteProduct = (Product) => {
+    dispatch(deleteProduct(Product.id))
+  }
+  const [filterFn, setFilterFn] = useState({ fn: Products => { return Products; } })
   const { 
     tblContainer, 
     tblHead,
     tblPagination,
     daTaAfterPagingAndSorting
-  } =  useTable(listUsers, headCells, filterFn);
+  } =  useTable(listProducts, headCells, filterFn);
   const handleSearch = e => {
     let target = e.target;
     setFilterFn({
-        fn: Users => {
+        fn: Products => {
             if (target.value == "")
-                return Users;
+                return Products;
             else
-                return Users.filter(x => x.name.toLowerCase().includes(target.value))
+                return Products.filter(x => x.s_name.toLowerCase().includes(target.value))
         }
     })
   }
@@ -122,7 +106,7 @@ export const Products = () => {
           <Divider style={{color: '#9b9595'}} />
           <Toolbar>
             <Controls.Input
-                  label="Search Users"
+                  label="Search Products"
                   InputProps = {{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -155,19 +139,27 @@ export const Products = () => {
               { tblHead() }
               <TableBody>
                 {
-                  daTaAfterPagingAndSorting().map(User => (
-                      <StyledTableRow key={User.id}>
-                        <TableCell width={400} align="left">{User.name}</TableCell>
-                        <TableCell width={400}>{User.phone}</TableCell>
-                        <TableCell width={400}>{User.email}</TableCell>
-                        <TableCell width={400}>
-                            {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
+                  daTaAfterPagingAndSorting()?.map(Product => (
+                      <StyledTableRow key={Product.id}>
+                        <TableCell >{Product.s_name}</TableCell>
+                        <TableCell >{Product.s_amount}</TableCell>
+                        <TableCell >{Product.s_price}</TableCell>
+                        <TableCell >
+                          {
+                            Product.s_status === 1 ? (
+                              <div style={{color: 'green', fontWeight: '600'}}>Published</div>
+                            ) : (
+                              <div style={{color: 'blue', fontWeight: '600'}}>Draft</div>
+                            )
+                          }
                         </TableCell>
                         <TableCell>
                           <Controls.ActionButton>
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick={() => {handleDeleteProduct(Product)}}
+                          >
                             <DeleteOutlinedIcon fontSize="small" color="error"/>
                           </Controls.ActionButton>
                         </TableCell>
@@ -183,8 +175,7 @@ export const Products = () => {
             open={open}
             setOpen={setOpen}
           >
-              <UserForm 
-                inputs={productInputs} 
+              <ProductForm 
                 title="Add New Product" 
                 handleClose={handleClose}
               />

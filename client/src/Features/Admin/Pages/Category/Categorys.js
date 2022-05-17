@@ -33,20 +33,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }));
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 const headCells = [
-  { id: 'id', label: 'ID'},
   { id: 'name', label: 'CATEGORY'},
   { id: 'updated', label: 'UPDATED', disableSorting: true},
   { id: 'actions', label: 'ACTIONS', disableSorting: true},
@@ -157,7 +144,6 @@ export const Categorys = () => {
                 {
                   daTaAfterPagingAndSorting()?.map(Category => (
                       <StyledTableRow key={Category.id}>
-                        <TableCell>{Category.id}</TableCell>
                         <TableCell>{Category.tl_name}</TableCell>
                         <TableCell>
                             {format(new Date(Category.updated_at), 'dd/MM/yyyy')}
@@ -183,9 +169,7 @@ export const Categorys = () => {
           >
               <CategoryForm 
                 title="Add New Category" 
-                handleClickOpen={handleClickOpen}
                 handleClose={handleClose}
-                submit="Add"
               />
           </Popup>
         </Container>

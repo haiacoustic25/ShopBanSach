@@ -15,6 +15,7 @@ import {
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_ERROR,
+  DELETE_PRODUCT_SUCCESS,
   FETCH_CATEGORY_REQUEST,
   FETCH_CATEGORY_SUCCESS,
   FETCH_CATEGORY_ERROR,
@@ -28,6 +29,13 @@ import {
   FETCH_CART_REQUUEST,
   FETCH_CART_ERROR,
   FETCH_CART_SUCCESS,
+  FETCH_AUTHOR_REQUEST,
+  FETCH_AUTHOR_SUCCESS,
+  FETCH_AUTHOR_ERROR,
+  CREATE_AUTHOR_REQUEST,
+  CREATE_AUTHOR_SUCCESS,
+  CREATE_AUTHOR_ERROR,
+  DELETE_AUTHOR_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -244,6 +252,117 @@ export const createNewProductsRedux = (product) => {
   }
 }
 
+// Delete Product
+export const deleteProductsSuccess = () => {
+  return{
+    type: DELETE_PRODUCT_SUCCESS,
+  }
+}
+
+export const deleteProduct = (id) =>{
+  return async (dispatch, getState) => {
+    try{
+      let res = await axios.delete(`http://localhost:8000/api//delete-book/${id}`)
+      if (res && res.data.status === 200){
+        dispatch(deleteProductsSuccess());
+        dispatch(fetchAllProducts());
+      }
+    } catch (error){
+
+    }
+  }
+}
+
+
+// Infor Authors
+export const fetchAuthorsRequest = () => {
+  return {
+    type: FETCH_AUTHOR_REQUEST,
+  };
+};
+
+export const fetchAuthorsSuccess = (data) => {
+  return {
+    type: FETCH_AUTHOR_SUCCESS,
+    dataAuthors: data,
+  };
+};
+
+export const fetchAuthorsError = () => {
+  return {
+    type: FETCH_AUTHOR_ERROR,
+  };
+};
+
+export const fetchAllAuthors = () => {
+  return async (dispatch, getState) => {
+    dispatch(fetchAuthorsRequest());
+    try {
+      const res = await axios.get("http://localhost:8000/api/author");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchAuthorsSuccess(data));
+    } catch (error) {
+      dispatch(fetchAuthorsError());
+    }
+  };
+};
+
+// CREATE Author
+export const createAuthorsRequest = () => {
+  return{
+    type: CREATE_AUTHOR_REQUEST
+  }
+}
+
+export const createAuthorsSuccess = () => {
+  return{
+    type: CREATE_AUTHOR_SUCCESS,
+  }
+}
+
+export const createAuthorsError= () => {
+  return{
+    type: CREATE_AUTHOR_ERROR
+  }
+}
+
+export const createNewAuthor = ({tg_name, tg_description, tg_dob, tg_image }) => {
+  return async (dispatch, getState) =>{
+    dispatch(createAuthorsRequest())
+    try{
+      let res = await axios.post("http://localhost:8000/api//add-author", {tg_name, tg_description, tg_dob, tg_image})
+      console.log(res.data)
+      if (res.data.status === 200) {
+        dispatch(createAuthorsSuccess());
+        dispatch(fetchAllAuthors());
+      }
+    }catch (error) {
+      dispatch(createAuthorsError())
+    }
+  }
+}
+
+// Delete Author
+export const deleteAuthorsSuccess = () => {
+  return{
+    type: DELETE_AUTHOR_SUCCESS,
+  }
+}
+
+export const deleteAuthor = (id) =>{
+  return async (dispatch, getState) => {
+    try{
+      let res = await axios.delete(`http://localhost:8000/api/delete-author/${id}`)
+      if (res && res.data.status === 200){
+        dispatch(deleteAuthorsSuccess());
+        dispatch(fetchAllCategorys());
+      }
+    } catch (error){
+
+    }
+  }
+}
+
 // Infor Categorys
 export const fetchCategorysRequest = () => {
   return{
@@ -312,6 +431,7 @@ export const createNewCategory = (tl_name) => {
   }
 }
 
+// Delete Categorys
 export const deleteCategorysSuccess = () => {
   return{
     type: DELETE_CATEGORY_SUCCESS,

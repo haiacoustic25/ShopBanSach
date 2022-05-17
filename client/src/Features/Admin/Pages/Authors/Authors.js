@@ -1,4 +1,4 @@
-import { useState  } from "react";
+import { useState, useEffect  } from "react";
 import { Helmet } from "react-helmet";
 import {
   Paper,
@@ -13,16 +13,19 @@ import {
   Toolbar,
   InputAdornment,
 } from "@material-ui/core";
+import Modal from '@mui/material/Modal';
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
-import Add from '../../Components/Form/Add';
-import { userInputs } from "../../../../Database/formSource"
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import Popup from "../../Components/controls/Popup";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllAuthors, deleteAuthor } from "../../../../Redux/Action/action"
+import AuthorForm from "../../Components/Form/AuthorForm";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -31,40 +34,25 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }));
 
-function createData(id, name, phone, description, birthday, img) {
-  return {
-    id,
-    name,
-    phone,
-    description,
-    birthday,
-    img
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', '814-804-8230', 'wengallg@state.tx.us', new Date('2021-09-09T10:10:45.475Z'),'../../../../Assets/Img/ProductTest.png'),
-  createData(2, 'Donut', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(3, 'Eclair', '440-345-1150', 'sodocherty4@army.mil', new Date('2021-09-09T10:10:45.475Z')),
-  createData(4, 'Frozen yoghurt', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(5, 'Gingerbread', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(6, 'Honeycomb', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(7, 'Ice cream sandwich', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(8, 'Jelly Bean', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(9, 'KitKat', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-];
-
 const headCells = [
   { id: 'name', label: 'NAME'},
-  { id: 'phone', label: 'PHONE'},
   { id: 'birthday', label: 'BIRTHDAY', disableSorting: true},
   { id: 'description', label: 'DESCRIPTION', disableSorting: true},
   { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Authors = () => {
+  const dispatch = useDispatch();
+  const listAuthors = useSelector((state) => state.author.listAuthors.authors);
 
-  const [listAuthors, setListAuthors] = useState(rows);
+  useEffect(() => {
+    dispatch(fetchAllAuthors())
+  }, [])
+
+  const handleDeleteAuthor = (Author) => {
+    dispatch(deleteAuthor(Author.id))
+  }
+
   const [filterFn, setFilterFn] = useState({ fn: Authors => { return Authors; } })
   const { 
     tblContainer, 
@@ -72,6 +60,7 @@ export const Authors = () => {
     tblPagination,
     daTaAfterPagingAndSorting
   } =  useTable(listAuthors, headCells, filterFn);
+  
   const handleSearch = e => {
     let target = e.target;
     setFilterFn({
@@ -79,7 +68,7 @@ export const Authors = () => {
             if (target.value == "")
                 return Authors;
             else
-                return Authors.filter(x => x.name.toLowerCase().includes(target.value))
+                return Authors.filter(x => x.tg_name.toLowerCase().includes(target.value))
         }
     })
   }
@@ -113,18 +102,9 @@ export const Authors = () => {
             }}
           >
             <Typography color="textPrimary" variant="h4">
-                Authors
+              Authors
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Button color="success" size="large" variant="contained" onClick={handleClickOpen}>
-              <Plus 
-                sx={{
-                  marginRight: 2
-                }}
-              />
-              Add
-            </Button>
-            <Add inputs={userInputs} title="Add New Author" handleClose={handleClose} open={open}/>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
@@ -139,30 +119,44 @@ export const Authors = () => {
                       )
                     }}
                     sx={{
-                      width: '100%',
+                      width: '85%',
                       marginTop: '12px',
                       marginBottom: '12px'
                     }}
                     onChange={handleSearch}
+                />
+                <Controls.Button 
+                  text="Add New"
+                  variant="outlined"
+                  startIcon={<Plus />}
+                  sx={{
+                    marginLeft: 2,
+                    color: 'black',
+                    backgroundColor: '#59ac59',
+                    lineHeight: '56px',
+                    marginLeft: '32px'
+                  }}
+                  onClick={handleClickOpen}
                 />
             </Toolbar>
             <tblContainer>
               { tblHead() }
               <TableBody>
                 {
-                  daTaAfterPagingAndSorting().map(Author => (
+                  daTaAfterPagingAndSorting()?.map(Author => (
                       <StyledTableRow key={Author.id}>
-                        <TableCell width={400} align="left">{Author.name}</TableCell>
-                        <TableCell width={400}>{Author.phone}</TableCell>
-                        <TableCell width={400}>
-                            {format(new Date(Author.birthday), 'dd/MM/yyyy')}
+                        <TableCell>{Author.tg_name}</TableCell>
+                        <TableCell>
+                            {format(new Date(Author.tg_dob), 'dd/MM/yyyy')}
                         </TableCell>
-                        <TableCell width={400}>{Author.description}</TableCell>
+                        <TableCell>{Author.tg_description}</TableCell>
                         <TableCell>
                           <Controls.ActionButton>
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick={() => {handleDeleteAuthor(Author)}}
+                          >
                             <DeleteOutlinedIcon fontSize="small" color="error"/>
                           </Controls.ActionButton>
                         </TableCell>
@@ -174,6 +168,15 @@ export const Authors = () => {
             <Divider style={{color: '#9b9595'}} />
             { tblPagination() }
           </Paper>
+          <Popup
+            open={open}
+            setOpen={setOpen}
+          >
+              <AuthorForm
+                title="Add New Author" 
+                handleClose={handleClose}
+              />
+          </Popup>
         </Container>
       </Box>
     </>

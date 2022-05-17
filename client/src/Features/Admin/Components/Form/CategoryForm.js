@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNewCategory} from '../../../../Redux/Action/action'
-import './CategoryForm.scss';
-import { useForm } from 'react-hook-form'
+import './Form.scss';
+import { useForm } from 'react-hook-form';
+import "../../../../Assets/SCSS/register.scss";
+import {
+    OutlinedInput,
+    FormControl,
+    InputLabel,
+} from "@mui/material";
 
 export default function CategoryForm({title, handleClose}) {
     const { register, handleSubmit, formState: {errors} } = useForm()
@@ -18,14 +24,28 @@ export default function CategoryForm({title, handleClose}) {
             </div>
             <div className="bottom">
                 <form onSubmit={handleSubmit(handleCreaterNewCategory)}>
-                    <label>Category Name</label>
-                    <input 
-                        type="text" 
-                        name='tl_name'
-                        placeholder="Category Name"
-                        {...register("tl_name", {required: true})}
-                    />
-
+                    <div className="d-flex">
+                        <div className="register__form--left ">
+                            <FormControl>
+                                <InputLabel htmlFor="outlined-adornment-password">
+                                Thể loại
+                                </InputLabel>
+                                <OutlinedInput
+                                type="text"
+                                name="tl_name"
+                                // value={registerData.name}
+                                // onChange={onChange}
+                                label="Category Name"
+                                style={{
+                                    width: "350px",
+                                    marginBottom: "20px",
+                                    backgroundColor: "#fff",
+                                }}
+                                {...register("tl_name", {required: true})}
+                                />
+                                </FormControl>
+                        </div>
+                    </div>
                     {Object.keys(errors).length !== 0 &&(
                         <ul
                             style={{
@@ -36,7 +56,7 @@ export default function CategoryForm({title, handleClose}) {
                             {errors.name?.type === "required" && <li>Name is required</li>}
                         </ul>
                     )}
-                    <div>
+                    <div className='button'>
                         <button type='button' style={{marginRight: '10px', borderRadius:'5px'}} onClick={handleClose}>Cancel</button>
                         <button 
                             type='submit'
