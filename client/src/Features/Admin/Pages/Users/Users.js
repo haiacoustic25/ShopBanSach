@@ -1,4 +1,4 @@
-import { useState  } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import {
   Paper,
@@ -23,6 +23,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Popup from "../../Components/controls/Popup";
 import UserForm from "../../Components/Form/UserForm";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsers } from "../../../../Redux/Action/action"
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -62,7 +64,11 @@ const headCells = [
 ];
 
 export const Users = () => {
-
+  const dispatch = useDispatch();
+  // const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
+  // useEffect(() => {
+  //   dispatch(fetchAllCategorys())
+  // }, [])
   const [listUsers, setListUsers] = useState(rows);
   const [editUser, setEditUser] = useState(null)
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
@@ -170,9 +176,6 @@ export const Users = () => {
                             onClick={() => { handleClickOpen(User) }}
                           >
                             <EditOutlinedIcon fontSize="small" color="success"/>
-                          </Controls.ActionButton>
-                          <Controls.ActionButton>
-                            <DeleteOutlinedIcon fontSize="small" color="error"/>
                           </Controls.ActionButton>
                         </TableCell>
                       </StyledTableRow>

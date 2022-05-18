@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createNewAuthor } from '../../../../Redux/Action/action'
 import './Form.scss';
-import { useForm } from 'react-hook-form'
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
 import {
@@ -14,9 +12,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts } from "../../../../Redux/Action/action"
-
-
+import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
 
 const productStatus = [
     {
@@ -30,7 +26,6 @@ const productStatus = [
 ]
 
 export default function ProductForm({title, handleClose}) {
-    const { register, handleSubmit, formState: {errors} } = useForm()
     const dispatch = useDispatch();
     const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
     useEffect(() => {
@@ -41,25 +36,72 @@ export default function ProductForm({title, handleClose}) {
     useEffect(() => {
         dispatch(fetchAllAuthors())
     }, [])
-    const handleCreateNewAuthor = (data) =>{
-        dispatch(createNewAuthor(data))
-        handleClose();
+
+    const [registerData, setRegisterData] = useState({
+        s_name: "",
+        s_price: "",
+        s_nsx: "",
+        s_amount: "",
+        s_status: "",
+        s_discount: "",
+        author_id: "",
+        category_id: ""
+    });
+    const [registerError, setRegisterError] = useState({
+        Error: "",
+    });
+    const onChange = (event) => {
+        setRegisterData({
+            ...registerData,
+            [event.target.name]: event.target.value,
+    })};
+    const handleCreateNewProduct = (event) =>{
+        event.preventDefault();
+        if (
+            registerData.s_name === "" ||
+            registerData.s_price === "" ||
+            registerData.s_nsx === "" ||
+            registerData.s_amount === "" ||
+            registerData.author_id === "" ||
+            registerData.category_id === "" ||
+            registerData.s_status === "" ||
+            registerData.s_discount === ""
+          ) {
+            setRegisterError({
+              Error: "Nhập đầy đủ thông tin",
+            });
+        } else{
+            let formData = new FormData();
+            // formData.append("file_upload", fileUpload, fileUpload.name);
+      
+            Object.keys(registerData).forEach((key) => {
+              formData.append(`${key}`, registerData[key]);
+            });
+            dispatch(createNewProductsRedux(formData))
+            handleClose();
+        }
     }
     const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
+    useEffect(() => {
+        if (!selectedImage) {
+          setPreviewImg(undefined);
+          return;
+        }
+        const objectUrl = URL.createObjectURL(selectedImage);
+        setPreviewImg(objectUrl);
+    
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl);
+      }, [selectedImage]);
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
           setSelectedImage(e.target.files[0]);
           setFileUpload(e.target.files[0]);
         }
     };
-
-    const [defaultStatus, setDefaultStatus] = useState('Published');
-    const handleChangeStatus = (event) => {
-        setDefaultStatus(event.target.value);
-      };
     const styleInput = {
         width: "350px",
         marginBottom: "20px",
@@ -71,7 +113,7 @@ export default function ProductForm({title, handleClose}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form>
+                <form onSubmit={handleCreateNewProduct}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -81,8 +123,8 @@ export default function ProductForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="s_name"
-                                // value={registerData.name}
-                                // onChange={onChange}
+                                value={registerData.s_name}
+                                onChange={onChange}
                                 label="Họ và tên"
                                 style={{
                                     width: "350px",
@@ -98,6 +140,8 @@ export default function ProductForm({title, handleClose}) {
                                     select
                                     name='category_id'
                                     label="Thể loại"
+                                    value={registerData.category_id}
+                                    onChange={onChange}
                                     style={styleInput}
                                     >
                                     {listCategorys?.map((option) => (
@@ -115,6 +159,8 @@ export default function ProductForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="s_nsx"
+                                value={registerData.s_nsx}
+                                onChange={onChange}
                                 label="Nhà xuất bản"
                                 style={styleInput}
                                 />
@@ -126,6 +172,8 @@ export default function ProductForm({title, handleClose}) {
                                     select
                                     name='author_id'
                                     label="Tác giả"
+                                    value={registerData.author_id}
+                                    onChange={onChange}
                                     style={styleInput}
                                     >
                                     {listAuthors?.map((option) => (
@@ -143,8 +191,8 @@ export default function ProductForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="s_price"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.s_price}
+                                onChange={onChange}
                                 label="Giá tiền"
                                 style={styleInput}
                                 />
@@ -157,8 +205,8 @@ export default function ProductForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="s_amount"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.s_amount}
+                                onChange={onChange}
                                 label="Số lượng"
                                 style={styleInput}
                                 />
@@ -171,8 +219,8 @@ export default function ProductForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="s_discount"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.s_discount}
+                                onChange={onChange}
                                 label="Giảm giá"
                                 placeholder='20%'
                                 style={styleInput}
@@ -184,6 +232,8 @@ export default function ProductForm({title, handleClose}) {
                                     id="filled-textarea"
                                     label="Mô tả"
                                     name="s_description"
+                                    value={registerData.s_description}
+                                    onChange={onChange}
                                     multiline
                                     style={styleInput}
                                 />
@@ -195,7 +245,8 @@ export default function ProductForm({title, handleClose}) {
                                     select
                                     name='s_status'
                                     label="Status"
-                                    onChange={handleChangeStatus}
+                                    value={registerData.s_status}
+                                    onChange={onChange}
                                     style={styleInput}
                                     >
                                     {productStatus.map((option) => (
@@ -233,6 +284,17 @@ export default function ProductForm({title, handleClose}) {
                             </label>
                         </div>
                     </div>
+                    {registerError.Error !== "" && (
+                        <div
+                        style={{
+                            color: "red",
+                            fontSize: "14px",
+                            marginBottom: "10px",
+                        }}
+                        >
+                        {registerError.Error}
+                        </div>
+                    )}
                     <div className='button'>
                         <button type='button' style={{marginRight: '10px', borderRadius:'5px'}} onClick={handleClose}>Cancel</button>
                         <button 

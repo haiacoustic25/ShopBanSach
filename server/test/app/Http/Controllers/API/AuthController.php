@@ -71,6 +71,16 @@ class AuthController extends Controller
 
 		}}
 
+		public function show()
+		{
+			$user = User::all();
+
+			return response()->json([
+				'status' => 200,
+				'users' => $user,
+			]);
+		}
+
         // public function updateUser(Request $request, $id)
         // {
 

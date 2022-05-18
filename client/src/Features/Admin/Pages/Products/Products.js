@@ -143,7 +143,7 @@ export const Products = () => {
                       <StyledTableRow key={Product.id}>
                         <TableCell >{Product.s_name}</TableCell>
                         <TableCell >{Product.s_amount}</TableCell>
-                        <TableCell >{Product.s_price}</TableCell>
+                        <TableCell >{Product.s_price} VNĐ</TableCell>
                         <TableCell >
                           {
                             Product.s_status === 1 ? (

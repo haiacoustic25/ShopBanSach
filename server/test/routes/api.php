@@ -54,6 +54,9 @@ Route::put('/update-book/{id}',[BookController::class, 'updateBook']);
 Route::delete('/delete-book/{id}',[BookController::class, 'deleteById']);
 
 // user
+
+Route::get('/user',[AuthController::class,'show']);
+
 Route::post('/register', [AuthController::class,'store']);
 
 Route::put('/update-user/{id}',[AuthController::class, 'updateUser']);

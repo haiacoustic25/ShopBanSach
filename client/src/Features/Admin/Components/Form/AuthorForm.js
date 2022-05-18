@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNewAuthor } from '../../../../Redux/Action/action'
 import './Form.scss';
-import { useForm } from 'react-hook-form'
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
+import { format } from 'date-fns';
 import {
     OutlinedInput,
     FormControl,
@@ -14,17 +14,52 @@ import {
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 
-export default function AuthorForm({title, handleClose}) {
-    const { register, handleSubmit, formState: {errors} } = useForm()
+export default function AuthorForm({title, handleClose, editData}) {
     const dispatch = useDispatch();
-    const handleCreateNewAuthor = (data) =>{
-        dispatch(createNewAuthor(data))
-        handleClose();
+    const [data, SetData] = useState({
+        tg_name: "",
+        tg_description: "",
+        tg_dob:""
+    })
+    const [registerError, setRegisterError] = useState({
+        Error: "",
+    });
+    const onChange = (event) =>{
+        SetData({
+            ...data,
+            [event.target.name]: event.target.value
+        })
+    } 
+    const handleCreateNewAuthor = (event) =>{
+        event.preventDefault();
+        if( data.tg_name === "" || data.tg_dob === ""){
+            setRegisterError({
+                Error: "Nhập đầy đủ thông tin"
+            });
+        } else{
+            let formData = new FormData();
+            // formData.append("file_upload", fileUpload, fileUpload.name);
+      
+            Object.keys(data).forEach((key) => {
+              formData.append(`${key}`, data[key]);
+            });
+            dispatch(createNewAuthor(formData));
+            handleClose();
+        }
     }
     const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
+    useEffect(() => {
+        if (!selectedImage) {
+          setPreviewImg(undefined);
+          return;
+        }
+        const objectUrl = URL.createObjectURL(selectedImage);
+        setPreviewImg(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+      }, [selectedImage]);
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
           setSelectedImage(e.target.files[0]);
@@ -43,7 +78,7 @@ export default function AuthorForm({title, handleClose}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form>
+                <form onSubmit={handleCreateNewAuthor}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -53,8 +88,9 @@ export default function AuthorForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="tg_name"
-                                // value={registerData.name}
-                                // onChange={onChange}
+                                value={data.tg_name}
+                                // value={editData == null ? data.tg_name : editData.tg_name}
+                                onChange={onChange}
                                 label="Họ và tên"
                                 style={{
                                     width: "350px",
@@ -73,8 +109,9 @@ export default function AuthorForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="date"
                                 name="tg_dob"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={data.tg_dob}
+                                // value={editData == null ? data.tg_dob : format(new Date(editData.tg_dob), 'yyyy-MM-dd')}
+                                onChange={onChange}
                                 label="Birthday"
                                 style={styleInput}
                                 />
@@ -85,8 +122,10 @@ export default function AuthorForm({title, handleClose}) {
                                     id="filled-textarea"
                                     label="Description"
                                     name="tg_description"
+                                    value={data.tg_description}
+                                    // value={editData == null ? data.tg_description : editData.tg_description}
+                                    onChange={onChange}
                                     multiline
-                                    // variant="filled"
                                     style={styleInput}
                                 />
                             </FormControl>
@@ -118,6 +157,17 @@ export default function AuthorForm({title, handleClose}) {
                             </label>
                         </div>
                     </div>
+                    {registerError.Error !== "" && (
+                        <div
+                        style={{
+                            color: "red",
+                            fontSize: "14px",
+                            marginBottom: "10px",
+                        }}
+                        >
+                            {registerError.Error}
+                        </div>
+                    )}
                     <div className='button'>
                         <button type='button' style={{marginRight: '10px', borderRadius:'5px'}} onClick={handleClose}>Cancel</button>
                         <button 

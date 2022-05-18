@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet";
 import {
   Paper,
   Box,
-  Button,
   Container,
   Divider,
   TableBody,
@@ -13,7 +12,6 @@ import {
   Toolbar,
   InputAdornment,
 } from "@material-ui/core";
-import Modal from '@mui/material/Modal';
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';

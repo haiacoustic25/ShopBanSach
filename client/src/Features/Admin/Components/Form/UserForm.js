@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNewAuthor } from '../../../../Redux/Action/action'
+import { createNewUsersRedux } from '../../../../Redux/Action/action'
 import './Form.scss';
-import { useForm } from 'react-hook-form'
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
 import {
@@ -11,6 +10,7 @@ import {
     InputLabel,
     TextField,
     Fab,
+    FormHelperText,
     MenuItem
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
@@ -27,16 +27,75 @@ const userRole = [
 ]
 
 export default function UserForm({title, handleClose}) {
-    const { register, handleSubmit, formState: {errors} } = useForm()
     const dispatch = useDispatch();
-    const handleCreateNewAuthor = (data) =>{
-        dispatch(createNewAuthor(data))
-        handleClose();
+    const [registerData, setRegisterData] = useState({
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+        address: "",
+        phone: "",
+        email: "",
+        isAdmin: ""
+      });
+    const [registerError, setRegisterError] = useState({
+        Error_Password: "",
+        Error: "",
+        Error_Phone: ""
+    });
+    const onChange = (event) => {
+        setRegisterData({
+            ...registerData,
+            [event.target.name]: event.target.value,
+    })};
+    const handleCreateNewUser = (event) =>{
+        event.preventDefault();
+        if (
+            registerData.name === "" ||
+            registerData.email === "" ||
+            registerData.username === "" ||
+            registerData.password === "" ||
+            // registerData.address === "" ||
+            registerData.phone === "" ||
+            registerData.isAdmin === ""
+          ) {
+            setRegisterError({
+              Error: "Nhập đầy đủ thông tin",
+            });
+          } else if (registerData.password.length < 8) {
+            setRegisterError({
+              Error_Password: "Mật khẩu ít nhất 8 kí tự",
+            });
+          } else if (registerData.phone.length > 10) {
+            setRegisterError({
+              Error_Phone: "Điện thoại nhiều nhất 10 kí tự",
+            });
+          } else {
+            let formData = new FormData();
+            // formData.append("file_upload", fileUpload, fileUpload.name);
+      
+            Object.keys(registerData).forEach((key) => {
+              formData.append(`${key}`, registerData[key]);
+            });
+            dispatch(createNewUsersRedux(formData));
+            handleClose();
+          }
     }
     const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
+    useEffect(() => {
+        if (!selectedImage) {
+          setPreviewImg(undefined);
+          return;
+        }
+        const objectUrl = URL.createObjectURL(selectedImage);
+        setPreviewImg(objectUrl);
+    
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl);
+      }, [selectedImage]);
     const imageChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
           setSelectedImage(e.target.files[0]);
@@ -55,7 +114,7 @@ export default function UserForm({title, handleClose}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form>
+                <form onSubmit={handleCreateNewUser}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -65,8 +124,8 @@ export default function UserForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="name"
-                                // value={registerData.name}
-                                // onChange={onChange}
+                                value={registerData.name}
+                                onChange={onChange}
                                 label="Họ và tên"
                                 style={{
                                     width: "350px",
@@ -85,8 +144,8 @@ export default function UserForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="email"
                                 name="email"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.email}
+                                onChange={onChange}
                                 label="Email"
                                 style={styleInput}
                                 />
@@ -95,14 +154,14 @@ export default function UserForm({title, handleClose}) {
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
                                     <div >
-                                        Username
+                                        Tên đăng nhập
                                     </div>
                                 </InputLabel>
                                 <OutlinedInput
                                 type="text"
                                 name="username"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.username}
+                                onChange={onChange}
                                 label="Username"
                                 style={styleInput}
                                 />
@@ -111,17 +170,29 @@ export default function UserForm({title, handleClose}) {
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
                                     <div >
-                                        Password
+                                        Mật khẩu
                                     </div>
                                 </InputLabel>
                                 <OutlinedInput
                                 type="password"
                                 name="password"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.password}
+                                onChange={onChange}
                                 label="Password"
                                 style={styleInput}
                                 />
+                                {registerError.Error_Password !== "" && (
+                                    <FormHelperText
+                                        style={{
+                                        color: "red",
+                                        fontSize: "14px",
+                                        marginBottom: "15px",
+                                        marginTop: "-20px",
+                                        }}
+                                    >
+                                        {registerError.Error_Password}
+                                    </FormHelperText>
+                                )}
                             </FormControl>
                             <br></br>
                             <FormControl>
@@ -133,11 +204,23 @@ export default function UserForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="phone"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.phone}
+                                onChange={onChange}
                                 label="Số điện thoại"
                                 style={styleInput}
                                 />
+                                {registerError.Error_Phone !== "" && (
+                                    <FormHelperText
+                                        style={{
+                                        color: "red",
+                                        fontSize: "14px",
+                                        marginBottom: "15px",
+                                        marginTop: "-20px",
+                                        }}
+                                    >
+                                        {registerError.Error_Phone}
+                                    </FormHelperText>
+                                )}
                             </FormControl>
                             <br></br>
                             <FormControl>
@@ -149,8 +232,8 @@ export default function UserForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="address"
-                                // value={registerData.username}
-                                // onChange={onChange}
+                                value={registerData.address}
+                                onChange={onChange}
                                 label="Địa chỉ"
                                 style={styleInput}
                                 />
@@ -162,6 +245,8 @@ export default function UserForm({title, handleClose}) {
                                     select
                                     name='isAdmin'
                                     label="Chức năng"
+                                    value={registerData.isAdmin}
+                                    onChange={onChange}
                                     style={styleInput}
                                     >
                                     {userRole.map((option) => (
@@ -199,6 +284,17 @@ export default function UserForm({title, handleClose}) {
                             </label>
                         </div>
                     </div>
+                    {registerError.Error !== "" && (
+                        <div
+                        style={{
+                            color: "red",
+                            fontSize: "14px",
+                            marginBottom: "10px",
+                        }}
+                        >
+                        {registerError.Error}
+                        </div>
+                    )}
                     <div className='button'>
                         <button type='button' style={{marginRight: '10px', borderRadius:'5px'}} onClick={handleClose}>Cancel</button>
                         <button 

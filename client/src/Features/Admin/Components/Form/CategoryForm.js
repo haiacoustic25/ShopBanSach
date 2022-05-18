@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNewCategory} from '../../../../Redux/Action/action'
 import './Form.scss';
-import { useForm } from 'react-hook-form';
 import "../../../../Assets/SCSS/register.scss";
 import {
     OutlinedInput,
@@ -11,11 +10,30 @@ import {
 } from "@mui/material";
 
 export default function CategoryForm({title, handleClose}) {
-    const { register, handleSubmit, formState: {errors} } = useForm()
+    
+    const [tl_name, setTl_name] = useState({tl_name: ""})
     const dispatch = useDispatch();
-    const handleCreaterNewCategory = (data) =>{
-        dispatch(createNewCategory(data))
-        handleClose();
+    const [registerError, setRegisterError] = useState({
+        Error: "",
+    });
+    const onChange = (event) =>{
+        setTl_name({
+            ...tl_name,
+            tl_name: event.target.value
+        })
+    } 
+    const handleCreateNewCategory = (event) =>{
+        event.preventDefault();
+        console.log(tl_name);
+        if( tl_name.tl_name === ""){
+            setRegisterError({
+                Error: "Nhập đầy đủ thông tin"
+            });
+        } else{ 
+            
+            dispatch(createNewCategory(tl_name))
+            handleClose();
+        }
     }
     return (
         <>
@@ -23,7 +41,7 @@ export default function CategoryForm({title, handleClose}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form onSubmit={handleSubmit(handleCreaterNewCategory)}>
+                <form onSubmit={handleCreateNewCategory}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -33,28 +51,28 @@ export default function CategoryForm({title, handleClose}) {
                                 <OutlinedInput
                                 type="text"
                                 name="tl_name"
-                                // value={registerData.name}
-                                // onChange={onChange}
+                                value={tl_name.tl_name}
+                                onChange={onChange}
                                 label="Category Name"
                                 style={{
                                     width: "350px",
                                     marginBottom: "20px",
                                     backgroundColor: "#fff",
                                 }}
-                                {...register("tl_name", {required: true})}
                                 />
                                 </FormControl>
                         </div>
                     </div>
-                    {Object.keys(errors).length !== 0 &&(
-                        <ul
-                            style={{
-                                color: 'red',
-                                marginLeft: '92px'
-                            }}
+                    {registerError.Error !== "" && (
+                        <div
+                        style={{
+                            color: "red",
+                            fontSize: "14px",
+                            marginBottom: "10px",
+                        }}
                         >
-                            {errors.name?.type === "required" && <li>Name is required</li>}
-                        </ul>
+                            {registerError.Error}
+                        </div>
                     )}
                     <div className='button'>
                         <button type='button' style={{marginRight: '10px', borderRadius:'5px'}} onClick={handleClose}>Cancel</button>

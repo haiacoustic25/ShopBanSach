@@ -9,6 +9,10 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  CREATE_USER_ERROR,
+  DELETE_USER_SUCCESS,
   FETCH_PRODUCT_REQUEST,
   FETCH_PRODUCT_SUCCESS,
   FETCH_PRODUCT_ERROR,
@@ -129,7 +133,6 @@ export const fetchAllCartReduct = (username) => {
       const res = await axios.get(
         `http://localhost:8000/api/show-product/${username}`
       );
-      // console.log(res.data);
       if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
     } catch (error) {
       dispatch(fetchCartError());
@@ -162,6 +165,62 @@ export const fetchAllUsers = () => {
     // const res = await axios.get("")
   };
 };
+
+// Create New User
+export const createUsersRequest = () => {
+  return {
+    type: CREATE_USER_REQUEST,
+  };
+};
+
+export const createUsersSuccess = () => {
+  return {
+    type: CREATE_USER_SUCCESS,
+  };
+};
+
+export const createUsersError = () => {
+  return {
+    type: CREATE_USER_ERROR,
+  };
+};
+
+export const createNewUsersRedux = (user) => {
+  return async (dispatch, getState) => {
+    dispatch(createUsersRequest());
+    try {
+      let res = await axios.post("http://localhost:8000/api/register", user);
+      if (res.data.status === 200) {
+        dispatch(createUsersSuccess());
+        dispatch(fetchAllUsers());
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(createUsersError());
+    }
+  }
+}
+
+// Delete User
+// export const deleteUsersSuccess = () => {
+//   return{
+//     type: DELETE_USER_SUCCESS,
+//   }
+// }
+
+// export const deleteUser = (id) =>{
+//   return async (dispatch, getState) => {
+//     try{
+//       let res = await axios.delete(`http://localhost:8000/api/delete-book/${id}`)
+//       if (res && res.data.status === 200){
+//         dispatch(deleteUsersSuccess());
+//         dispatch(fetchAllUsers());
+//       }
+//     } catch (error){
+
+//     }
+//   }
+// }
 
 // Infor Products
 export const fetchProductsRequest = () => {
@@ -262,7 +321,7 @@ export const deleteProductsSuccess = () => {
 export const deleteProduct = (id) =>{
   return async (dispatch, getState) => {
     try{
-      let res = await axios.delete(`http://localhost:8000/api//delete-book/${id}`)
+      let res = await axios.delete(`http://localhost:8000/api/delete-book/${id}`)
       if (res && res.data.status === 200){
         dispatch(deleteProductsSuccess());
         dispatch(fetchAllProducts());
@@ -326,11 +385,11 @@ export const createAuthorsError= () => {
   }
 }
 
-export const createNewAuthor = ({tg_name, tg_description, tg_dob, tg_image }) => {
+export const createNewAuthor = (Author) => {
   return async (dispatch, getState) =>{
     dispatch(createAuthorsRequest())
     try{
-      let res = await axios.post("http://localhost:8000/api//add-author", {tg_name, tg_description, tg_dob, tg_image})
+      let res = await axios.post("http://localhost:8000/api/add-author", Author)
       console.log(res.data)
       if (res.data.status === 200) {
         dispatch(createAuthorsSuccess());
@@ -355,7 +414,7 @@ export const deleteAuthor = (id) =>{
       let res = await axios.delete(`http://localhost:8000/api/delete-author/${id}`)
       if (res && res.data.status === 200){
         dispatch(deleteAuthorsSuccess());
-        dispatch(fetchAllCategorys());
+        dispatch(fetchAllAuthors());
       }
     } catch (error){
 

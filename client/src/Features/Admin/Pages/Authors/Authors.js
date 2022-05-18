@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllAuthors, deleteAuthor } from "../../../../Redux/Action/action"
 import AuthorForm from "../../Components/Form/AuthorForm";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { getOptionGroupUnstyledUtilityClass } from "@mui/base";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -44,7 +45,7 @@ const headCells = [
 export const Authors = () => {
   const dispatch = useDispatch();
   const listAuthors = useSelector((state) => state.author.listAuthors.authors);
-
+  const [editData, setEditData] = useState('')
   useEffect(() => {
     dispatch(fetchAllAuthors())
   }, [])
@@ -80,7 +81,11 @@ export const Authors = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleEditAuthor = (Author) =>{
+    handleClickOpen()
+    setEditData(null)
+    setEditData(Author)
+  }
   return (
     <>
       <Helmet>
@@ -136,7 +141,7 @@ export const Authors = () => {
                     lineHeight: '56px',
                     marginLeft: '32px'
                   }}
-                  onClick={handleClickOpen}
+                  onClick={handleEditAuthor}
                 />
             </Toolbar>
             <tblContainer>
@@ -151,7 +156,9 @@ export const Authors = () => {
                         </TableCell>
                         <TableCell>{Author.tg_description}</TableCell>
                         <TableCell>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick = {() => handleEditAuthor(Author)}
+                          >
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
                           <Controls.ActionButton
@@ -170,9 +177,10 @@ export const Authors = () => {
           </Paper>
           <Popup
             open={open}
-            setOpen={setOpen}
+            setOpen={handleEditAuthor}
           >
               <AuthorForm
+                editData={editData}
                 title="Add New Author" 
                 handleClose={handleClose}
               />
