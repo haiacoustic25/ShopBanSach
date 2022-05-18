@@ -42,7 +42,7 @@ const Login = () => {
   useEffect(() => {
     if (isAuth) {
       let nextPageTime = setTimeout(() => {
-        navigate("/");
+        !user.user.idAdmin ? navigate("/admin") : navigate("/");
       }, 500);
 
       return () => clearTimeout(nextPageTime);
