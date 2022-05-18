@@ -3,7 +3,6 @@ import Footer from "../../../Components/Footer/Footer";
 import Header from "../../../Components/Header/Header";
 import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
-import img from "../../../Assets/Img/ProductTest.png";
 import "../../../Assets/SCSS/productDetail.scss";
 import "react-notifications/lib/notifications.css";
 import Loading from "../../../Components/Loading/Loading";
@@ -13,24 +12,25 @@ import {
 } from "react-notifications";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProductByIdRedux } from "../../../Redux/Action/action";
+import {
+  fetchProductByIdRedux,
+  addProductIntoCartRedux,
+  fetchAllCartReduct,
+} from "../../../Redux/Action/action";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [descFull, setDescFull] = useState(true);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
   };
   const handleReductionQuantity = () => {
-    if (quantity > 0) setQuantity(quantity - 1);
-    else setQuantity(0);
+    if (quantity > 1) setQuantity(quantity - 1);
+    else setQuantity(1);
   };
   const handlerDesc = () => {
     setDescFull(!descFull);
-  };
-
-  const handleAddProduct = () => {
-    NotificationManager.success("Thêm thành công", "", 500);
   };
 
   const [isDisplay, setIsDisplay] = useState(false);
@@ -42,14 +42,37 @@ const ProductDetail = () => {
   }, [isDisplay]);
 
   const dispatch = useDispatch();
+  const inforProduct = useSelector((state) => state.product.inforProductById);
+  const user = useSelector((state) => state.user.user.user);
+  const cart = useSelector((state) => state.cart.listProducts);
+  const isAddProductIntoCart = useSelector(
+    (state) => state.cart.isAddProductIntoCart
+  );
+  const [isAdd, setIsAdd] = useState(false);
+  const handleAddProduct = () => {
+    if (user) {
+      dispatch(
+        addProductIntoCartRedux(
+          { cart_id: user.id, book_id: id, gh_amount: quantity },
+          user.username
+        )
+      );
+    }
+    if (isAddProductIntoCart) {
+      NotificationManager.success("Thêm thành công", "", 500);
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchProductByIdRedux(id));
+    if (user) {
+      dispatch(fetchAllCartReduct(user.username));
+    }
   }, []);
-  const inforProduct = useSelector((state) => state.product.inforProductById);
   return (
     <div>
       <Header />
-      {!isDisplay ? (
+      {!isDisplay && inforProduct ? (
         <Loading />
       ) : (
         <div className="body">
@@ -68,6 +91,7 @@ const ProductDetail = () => {
             <div className="inforProduct__img col-sm-4">
               <img
                 src={
+                  inforProduct &&
                   require(`../../../Assets/Img/${inforProduct.s_image}`).default
                 }
                 alt=""

@@ -18,9 +18,12 @@ import {
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
-  FETCH_CART_REQUUEST,
+  FETCH_CART_REQUEST,
   FETCH_CART_ERROR,
   FETCH_CART_SUCCESS,
+  ADD_PRODUCT_INTO_CART_ERROR,
+  ADD_PRODUCT_INTO_CART_REQUEST,
+  ADD_PRODUCT_INTO_CART_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -92,7 +95,7 @@ export const logoutRedux = () => {
 // cart
 export const fetchCartRequest = () => {
   return {
-    type: FETCH_CART_REQUUEST,
+    type: FETCH_CART_REQUEST,
   };
 };
 export const fetchCartSuccess = (payload) => {
@@ -118,6 +121,43 @@ export const fetchAllCartReduct = (username) => {
       if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
     } catch (error) {
       dispatch(fetchCartError());
+    }
+  };
+};
+
+// add product into cart
+export const addProductIntoCartRequest = () => {
+  return { type: ADD_PRODUCT_INTO_CART_REQUEST };
+};
+export const addProductIntoCartSuccess = () => {
+  return { type: ADD_PRODUCT_INTO_CART_SUCCESS };
+};
+export const addProductIntoCartError = () => {
+  return { type: ADD_PRODUCT_INTO_CART_ERROR };
+};
+
+export const addProductIntoCartRedux = (
+  { cart_id, book_id, gh_amount },
+  username
+) => {
+  return async (dispatch, getState) => {
+    dispatch(addProductIntoCartRequest());
+    try {
+      const sendData = {
+        cart_id,
+        book_id,
+        gh_amount,
+      };
+      const res = await axios.post(
+        "http://localhost:8000/api/add-cart",
+        sendData
+      );
+      if (res.data.status === 200) {
+        dispatch(addProductIntoCartSuccess());
+        dispatch(fetchAllCartReduct(username));
+      }
+    } catch (error) {
+      dispatch(addProductIntoCartError());
     }
   };
 };
