@@ -9,21 +9,31 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  CREATE_USER_ERROR,
+  DELETE_USER_SUCCESS,
   FETCH_PRODUCT_REQUEST,
   FETCH_PRODUCT_SUCCESS,
   FETCH_PRODUCT_ERROR,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_ERROR,
+  DELETE_PRODUCT_SUCCESS,
+  FETCH_CATEGORY_REQUEST,
+  FETCH_CATEGORY_SUCCESS,
+  FETCH_CATEGORY_ERROR,
+  CREATE_CATEGORY_REQUEST,
+  CREATE_CATEGORY_SUCCESS,
+  CREATE_CATEGORY_ERROR,
+  DELETE_CATEGORY_SUCCESS,
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
   FETCH_CART_REQUEST,
   FETCH_CART_ERROR,
   FETCH_CART_SUCCESS,
-  ADD_PRODUCT_INTO_CART_ERROR,
-  ADD_PRODUCT_INTO_CART_REQUEST,
-  ADD_PRODUCT_INTO_CART_SUCCESS,
+
 } from "./type";
 import axios from "axios";
 
@@ -117,7 +127,6 @@ export const fetchAllCartReduct = (username) => {
       const res = await axios.get(
         `http://localhost:8000/api/show-product/${username}`
       );
-      // console.log(res.data);
       if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
     } catch (error) {
       dispatch(fetchCartError());
@@ -187,6 +196,62 @@ export const fetchAllUsers = () => {
     // const res = await axios.get("")
   };
 };
+
+// Create New User
+export const createUsersRequest = () => {
+  return {
+    type: CREATE_USER_REQUEST,
+  };
+};
+
+export const createUsersSuccess = () => {
+  return {
+    type: CREATE_USER_SUCCESS,
+  };
+};
+
+export const createUsersError = () => {
+  return {
+    type: CREATE_USER_ERROR,
+  };
+};
+
+export const createNewUsersRedux = (user) => {
+  return async (dispatch, getState) => {
+    dispatch(createUsersRequest());
+    try {
+      let res = await axios.post("http://localhost:8000/api/register", user);
+      if (res.data.status === 200) {
+        dispatch(createUsersSuccess());
+        dispatch(fetchAllUsers());
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(createUsersError());
+    }
+  }
+}
+
+// Delete User
+// export const deleteUsersSuccess = () => {
+//   return{
+//     type: DELETE_USER_SUCCESS,
+//   }
+// }
+
+// export const deleteUser = (id) =>{
+//   return async (dispatch, getState) => {
+//     try{
+//       let res = await axios.delete(`http://localhost:8000/api/delete-book/${id}`)
+//       if (res && res.data.status === 200){
+//         dispatch(deleteUsersSuccess());
+//         dispatch(fetchAllUsers());
+//       }
+//     } catch (error){
+
+//     }
+//   }
+// }
 
 // Infor Products
 export const fetchProductsRequest = () => {
@@ -274,5 +339,206 @@ export const createNewProductsRedux = (product) => {
       console.log(error);
       dispatch(createProductsError());
     }
+  }
+}
+
+// Delete Product
+export const deleteProductsSuccess = () => {
+  return{
+    type: DELETE_PRODUCT_SUCCESS,
+  }
+}
+
+export const deleteProduct = (id) =>{
+  return async (dispatch, getState) => {
+    try{
+      let res = await axios.delete(`http://localhost:8000/api/delete-book/${id}`)
+      if (res && res.data.status === 200){
+        dispatch(deleteProductsSuccess());
+        dispatch(fetchAllProducts());
+      }
+    } catch (error){
+
+    }
+  }
+}
+
+
+// Infor Authors
+export const fetchAuthorsRequest = () => {
+  return {
+    type: FETCH_AUTHOR_REQUEST,
   };
 };
+
+export const fetchAuthorsSuccess = (data) => {
+  return {
+    type: FETCH_AUTHOR_SUCCESS,
+    dataAuthors: data,
+  };
+};
+
+export const fetchAuthorsError = () => {
+  return {
+    type: FETCH_AUTHOR_ERROR,
+  };
+};
+
+export const fetchAllAuthors = () => {
+  return async (dispatch, getState) => {
+    dispatch(fetchAuthorsRequest());
+    try {
+      const res = await axios.get("http://localhost:8000/api/author");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchAuthorsSuccess(data));
+    } catch (error) {
+      dispatch(fetchAuthorsError());
+    }
+  };
+};
+
+// CREATE Author
+export const createAuthorsRequest = () => {
+  return{
+    type: CREATE_AUTHOR_REQUEST
+  }
+}
+
+export const createAuthorsSuccess = () => {
+  return{
+    type: CREATE_AUTHOR_SUCCESS,
+  }
+}
+
+export const createAuthorsError= () => {
+  return{
+    type: CREATE_AUTHOR_ERROR
+  }
+}
+
+export const createNewAuthor = (Author) => {
+  return async (dispatch, getState) =>{
+    dispatch(createAuthorsRequest())
+    try{
+      let res = await axios.post("http://localhost:8000/api/add-author", Author)
+      console.log(res.data)
+      if (res.data.status === 200) {
+        dispatch(createAuthorsSuccess());
+        dispatch(fetchAllAuthors());
+      }
+    }catch (error) {
+      dispatch(createAuthorsError())
+    }
+  }
+}
+
+// Delete Author
+export const deleteAuthorsSuccess = () => {
+  return{
+    type: DELETE_AUTHOR_SUCCESS,
+  }
+}
+
+export const deleteAuthor = (id) =>{
+  return async (dispatch, getState) => {
+    try{
+      let res = await axios.delete(`http://localhost:8000/api/delete-author/${id}`)
+      if (res && res.data.status === 200){
+        dispatch(deleteAuthorsSuccess());
+        dispatch(fetchAllAuthors());
+      }
+    } catch (error){
+
+    }
+  }
+}
+
+// Infor Categorys
+export const fetchCategorysRequest = () => {
+  return{
+    type: FETCH_CATEGORY_REQUEST
+  }
+}
+
+export const fetchCategorysSuccess = (data) => {
+  return{
+    type: FETCH_CATEGORY_SUCCESS,
+    dataCategorys: data
+  }
+}
+
+export const fetchCategorysError= () => {
+  return{
+    type: FETCH_CATEGORY_ERROR
+  }
+}
+
+export const fetchAllCategorys = () => {
+  return async (dispatch, getState) => {
+    dispatch(fetchCategorysRequest())
+    try{
+      const res = await axios.get("http://localhost:8000/api/category");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchCategorysSuccess(data))
+    }catch(error){
+      dispatch(fetchCategorysError)
+    }
+  }
+}
+
+// Create Categorys
+export const createCategorysRequest = () => {
+  return{
+    type: CREATE_CATEGORY_REQUEST
+  }
+}
+
+export const createCategorysSuccess = () => {
+  return{
+    type: CREATE_CATEGORY_SUCCESS,
+  }
+}
+
+export const createCategorysError= () => {
+  return{
+    type: CREATE_CATEGORY_ERROR
+  }
+}
+
+export const createNewCategory = (tl_name) => {
+  return async (dispatch, getState) =>{
+    dispatch(createCategorysRequest())
+    try{
+      let res = await axios.post("http://localhost:8000/api/add-category", tl_name)
+      console.log(res.data)
+      if (res.data.status === 200) {
+        dispatch(createCategorysSuccess());
+        dispatch(fetchAllCategorys());
+      }
+    }catch (error) {
+      dispatch(createCategorysError())
+    }
+  }
+}
+
+// Delete Categorys
+export const deleteCategorysSuccess = () => {
+  return{
+    type: DELETE_CATEGORY_SUCCESS,
+  }
+}
+
+export const deleteCategory = (id) =>{
+  return async (dispatch, getState) => {
+    try{
+      let res = await axios.delete(`http://localhost:8000/api/delete-category/${id}`)
+      if (res && res.data.status === 200){
+        dispatch(deleteCategorysSuccess());
+        dispatch(fetchAllCategorys());
+      }
+    } catch (error){
+
+    }
+  }
+}
+

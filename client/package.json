@@ -40,7 +40,8 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.49.11",
     "simplebar": "^5.3.6",
-    "simplebar-react": "^2.3.7"
+    "simplebar-react": "^2.3.7",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

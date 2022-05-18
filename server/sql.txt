@@ -1,0 +1,15 @@
+insert into tb_authors values
+                           (1,'hien1','ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main ','2001/04/29','test.png',null,null),
+                           (2,'Hải Hồ Minh','ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main ','2001/04/29','test.png',null,null),
+                           (3,'Đàm Văn Hiếu','ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main ','2001/04/29','test.png',null,null),
+                           (4,'Duyệt Ngọc Cỹ','ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main ','2001/04/29','test.png',null,null);
+insert into tb_categories values
+                              (1,'ngôn tình', null, null),
+                              (2,'Sách giáo khoa', null, null),
+                              (3,'Hành động', null, null),
+                              (4,'Blog', null, null);
+insert into tb_books values
+                         (1, 'Lập trình Java', 'ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main', 100000, 'Nhà sách Kim Đồng', 'test.png', 123, 1, 12, 2, 1, null, null),
+                         (2, 'Lập trình C#', 'ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main', 100000, 'Nhà sách Kim Đồng', 'test.png', 123, 0, 12, 4, 1,  null, null),
+                         (3, 'Lập trình Java', 'ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main', 100000, 'Nhà sách Kim Đồng', 'test.png', 123, 1, 12, 1, 3, null, null),
+                         (4, 'Lập trình Java', 'ReactJS bây giờ cũng phải code = Typescript luôn mới đỡ bug và dễ main', 100000, 'Nhà sách Kim Đồng', 'test.png', 123, 1, 12, 2, 1, null, null);
