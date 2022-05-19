@@ -14,11 +14,10 @@ import {
 const INITTAL_STATE = {
   user: {},
   isAuth: false,
-<<<<<<< HEAD
+
   listUser: [],
-=======
-  listUsers: []
->>>>>>> f9090686bae9882b225514398c4519abdfe64d1e
+
+  listUsers: [],
 };
 const userReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {

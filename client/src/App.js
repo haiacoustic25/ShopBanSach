@@ -38,8 +38,9 @@ function App() {
   }, []);
 
   const isAuth = useSelector((state) => state?.user.isAuth);
+
   const isAdmin = useSelector((state) => {
-    if (state.user) return state.user.user.user?.isAdmin;
+    return state?.user?.user?.user?.isAdmin;
   });
 
   return (
