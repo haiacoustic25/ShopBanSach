@@ -1,74 +1,89 @@
-import { useEffect  } from "react";
-import { Helmet } from 'react-helmet';
-import { Box, Card, CardHeader, Container, Divider, Grid, Typography } from '@material-ui/core';
-import { SummaryItem } from '../../Components/Dashboard/summary-item';
-import { PerformanceIndicators } from '../../Components/Dashboard/performance-indicators';
-import { OrdersTable } from '../../Components/orders/orders-table';
-import { Cube as CubeIcon } from '../../icons/cube';
-import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
-import { User as UserIcon } from '../../icons/user';
-import { Author as AuthorIcon } from '../../icons/author';
-import { Category as CategoryIcon } from '../../icons/category';
-import { latestOrders } from '../../../../Database/dashboard';
+import { useEffect } from "react";
+import { Helmet } from "react-helmet";
+import {
+  Box,
+  Card,
+  CardHeader,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@material-ui/core";
+import { SummaryItem } from "../../Components/Dashboard/summary-item";
+import { PerformanceIndicators } from "../../Components/Dashboard/performance-indicators";
+import { OrdersTable } from "../../Components/orders/orders-table";
+import { Cube as CubeIcon } from "../../icons/cube";
+import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
+import { User as UserIcon } from "../../icons/user";
+import { Author as AuthorIcon } from "../../icons/author";
+import { Category as CategoryIcon } from "../../icons/category";
+import { latestOrders } from "../../../../Database/dashboard";
 import { Link } from "react-router-dom";
-import Chart from 'react-apexcharts';
+import Chart from "react-apexcharts";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, fetchAllUsers } from "../../../../Redux/Action/action"
+import {
+  fetchAllCategorys,
+  fetchAllAuthors,
+  fetchAllProducts,
+  fetchAllUsers,
+} from "../../../../Redux/Action/action";
 
 const options = {
-    series: [10, 10, 10, 70],
-    labels: ["Complete", "Pending", "Cancelled", "Refunded"],
+  series: [10, 10, 10, 70],
+  labels: ["Complete", "Pending", "Cancelled", "Refunded"],
 };
 
 const series = [10, 10, 10, 70];
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
-  const listUsers = useSelector((state) => state.user.listUsers.users);
+  const listUsers = useSelector((state) => state.user.listUsers?.users);
   useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
+    dispatch(fetchAllUsers());
+  }, []);
 
-  const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
+  const listCategorys = useSelector(
+    (state) => state?.category.listCategorys.categories
+  );
   useEffect(() => {
-    dispatch(fetchAllCategorys())
-  }, [])
+    dispatch(fetchAllCategorys());
+  }, []);
 
   const listAuthors = useSelector((state) => state.author.listAuthors.authors);
   useEffect(() => {
-    dispatch(fetchAllAuthors())
-  }, [])
+    dispatch(fetchAllAuthors());
+  }, []);
 
   const listProducts = useSelector((state) => state.product.listProducts.books);
   useEffect(() => {
-    dispatch(fetchAllProducts())
-  }, [])
+    dispatch(fetchAllProducts());
+  }, []);
   const stats = [
     {
       content: listUsers?.length.toString(),
       icon: UserIcon,
-      label: 'Users'
+      label: "Users",
     },
     {
       content: listProducts?.length.toString(),
       icon: ShoppingCartIcon,
-      label: 'Products'
+      label: "Products",
     },
     {
-      content: '3450',
+      content: "3450",
       icon: CubeIcon,
-      label: 'Orders'
+      label: "Orders",
     },
     {
       content: listAuthors?.length.toString(),
       icon: AuthorIcon,
-      label: 'Authors'
+      label: "Authors",
     },
     {
       content: listCategorys?.length.toString(),
       icon: CategoryIcon,
-      label: 'Categorys'
-    }
+      label: "Categorys",
+    },
   ];
   return (
     <>
@@ -77,34 +92,20 @@ export const Dashboard = () => {
       </Helmet>
       <Box
         sx={{
-          backgroundColor: 'background.default',
+          backgroundColor: "background.default",
           pb: 3,
-          pt: 8
+          pt: 8,
         }}
       >
         <Container maxWidth="lg">
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              xs={12}
-            >
-              <Typography
-                color="textPrimary"
-                variant="h4"
-              >
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography color="textPrimary" variant="h4">
                 Dashboard
               </Typography>
             </Grid>
             {stats.map((item) => (
-              <Grid
-                item
-                key={item.label}
-                md={2.4}
-                xs={12}
-              >
+              <Grid item key={item.label} md={2.4} xs={12}>
                 <SummaryItem
                   content={item.content}
                   icon={item.icon}
@@ -118,11 +119,7 @@ export const Dashboard = () => {
             >
               <PerformanceIndicators />
             </Grid> */}
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item md={6} xs={12}>
               <Card variant="outlined">
                 <div>
                   <CardHeader title="Orders Overview" />
@@ -130,7 +127,7 @@ export const Dashboard = () => {
                 </div>
                 <div
                   style={{
-                    margin: 20
+                    margin: 20,
                   }}
                 >
                   <Chart
@@ -143,16 +140,17 @@ export const Dashboard = () => {
                 </div>
               </Card>
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item md={6} xs={12}>
               <Card variant="outlined">
-                <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <CardHeader title="Latest Orders" />
-                  <Link to='/admin/orders' style={{textDecoration: 'none', color: 'rgb(0, 170, 0)'}}>
-                    <CardHeader title="Go to orders"/>
+                  <Link
+                    to="/admin/orders"
+                    style={{ textDecoration: "none", color: "rgb(0, 170, 0)" }}
+                  >
+                    <CardHeader title="Go to orders" />
                   </Link>
                 </div>
                 <Divider />
@@ -163,5 +161,5 @@ export const Dashboard = () => {
         </Container>
       </Box>
     </>
-  )
+  );
 };
