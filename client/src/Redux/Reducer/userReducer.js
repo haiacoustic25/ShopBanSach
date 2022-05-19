@@ -14,7 +14,7 @@ import {
 const INITTAL_STATE = {
   user: {},
   isAuth: false,
-  listUser: []
+  listUser: [],
 };
 const userReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {
