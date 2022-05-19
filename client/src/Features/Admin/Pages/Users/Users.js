@@ -70,7 +70,7 @@ export const Users = () => {
   //   dispatch(fetchAllCategorys())
   // }, [])
   const [listUsers, setListUsers] = useState(rows);
-  const [editUser, setEditUser] = useState(null)
+  const [editData, setEditData] = useState('')
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
   const { 
     tblContainer, 
@@ -91,11 +91,14 @@ export const Users = () => {
   }
 
   const [open, setOpen] = useState(false);
-
-  const handleClickOpen = (User) => {
-    editUser(User);
+  const handleClickOpen = () => {
     setOpen(true);
   };
+  const handleEditUser = (User) =>{
+    handleClickOpen()
+    setEditData(null)
+    setEditData(User)
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -143,7 +146,7 @@ export const Users = () => {
                       marginTop: '12px',
                       marginBottom: '12px'
                     }}
-                    onChange={handleSearch}
+                    onChange={handleEditUser}
                 />
                 <Controls.Button 
                   text="Add New"
@@ -156,7 +159,7 @@ export const Users = () => {
                     lineHeight: '56px',
                     marginLeft: '32px'
                   }}
-                  onClick={() => { setOpen(true); setEditUser(null); }}
+                  onClick={() => { setOpen(true); }}
                 />
             </Toolbar>
             <tblContainer>
@@ -173,7 +176,7 @@ export const Users = () => {
                         </TableCell>
                         <TableCell>
                           <Controls.ActionButton
-                            onClick={() => { handleClickOpen(User) }}
+                            onClick={() => { handleEditUser(User) }}
                           >
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>

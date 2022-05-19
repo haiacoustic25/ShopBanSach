@@ -43,6 +43,7 @@ const headCells = [
 export const Products = () => {
   const dispatch = useDispatch();
   const listProducts = useSelector((state) => state.product.listProducts.books);
+  const [editData, setEditData] = useState('')
   useEffect(() => {
     dispatch(fetchAllProducts())
   }, [])
@@ -76,6 +77,11 @@ export const Products = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleEditProduct = (Product) =>{
+    handleClickOpen()
+    setEditData(null)
+    setEditData(Product)
+  }
 
   return (
     <>
@@ -154,7 +160,9 @@ export const Products = () => {
                           }
                         </TableCell>
                         <TableCell>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick = {() => handleEditProduct(Product)}
+                          >
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
                           <Controls.ActionButton

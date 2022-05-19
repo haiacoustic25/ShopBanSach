@@ -62,7 +62,7 @@ export const Sidebar = () => {
           height: 'calc(100% - 64px)',
           p: 1,
           top: 64,
-          width: 73
+          width: 100
         }
       }}
     >

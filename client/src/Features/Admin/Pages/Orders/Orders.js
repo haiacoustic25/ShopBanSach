@@ -65,6 +65,7 @@ export const Orders = () => {
 
   const [listUsers, setListUsers] = useState(rows);
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
+  const [editData, setEditData] = useState('')
   const { 
     tblContainer, 
     tblHead,
@@ -90,7 +91,15 @@ export const Orders = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleDeleteOrder = (User) =>{
+    // dispatch(deleteOrder(User.id))
+  }
 
+  const handleEditOrder = (User) =>{
+    handleClickOpen()
+    setEditData(null)
+    setEditData(User)
+  }
   return (
     <>
       <Helmet>
@@ -146,7 +155,7 @@ export const Orders = () => {
                     lineHeight: '56px',
                     marginLeft: '32px'
                   }}
-                  onClick={() => { setOpen(true)}}
+                  onClick={handleEditOrder}
                 />
             </Toolbar>
             <tblContainer>
@@ -162,10 +171,14 @@ export const Orders = () => {
                             {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
                         </TableCell>
                         <TableCell>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick = {() => handleEditOrder(User)}
+                          >
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick={() => {handleDeleteOrder(User)}}
+                          >
                             <DeleteOutlinedIcon fontSize="small" color="error"/>
                           </Controls.ActionButton>
                         </TableCell>
