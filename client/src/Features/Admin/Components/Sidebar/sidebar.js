@@ -1,4 +1,4 @@
-import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom';
+import { Link as RouterLink, matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Home as HomeIcon } from '../../icons/home';
 import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
@@ -7,6 +7,8 @@ import { Cube as CubeIcon } from '../../icons/cube';
 import { Logout as LogoutIcon } from '../../icons/logout';
 import { Author as AuthorIcon } from '../../icons/author';
 import { Category as CategoryIcon } from '../../icons/category';
+import { useDispatch } from "react-redux";
+import { logoutRedux } from "../../../../Redux/Action/action"
 
 const items = [
   {
@@ -48,7 +50,14 @@ const items = [
 
 export const Sidebar = () => {
   const location = useLocation();
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    setTimeout(() => {
+      dispatch(logoutRedux());
+      navigate("/")
+    }, 500);
+  };
   return (
     <Drawer
       open
@@ -76,6 +85,7 @@ export const Sidebar = () => {
               component={RouterLink}
               key={href}
               to={href}
+              onClick = {label === 'Logout' ? handleLogout : null}
               sx={{
                 flexDirection: 'column',
                 color: active ? 'rgb(0, 194, 0)' : 'text.secondary',
