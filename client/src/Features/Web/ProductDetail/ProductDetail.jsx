@@ -43,7 +43,7 @@ const ProductDetail = () => {
 
   const dispatch = useDispatch();
   const inforProduct = useSelector((state) => state.product.inforProductById);
-  const user = useSelector((state) => state.user.user.user);
+  const user = useSelector((state) => state?.user?.user?.user);
   const isAddProductIntoCart = useSelector(
     (state) => state.cart.isAddProductIntoCart
   );
