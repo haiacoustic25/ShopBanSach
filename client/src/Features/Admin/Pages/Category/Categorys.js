@@ -19,8 +19,10 @@ import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Popup from "../../Components/controls/Popup";
 import CategoryForm from "../../Components/Form/CategoryForm";
+import ModalEditCategory from "../../Components/Form/ModalEditCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategorys, deleteCategory } from "../../../../Redux/Action/action"
 
@@ -41,6 +43,7 @@ export const Categorys = () => {
 
   const dispatch = useDispatch();
   const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
+  const [editData, setEditData] = useState('')
   useEffect(() => {
     dispatch(fetchAllCategorys())
   }, [])
@@ -71,13 +74,24 @@ export const Categorys = () => {
   }
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleClickOpenEdit = () =>{
+    setOpenEdit(true)
+  }
+  const handleClickCloseEdit = () =>{
+    setOpenEdit(false);
+  }
+  const handleEditCategory = (Category) =>{
+    setOpenEdit(true)
+    setEditData(null)
+    setEditData(Category)
+  }
   return (
     <>
       <Helmet>
@@ -148,6 +162,11 @@ export const Categorys = () => {
                         </TableCell>
                         <TableCell>
                           <Controls.ActionButton
+                              onClick = {() => handleEditCategory(Category)}
+                          >
+                            <EditOutlinedIcon fontSize="small" color="success"/>
+                          </Controls.ActionButton>
+                          <Controls.ActionButton
                             onClick={() => {handleDeleteCategory(Category)}}
                           >
                             <DeleteOutlinedIcon fontSize="small" color="error"/>
@@ -170,6 +189,18 @@ export const Categorys = () => {
                 handleClose={handleClose}
               />
           </Popup>
+          {openEdit && 
+            <Popup
+              open={openEdit}
+              setOpen={handleClickOpenEdit}
+            >
+              <ModalEditCategory
+                Data={editData}
+                title="Edit Category" 
+                handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
         </Container>
       </Box>
     </>

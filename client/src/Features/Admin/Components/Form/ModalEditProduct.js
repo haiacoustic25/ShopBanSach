@@ -26,7 +26,7 @@ const productStatus = [
     }
 ]
 
-export default function ProductForm({title, handleClose}) {
+export default function ModalEditProduct({title, handleClose, Data}) {
     const dispatch = useDispatch();
     const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
     useEffect(() => {
@@ -39,17 +39,18 @@ export default function ProductForm({title, handleClose}) {
     }, [])
 
     const [registerData, setRegisterData] = useState({
-        s_name: "",
-        s_price: "",
-        s_nsx: "",
-        s_amount: "",
-        s_status: "",
-        s_discount: "",
-        author_id: "",
-        category_id: ""
+        s_name: Data.s_name,
+        s_price: Data.s_price,
+        s_nsx: Data.s_nsx,
+        s_amount: Data.s_amount,
+        s_status: Data.s_status,
+        s_discount: `${Data.s_discount} %`,
+        author_id: Data.author_id,
+        category_id: Data.category_id
     });
     const [registerError, setRegisterError] = useState({
         Error: "",
+        Error_discount: ""
     });
     const onChange = (event) => {
         setRegisterData({
@@ -75,7 +76,7 @@ export default function ProductForm({title, handleClose}) {
             setRegisterError({
                 Error_discount: "Giảm giá trong khoảng 0 - 100",
             });
-        } else{
+        }else{
             let formData = new FormData();
             // formData.append("file_upload", fileUpload, fileUpload.name);
       
@@ -243,6 +244,7 @@ export default function ProductForm({title, handleClose}) {
                                     {registerError.Error_discount}
                                 </FormHelperText>
                             )}
+                            <br></br>
                             <FormControl>
                                 <TextField
                                     id="filled-textarea"
@@ -317,7 +319,7 @@ export default function ProductForm({title, handleClose}) {
                             type='submit'
                             style={{borderRadius:'5px'}}
                         >
-                            Add
+                            Update
                         </button>
                     </div>
                 </form>

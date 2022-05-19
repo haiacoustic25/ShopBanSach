@@ -24,6 +24,7 @@ import Popup from "../../Components/controls/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
 import ProductForm from "../../Components/Form/ProductForm";
+import ModalEditProduct from "../../Components/Form/ModalEditProduct";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -43,6 +44,7 @@ const headCells = [
 export const Products = () => {
   const dispatch = useDispatch();
   const listProducts = useSelector((state) => state.product.listProducts.books);
+  const [editData, setEditData] = useState('')
   useEffect(() => {
     dispatch(fetchAllProducts())
   }, [])
@@ -70,12 +72,24 @@ export const Products = () => {
   }
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleClickOpenEdit = () =>{
+    setOpenEdit(true)
+  }
+  const handleClickCloseEdit = () =>{
+    setOpenEdit(false);
+  }
+  const handleEditProduct = (Category) =>{
+    setOpenEdit(true)
+    setEditData(null)
+    setEditData(Category)
+  }
 
   return (
     <>
@@ -154,7 +168,9 @@ export const Products = () => {
                           }
                         </TableCell>
                         <TableCell>
-                          <Controls.ActionButton>
+                          <Controls.ActionButton
+                            onClick = {() => handleEditProduct(Product)}
+                          >
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
                           <Controls.ActionButton
@@ -180,6 +196,18 @@ export const Products = () => {
                 handleClose={handleClose}
               />
           </Popup>
+          {openEdit && 
+            <Popup
+              open={openEdit}
+              setOpen={handleClickOpenEdit}
+            >
+              <ModalEditProduct
+                Data={editData}
+                title="Edit Product" 
+                handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
         </Container>
       </Box>
     </>
