@@ -13,6 +13,10 @@ import {
     Fab,
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 export default function AuthorForm({title, handleClose}) {
     const dispatch = useDispatch();
@@ -43,6 +47,7 @@ export default function AuthorForm({title, handleClose}) {
             Object.keys(data).forEach((key) => {
               formData.append(`${key}`, data[key]);
             });
+            NotificationManager.success("Add Success", "", 2000);
             dispatch(createNewAuthor(formData));
             handleClose();
         }
@@ -178,6 +183,7 @@ export default function AuthorForm({title, handleClose}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

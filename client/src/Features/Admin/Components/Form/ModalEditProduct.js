@@ -14,7 +14,11 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
-
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
+  
 const productStatus = [
     {
         value: 0,
@@ -83,6 +87,7 @@ export default function ModalEditProduct({title, handleClose, Data}) {
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
+            NotificationManager.success("Update Success", "", 2000);
             dispatch(createNewProductsRedux(formData))
             handleClose();
         }
@@ -323,6 +328,7 @@ export default function ModalEditProduct({title, handleClose, Data}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

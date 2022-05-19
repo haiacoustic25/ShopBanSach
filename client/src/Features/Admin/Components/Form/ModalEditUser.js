@@ -14,6 +14,10 @@ import {
     MenuItem
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 const userRole = [
     {
@@ -39,7 +43,6 @@ export default function ModalEditUser({title, handleClose, Data}) {
         isAdmin: Data.isAdmin
       });
     const [registerError, setRegisterError] = useState({
-        Error_Password: "",
         Error: "",
         Error_Phone: ""
     });
@@ -54,7 +57,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
             registerData.name === "" ||
             registerData.email === "" ||
             registerData.username === "" ||
-            registerData.password === "" ||
+            // registerData.password === "" ||
             // registerData.address === "" ||
             registerData.phone === "" ||
             registerData.isAdmin === ""
@@ -62,11 +65,13 @@ export default function ModalEditUser({title, handleClose, Data}) {
             setRegisterError({
               Error: "Nhập đầy đủ thông tin",
             });
-          } else if (registerData.password.length < 8) {
-            setRegisterError({
-              Error_Password: "Mật khẩu ít nhất 8 kí tự",
-            });
-          } else if (registerData.phone.length > 10) {
+          } 
+        //   else if (registerData.password.length < 8) {
+        //     setRegisterError({
+        //       Error_Password: "Mật khẩu ít nhất 8 kí tự",
+        //     });
+        //   } 
+          else if (registerData.phone.length > 10) {
             setRegisterError({
               Error_Phone: "Điện thoại nhiều nhất 10 kí tự",
             });
@@ -77,6 +82,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
+            NotificationManager.success("Update Success", "", 2000);
             dispatch(createNewUsersRedux(formData));
             handleClose();
           }
@@ -168,7 +174,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
                                 disabled
                                 />
                             </FormControl>
-                            <br></br>
+                            {/* <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
                                     <div >
@@ -196,7 +202,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
                                         {registerError.Error_Password}
                                     </FormHelperText>
                                 )}
-                            </FormControl>
+                            </FormControl> */}
                             <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
@@ -308,6 +314,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

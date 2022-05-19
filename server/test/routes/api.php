@@ -55,7 +55,7 @@ Route::delete('/delete-book/{id}',[BookController::class, 'deleteById']);
 
 // user
 
-Route::get('/user',[AuthController::class,'show']);
+Route::get('/get-user',[AuthController::class,'show']);
 
 Route::post('/register', [AuthController::class,'store']);
 

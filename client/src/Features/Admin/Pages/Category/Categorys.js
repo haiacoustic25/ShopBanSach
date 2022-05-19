@@ -25,6 +25,10 @@ import CategoryForm from "../../Components/Form/CategoryForm";
 import ModalEditCategory from "../../Components/Form/ModalEditCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategorys, deleteCategory } from "../../../../Redux/Action/action"
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -50,8 +54,10 @@ export const Categorys = () => {
 
   const handleDeleteCategory = (Category) => {
     dispatch(deleteCategory(Category.id))
+    setTimeout(function(){
+      NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
   }
-
 
   const [filterFn, setFilterFn] = useState({ fn: Categorys => { return Categorys; } })
   const { 
@@ -202,6 +208,7 @@ export const Categorys = () => {
             </Popup>
           }
         </Container>
+        <NotificationContainer />
       </Box>
     </>
   );

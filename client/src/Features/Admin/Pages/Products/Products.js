@@ -25,6 +25,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
 import ProductForm from "../../Components/Form/ProductForm";
 import ModalEditProduct from "../../Components/Form/ModalEditProduct";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -51,6 +55,9 @@ export const Products = () => {
 
   const handleDeleteProduct = (Product) => {
     dispatch(deleteProduct(Product.id))
+    setTimeout(function(){
+      NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
   }
   const [filterFn, setFilterFn] = useState({ fn: Products => { return Products; } })
   const { 
@@ -85,10 +92,10 @@ export const Products = () => {
   const handleClickCloseEdit = () =>{
     setOpenEdit(false);
   }
-  const handleEditProduct = (Category) =>{
+  const handleEditProduct = (Product) =>{
     setOpenEdit(true)
     setEditData(null)
-    setEditData(Category)
+    setEditData(Product)
   }
 
   return (
@@ -209,6 +216,7 @@ export const Products = () => {
             </Popup>
           }
         </Container>
+        <NotificationContainer />
       </Box>
     </>
   );

@@ -204,7 +204,7 @@ export const fetchAllUsers = () => {
   return async (dispatch, getState) => {
     dispatch(fetchUsersRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/user");
+      const res = await axios.get("http://localhost:8000/api/get-user");
       const data = res && res.data ? res.data : [];
       dispatch(fetchUsersSuccess(data));
     } catch (error) {

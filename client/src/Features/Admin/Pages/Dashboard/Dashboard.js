@@ -13,7 +13,7 @@ import { latestOrders } from '../../../../Database/dashboard';
 import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, fetchAllUsers } from "../../../../Redux/Action/action"
 
 const options = {
     series: [10, 10, 10, 70],
@@ -24,6 +24,11 @@ const series = [10, 10, 10, 70];
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
+  const listUsers = useSelector((state) => state.user.listUsers.users);
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+  }, [])
+
   const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
   useEffect(() => {
     dispatch(fetchAllCategorys())
@@ -40,7 +45,7 @@ export const Dashboard = () => {
   }, [])
   const stats = [
     {
-      content: '3456',
+      content: listUsers?.length.toString(),
       icon: UserIcon,
       label: 'Users'
     },
