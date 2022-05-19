@@ -30,9 +30,12 @@ import {
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
-  FETCH_CART_REQUUEST,
+  FETCH_CART_REQUEST,
   FETCH_CART_ERROR,
   FETCH_CART_SUCCESS,
+  ADD_PRODUCT_INTO_CART_REQUEST,
+  ADD_PRODUCT_INTO_CART_ERROR,
+  ADD_PRODUCT_INTO_CART_SUCCESS,
   FETCH_AUTHOR_REQUEST,
   FETCH_AUTHOR_SUCCESS,
   FETCH_AUTHOR_ERROR,
@@ -111,7 +114,7 @@ export const logoutRedux = () => {
 // cart
 export const fetchCartRequest = () => {
   return {
-    type: FETCH_CART_REQUUEST,
+    type: FETCH_CART_REQUEST,
   };
 };
 export const fetchCartSuccess = (payload) => {
@@ -136,6 +139,43 @@ export const fetchAllCartReduct = (username) => {
       if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
     } catch (error) {
       dispatch(fetchCartError());
+    }
+  };
+};
+
+// add product into cart
+export const addProductIntoCartRequest = () => {
+  return { type: ADD_PRODUCT_INTO_CART_REQUEST };
+};
+export const addProductIntoCartSuccess = () => {
+  return { type: ADD_PRODUCT_INTO_CART_SUCCESS };
+};
+export const addProductIntoCartError = () => {
+  return { type: ADD_PRODUCT_INTO_CART_ERROR };
+};
+
+export const addProductIntoCartRedux = (
+  { cart_id, book_id, gh_amount },
+  username
+) => {
+  return async (dispatch, getState) => {
+    dispatch(addProductIntoCartRequest());
+    try {
+      const sendData = {
+        cart_id,
+        book_id,
+        gh_amount,
+      };
+      const res = await axios.post(
+        "http://localhost:8000/api/add-cart",
+        sendData
+      );
+      if (res.data.status === 200) {
+        dispatch(addProductIntoCartSuccess());
+        dispatch(fetchAllCartReduct(username));
+      }
+    } catch (error) {
+      dispatch(addProductIntoCartError());
     }
   };
 };
@@ -198,8 +238,8 @@ export const createNewUsersRedux = (user) => {
       console.log(error);
       dispatch(createUsersError());
     }
-  }
-}
+  };
+};
 
 // Delete User
 // export const deleteUsersSuccess = () => {
@@ -308,30 +348,29 @@ export const createNewProductsRedux = (product) => {
       console.log(error);
       dispatch(createProductsError());
     }
-  }
-}
+  };
+};
 
 // Delete Product
 export const deleteProductsSuccess = () => {
-  return{
+  return {
     type: DELETE_PRODUCT_SUCCESS,
-  }
-}
+  };
+};
 
-export const deleteProduct = (id) =>{
+export const deleteProduct = (id) => {
   return async (dispatch, getState) => {
-    try{
-      let res = await axios.delete(`http://localhost:8000/api/delete-book/${id}`)
-      if (res && res.data.status === 200){
+    try {
+      let res = await axios.delete(
+        `http://localhost:8000/api/delete-book/${id}`
+      );
+      if (res && res.data.status === 200) {
         dispatch(deleteProductsSuccess());
         dispatch(fetchAllProducts());
       }
-    } catch (error){
-
-    }
-  }
-}
-
+    } catch (error) {}
+  };
+};
 
 // Infor Authors
 export const fetchAuthorsRequest = () => {
@@ -368,146 +407,151 @@ export const fetchAllAuthors = () => {
 
 // CREATE Author
 export const createAuthorsRequest = () => {
-  return{
-    type: CREATE_AUTHOR_REQUEST
-  }
-}
+  return {
+    type: CREATE_AUTHOR_REQUEST,
+  };
+};
 
 export const createAuthorsSuccess = () => {
-  return{
+  return {
     type: CREATE_AUTHOR_SUCCESS,
-  }
-}
+  };
+};
 
-export const createAuthorsError= () => {
-  return{
-    type: CREATE_AUTHOR_ERROR
-  }
-}
+export const createAuthorsError = () => {
+  return {
+    type: CREATE_AUTHOR_ERROR,
+  };
+};
 
 export const createNewAuthor = (Author) => {
-  return async (dispatch, getState) =>{
-    dispatch(createAuthorsRequest())
-    try{
-      let res = await axios.post("http://localhost:8000/api/add-author", Author)
-      console.log(res.data)
+  return async (dispatch, getState) => {
+    dispatch(createAuthorsRequest());
+    try {
+      let res = await axios.post(
+        "http://localhost:8000/api/add-author",
+        Author
+      );
+      console.log(res.data);
       if (res.data.status === 200) {
         dispatch(createAuthorsSuccess());
         dispatch(fetchAllAuthors());
       }
-    }catch (error) {
-      dispatch(createAuthorsError())
+    } catch (error) {
+      dispatch(createAuthorsError());
     }
-  }
-}
+  };
+};
 
 // Delete Author
 export const deleteAuthorsSuccess = () => {
-  return{
+  return {
     type: DELETE_AUTHOR_SUCCESS,
-  }
-}
+  };
+};
 
-export const deleteAuthor = (id) =>{
+export const deleteAuthor = (id) => {
   return async (dispatch, getState) => {
-    try{
-      let res = await axios.delete(`http://localhost:8000/api/delete-author/${id}`)
-      if (res && res.data.status === 200){
+    try {
+      let res = await axios.delete(
+        `http://localhost:8000/api/delete-author/${id}`
+      );
+      if (res && res.data.status === 200) {
         dispatch(deleteAuthorsSuccess());
         dispatch(fetchAllAuthors());
       }
-    } catch (error){
-
-    }
-  }
-}
+    } catch (error) {}
+  };
+};
 
 // Infor Categorys
 export const fetchCategorysRequest = () => {
-  return{
-    type: FETCH_CATEGORY_REQUEST
-  }
-}
+  return {
+    type: FETCH_CATEGORY_REQUEST,
+  };
+};
 
 export const fetchCategorysSuccess = (data) => {
-  return{
+  return {
     type: FETCH_CATEGORY_SUCCESS,
-    dataCategorys: data
-  }
-}
+    dataCategorys: data,
+  };
+};
 
-export const fetchCategorysError= () => {
-  return{
-    type: FETCH_CATEGORY_ERROR
-  }
-}
+export const fetchCategorysError = () => {
+  return {
+    type: FETCH_CATEGORY_ERROR,
+  };
+};
 
 export const fetchAllCategorys = () => {
   return async (dispatch, getState) => {
-    dispatch(fetchCategorysRequest())
-    try{
+    dispatch(fetchCategorysRequest());
+    try {
       const res = await axios.get("http://localhost:8000/api/category");
       const data = res && res.data ? res.data : [];
-      dispatch(fetchCategorysSuccess(data))
-    }catch(error){
-      dispatch(fetchCategorysError)
+      dispatch(fetchCategorysSuccess(data));
+    } catch (error) {
+      dispatch(fetchCategorysError);
     }
-  }
-}
+  };
+};
 
 // Create Categorys
 export const createCategorysRequest = () => {
-  return{
-    type: CREATE_CATEGORY_REQUEST
-  }
-}
+  return {
+    type: CREATE_CATEGORY_REQUEST,
+  };
+};
 
 export const createCategorysSuccess = () => {
-  return{
+  return {
     type: CREATE_CATEGORY_SUCCESS,
-  }
-}
+  };
+};
 
-export const createCategorysError= () => {
-  return{
-    type: CREATE_CATEGORY_ERROR
-  }
-}
+export const createCategorysError = () => {
+  return {
+    type: CREATE_CATEGORY_ERROR,
+  };
+};
 
 export const createNewCategory = (tl_name) => {
-  return async (dispatch, getState) =>{
-    dispatch(createCategorysRequest())
-    try{
-      let res = await axios.post("http://localhost:8000/api/add-category", tl_name)
-      console.log(res.data)
+  return async (dispatch, getState) => {
+    dispatch(createCategorysRequest());
+    try {
+      let res = await axios.post(
+        "http://localhost:8000/api/add-category",
+        tl_name
+      );
+      console.log(res.data);
       if (res.data.status === 200) {
         dispatch(createCategorysSuccess());
         dispatch(fetchAllCategorys());
       }
-    }catch (error) {
-      dispatch(createCategorysError())
+    } catch (error) {
+      dispatch(createCategorysError());
     }
-  }
-}
+  };
+};
 
 // Delete Categorys
 export const deleteCategorysSuccess = () => {
-  return{
+  return {
     type: DELETE_CATEGORY_SUCCESS,
-  }
-}
+  };
+};
 
-export const deleteCategory = (id) =>{
+export const deleteCategory = (id) => {
   return async (dispatch, getState) => {
-    try{
-      let res = await axios.delete(`http://localhost:8000/api/delete-category/${id}`)
-      if (res && res.data.status === 200){
+    try {
+      let res = await axios.delete(
+        `http://localhost:8000/api/delete-category/${id}`
+      );
+      if (res && res.data.status === 200) {
         dispatch(deleteCategorysSuccess());
         dispatch(fetchAllCategorys());
       }
-    } catch (error){
-
-    }
-  }
-}
-
+    } catch (error) {}
+  };
+};
