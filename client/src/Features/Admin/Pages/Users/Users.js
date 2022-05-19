@@ -33,44 +33,21 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }));
 
-function createData(id, name, phone, email, created, img) {
-  return {
-    name,
-    phone,
-    email,
-    created,
-    img
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', '814-804-8230', 'wengallg@state.tx.us', new Date('2021-09-09T10:10:45.475Z'),'../../../../Assets/Img/ProductTest.png'),
-  createData(2, 'Donut', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(3, 'Eclair', '440-345-1150', 'sodocherty4@army.mil', new Date('2021-09-09T10:10:45.475Z')),
-  createData(4, 'Frozen yoghurt', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(5, 'Gingerbread', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(6, 'Honeycomb', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(7, 'Ice cream sandwich', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(8, 'Jelly Bean', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(9, 'KitKat', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-];
-
 const headCells = [
   { id: 'name', label: 'NAME'},
-  { id: 'phone', label: 'PHONE'},
   { id: 'email', label: 'EMAIL'},
-  { id: 'created', label: 'CREATED', disableSorting: true},
+  { id: 'phone', label: 'PHONE'},
+  { id: 'isAdmin', label: 'ROLE', disableSorting: true},
   { id: 'actions', label: 'ACTIONS', disableSorting: true},
 ];
 
 export const Users = () => {
   const dispatch = useDispatch();
-  // const listUsers = useSelector((state) => state?.user.listUser);
-  // useEffect(() => {
-  //   dispatch(fetchAllUsers())
-  // }, [])
+  const listUsers = useSelector((state) => state.user.listUsers.users);
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+  }, [])
   const [editData, setEditData] = useState('')
-  const [listUsers, setListUsers] = useState(rows);
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
   const { 
     tblContainer, 
@@ -172,13 +149,13 @@ export const Users = () => {
               { tblHead() }
               <TableBody>
                 {
-                  daTaAfterPagingAndSorting().map(User => (
+                  daTaAfterPagingAndSorting()?.map(User => (
                       <StyledTableRow key={User.id}>
-                        <TableCell width={400} align="left">{User.name}</TableCell>
-                        <TableCell width={400}>{User.phone}</TableCell>
-                        <TableCell width={400}>{User.email}</TableCell>
-                        <TableCell width={400}>
-                            {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
+                        <TableCell >{User.name}</TableCell>
+                        <TableCell >{User.email}</TableCell>
+                        <TableCell >{User.phone}</TableCell>
+                        <TableCell >
+                            {User.isAdmin === 1 ? 'Admin' : 'User'}
                         </TableCell>
                         <TableCell>
                           <Controls.ActionButton

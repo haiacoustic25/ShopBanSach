@@ -14,7 +14,7 @@ import {
 const INITTAL_STATE = {
   user: {},
   isAuth: false,
-  listUser: []
+  listUsers: []
 };
 const userReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {
@@ -50,7 +50,7 @@ const userReducer = (state = INITTAL_STATE, action) => {
     case FETCH_USER_SUCCESS: {
       return {
         ...state,
-        listUser: action.dataUsers,
+        listUsers: action.payload,
       };
     }
     case FETCH_USER_ERROR: {
@@ -63,9 +63,9 @@ const userReducer = (state = INITTAL_STATE, action) => {
     case LOGOUT_SUCCESS: {
       return { isAuth: false };
     }
-    default: {
-      return { ...state };
-    }
+
+    default:
+      return state;
   }
 };
 

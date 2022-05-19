@@ -85,10 +85,10 @@ export const Products = () => {
   const handleClickCloseEdit = () =>{
     setOpenEdit(false);
   }
-  const handleEditProduct = (Category) =>{
+  const handleEditProduct = (Product) =>{
     setOpenEdit(true)
     setEditData(null)
-    setEditData(Category)
+    setEditData(Product)
   }
 
   return (
