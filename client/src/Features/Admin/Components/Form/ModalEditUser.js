@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { createNewUsersRedux } from '../../../../Redux/Action/action'
 import './Form.scss';
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
@@ -7,84 +9,77 @@ import {
     FormControl,
     InputLabel,
     TextField,
-    MenuItem,
-    FormHelperText,
     Fab,
+    FormHelperText,
+    MenuItem
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
 
-const productStatus = [
-    {
-        value: 0,
-        label: 'Draft'
-    },
+const userRole = [
     {
         value: 1,
-        label: 'Published'
+        label: 'Admin'
+    },
+    {
+        value: 0,
+        label: 'User'
     }
 ]
 
-export default function ProductForm({title, handleClose}) {
+export default function ModalEditUser({title, handleClose, Data}) {
     const dispatch = useDispatch();
-    const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
-    useEffect(() => {
-        dispatch(fetchAllCategorys())
-    }, [])
-    console.log(listCategorys)
-    const listAuthors = useSelector((state) => state.author.listAuthors.authors);
-    useEffect(() => {
-        dispatch(fetchAllAuthors())
-    }, [])
-
     const [registerData, setRegisterData] = useState({
-        s_name: "",
-        s_price: "",
-        s_nsx: "",
-        s_amount: "",
-        s_status: "",
-        s_discount: "",
-        author_id: "",
-        category_id: ""
-    });
+        name: Data.name,
+        username: Data.username,
+        email: Data.email,
+        password: Data.password,
+        address: Data.address,
+        phone: Data.phone,
+        email: Data.email,
+        isAdmin: Data.isAdmin
+      });
     const [registerError, setRegisterError] = useState({
+        Error_Password: "",
         Error: "",
+        Error_Phone: ""
     });
     const onChange = (event) => {
         setRegisterData({
             ...registerData,
             [event.target.name]: event.target.value,
     })};
-    const handleCreateNewProduct = (event) =>{
+    const handleCreateNewUser = (event) =>{
         event.preventDefault();
         if (
-            registerData.s_name === "" ||
-            registerData.s_price === "" ||
-            registerData.s_nsx === "" ||
-            registerData.s_amount === "" ||
-            registerData.author_id === "" ||
-            registerData.category_id === "" ||
-            registerData.s_status === "" ||
-            registerData.s_discount === ""
+            registerData.name === "" ||
+            registerData.email === "" ||
+            registerData.username === "" ||
+            registerData.password === "" ||
+            // registerData.address === "" ||
+            registerData.phone === "" ||
+            registerData.isAdmin === ""
           ) {
             setRegisterError({
               Error: "Nhập đầy đủ thông tin",
             });
-        } else if (registerData.Error_discount > 100 && registerData.Error_discount < 0) {
+          } else if (registerData.password.length < 8) {
             setRegisterError({
-                Error_discount: "Giảm giá trong khoảng 0 - 100",
+              Error_Password: "Mật khẩu ít nhất 8 kí tự",
             });
-        } else{
+          } else if (registerData.phone.length > 10) {
+            setRegisterError({
+              Error_Phone: "Điện thoại nhiều nhất 10 kí tự",
+            });
+          } else {
             let formData = new FormData();
             // formData.append("file_upload", fileUpload, fileUpload.name);
       
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
-            dispatch(createNewProductsRedux(formData))
+            dispatch(createNewUsersRedux(formData));
             handleClose();
-        }
+          }
     }
     const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
@@ -107,6 +102,7 @@ export default function ProductForm({title, handleClose}) {
           setFileUpload(e.target.files[0]);
         }
     };
+
     const styleInput = {
         width: "350px",
         marginBottom: "20px",
@@ -118,17 +114,17 @@ export default function ProductForm({title, handleClose}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form onSubmit={handleCreateNewProduct}>
+                <form onSubmit={handleCreateNewUser}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
-                                Tên sách
+                                Họ và tên
                                 </InputLabel>
                                 <OutlinedInput
                                 type="text"
-                                name="s_name"
-                                value={registerData.s_name}
+                                name="name"
+                                value={registerData.name}
                                 onChange={onChange}
                                 label="Họ và tên"
                                 style={{
@@ -140,118 +136,109 @@ export default function ProductForm({title, handleClose}) {
                             </FormControl>
                             <br></br>
                             <FormControl>
-                                <TextField
-                                    id="outlined-select-currency"
-                                    select
-                                    name='category_id'
-                                    label="Thể loại"
-                                    value={registerData.category_id}
-                                    onChange={onChange}
-                                    style={styleInput}
+                                <InputLabel htmlFor="outlined-adornment-password">
+                                    <div >
+                                        Email
+                                    </div>
+                                </InputLabel>
+                                <OutlinedInput
+                                type="email"
+                                name="email"
+                                value={registerData.email}
+                                onChange={onChange}
+                                label="Email"
+                                style={styleInput}
+                                disabled
+                                />
+                            </FormControl>
+                            <br></br>
+                            <FormControl>
+                                <InputLabel htmlFor="outlined-adornment-password">
+                                    <div >
+                                        Tên đăng nhập
+                                    </div>
+                                </InputLabel>
+                                <OutlinedInput
+                                type="text"
+                                name="username"
+                                value={registerData.username}
+                                onChange={onChange}
+                                label="Username"
+                                style={styleInput}
+                                disabled
+                                />
+                            </FormControl>
+                            <br></br>
+                            <FormControl>
+                                <InputLabel htmlFor="outlined-adornment-password">
+                                    <div >
+                                        Mật khẩu
+                                    </div>
+                                </InputLabel>
+                                <OutlinedInput
+                                type="password"
+                                name="password"
+                                value={registerData.password}
+                                onChange={onChange}
+                                label="Password"
+                                style={styleInput}
+                                disabled
+                                />
+                                {registerError.Error_Password !== "" && (
+                                    <FormHelperText
+                                        style={{
+                                        color: "red",
+                                        fontSize: "14px",
+                                        marginBottom: "15px",
+                                        marginTop: "-20px",
+                                        }}
                                     >
-                                    {listCategorys?.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            {option.tl_name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                        {registerError.Error_Password}
+                                    </FormHelperText>
+                                )}
                             </FormControl>
                             <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
-                                    Nhà xuất bản
+                                    <div >
+                                        Số điện thoại
+                                    </div>
                                 </InputLabel>
                                 <OutlinedInput
                                 type="text"
-                                name="s_nsx"
-                                value={registerData.s_nsx}
+                                name="phone"
+                                value={registerData.phone}
                                 onChange={onChange}
-                                label="Nhà xuất bản"
+                                label="Số điện thoại"
                                 style={styleInput}
                                 />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <TextField
-                                    id="outlined-select-currency"
-                                    select
-                                    name='author_id'
-                                    label="Tác giả"
-                                    value={registerData.author_id}
-                                    onChange={onChange}
-                                    style={styleInput}
+                                {registerError.Error_Phone !== "" && (
+                                    <FormHelperText
+                                        style={{
+                                        color: "red",
+                                        fontSize: "14px",
+                                        marginBottom: "15px",
+                                        marginTop: "-20px",
+                                        }}
                                     >
-                                    {listAuthors?.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            {option.tg_name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                        {registerError.Error_Phone}
+                                    </FormHelperText>
+                                )}
                             </FormControl>
                             <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
-                                    Giá tiền
+                                    <div >
+                                        Địa chỉ
+                                    </div>
                                 </InputLabel>
                                 <OutlinedInput
                                 type="text"
-                                name="s_price"
-                                value={registerData.s_price}
+                                name="address"
+                                value={registerData.address}
                                 onChange={onChange}
-                                label="Giá tiền"
+                                label="Địa chỉ"
                                 style={styleInput}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    Số lượng
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_amount"
-                                value={registerData.s_amount}
-                                onChange={onChange}
-                                label="Số lượng"
-                                style={styleInput}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    Giảm giá
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_discount"
-                                value={registerData.s_discount}
-                                onChange={onChange}
-                                label="Giảm giá"
-                                placeholder='20%'
-                                style={styleInput}
-                                />
-                            </FormControl>
-                            {registerError.Error_discount !== "" && (
-                                <FormHelperText
-                                    style={{
-                                    color: "red",
-                                    fontSize: "14px",
-                                    marginBottom: "15px",
-                                    marginTop: "-20px",
-                                    }}
-                                >
-                                    {registerError.Error_discount}
-                                </FormHelperText>
-                            )}
-                            <FormControl>
-                                <TextField
-                                    id="filled-textarea"
-                                    label="Mô tả"
-                                    name="s_description"
-                                    value={registerData.s_description}
-                                    onChange={onChange}
-                                    multiline
-                                    style={styleInput}
                                 />
                             </FormControl>
                             <br></br>
@@ -259,13 +246,13 @@ export default function ProductForm({title, handleClose}) {
                                 <TextField
                                     id="outlined-select-currency"
                                     select
-                                    name='s_status'
-                                    label="Status"
-                                    value={registerData.s_status}
+                                    name='isAdmin'
+                                    label="Chức năng"
+                                    value={registerData.isAdmin}
                                     onChange={onChange}
                                     style={styleInput}
                                     >
-                                    {productStatus.map((option) => (
+                                    {userRole.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
                                             {option.label}
                                         </MenuItem>
@@ -284,7 +271,7 @@ export default function ProductForm({title, handleClose}) {
                                 <input
                                 style={{ display: "none" }}
                                 id="upload-photo"
-                                name="tg_image"
+                                name="avatar"
                                 type="file"
                                 onChange={imageChange}
                                 />
@@ -317,7 +304,7 @@ export default function ProductForm({title, handleClose}) {
                             type='submit'
                             style={{borderRadius:'5px'}}
                         >
-                            Add
+                            Update
                         </button>
                     </div>
                 </form>

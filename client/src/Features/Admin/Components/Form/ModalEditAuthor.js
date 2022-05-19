@@ -14,12 +14,12 @@ import {
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 
-export default function AuthorForm({title, handleClose}) {
+export default function ModalEditAuthor({title, handleClose, Data}) {
     const dispatch = useDispatch();
     const [data, SetData] = useState({
-        tg_name: "",
-        tg_description: "",
-        tg_dob:""
+        tg_name: Data.tg_name,
+        tg_description: Data.tg_description,
+        tg_dob: format(new Date(Data.tg_dob), 'yyyy-MM-dd')
     })
     const [registerError, setRegisterError] = useState({
         Error: "",
@@ -174,7 +174,7 @@ export default function AuthorForm({title, handleClose}) {
                             type='submit'
                             style={{borderRadius:'5px'}}
                         >
-                            Add
+                            Update
                         </button>
                     </div>
                 </form>

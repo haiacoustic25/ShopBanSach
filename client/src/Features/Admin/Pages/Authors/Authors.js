@@ -25,6 +25,7 @@ import Popup from "../../Components/controls/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllAuthors, deleteAuthor } from "../../../../Redux/Action/action"
 import AuthorForm from "../../Components/Form/AuthorForm";
+import ModalEditAuthor from "../../Components/Form/ModalEditAuthor";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { getOptionGroupUnstyledUtilityClass } from "@mui/base";
 
@@ -75,14 +76,21 @@ export const Authors = () => {
   }
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleClickOpenEdit = () =>{
+    setOpenEdit(true)
+  }
+  const handleClickCloseEdit = () =>{
+    setOpenEdit(false);
+  }
   const handleEditAuthor = (Author) =>{
-    handleClickOpen()
+    setOpenEdit(true)
     setEditData(null)
     setEditData(Author)
   }
@@ -141,7 +149,7 @@ export const Authors = () => {
                     lineHeight: '56px',
                     marginLeft: '32px'
                   }}
-                  onClick={handleEditAuthor}
+                  onClick={handleClickOpen}
                 />
             </Toolbar>
             <tblContainer>
@@ -177,14 +185,25 @@ export const Authors = () => {
           </Paper>
           <Popup
             open={open}
-            setOpen={handleEditAuthor}
+            setOpen={handleClickOpen}
           >
               <AuthorForm
-                editData={editData}
                 title="Add New Author" 
                 handleClose={handleClose}
               />
           </Popup>
+          {openEdit && 
+            <Popup
+              open={openEdit}
+              setOpen={handleClickOpenEdit}
+            >
+              <ModalEditAuthor 
+                Data={editData}
+                title="Edit Author" 
+                handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
         </Container>
       </Box>
     </>

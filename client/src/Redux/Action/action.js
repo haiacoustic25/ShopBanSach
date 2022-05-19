@@ -201,8 +201,15 @@ export const fetchUsersError = () => {
 };
 
 export const fetchAllUsers = () => {
-  return (dispatch, getState) => {
-    // const res = await axios.get("")
+  return async (dispatch, getState) => {
+    dispatch(fetchUsersRequest());
+    try {
+      const res = await axios.get("http://localhost:8000/api/user");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchUsersSuccess(data));
+    } catch (error) {
+      dispatch(fetchUsersError());
+    }
   };
 };
 

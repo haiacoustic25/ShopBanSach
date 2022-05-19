@@ -20,9 +20,9 @@ import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Popup from "../../Components/controls/Popup";
 import UserForm from "../../Components/Form/UserForm";
+import ModalEditUser from "../../Components/Form/ModalEditUser";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsers } from "../../../../Redux/Action/action"
 
@@ -65,12 +65,12 @@ const headCells = [
 
 export const Users = () => {
   const dispatch = useDispatch();
-  // const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
+  // const listUsers = useSelector((state) => state?.user.listUser);
   // useEffect(() => {
-  //   dispatch(fetchAllCategorys())
+  //   dispatch(fetchAllUsers())
   // }, [])
-  const [listUsers, setListUsers] = useState(rows);
   const [editData, setEditData] = useState('')
+  const [listUsers, setListUsers] = useState(rows);
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
   const { 
     tblContainer, 
@@ -91,18 +91,24 @@ export const Users = () => {
   }
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleEditUser = (User) =>{
-    handleClickOpen()
-    setEditData(null)
-    setEditData(User)
-  }
-
   const handleClose = () => {
     setOpen(false);
   };
+  const handleClickOpenEdit = () =>{
+    setOpenEdit(true)
+  }
+  const handleClickCloseEdit = () =>{
+    setOpenEdit(false);
+  }
+  const handleEditUser = (User) =>{
+    setOpenEdit(true)
+    setEditData(null)
+    setEditData(User)
+  }
 
   return (
     <>
@@ -146,7 +152,7 @@ export const Users = () => {
                       marginTop: '12px',
                       marginBottom: '12px'
                     }}
-                    onChange={handleEditUser}
+                    onChange={handleSearch}
                 />
                 <Controls.Button 
                   text="Add New"
@@ -176,7 +182,7 @@ export const Users = () => {
                         </TableCell>
                         <TableCell>
                           <Controls.ActionButton
-                            onClick={() => { handleEditUser(User) }}
+                            onClick={() => handleEditUser(User)}
                           >
                             <EditOutlinedIcon fontSize="small" color="success"/>
                           </Controls.ActionButton>
@@ -198,6 +204,18 @@ export const Users = () => {
                 handleClose={handleClose}
               />
           </Popup>
+          {openEdit && 
+            <Popup
+              open={openEdit}
+              setOpen={handleClickOpenEdit}
+            >
+              <ModalEditUser
+                Data={editData}
+                title="Edit User" 
+                handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
         </Container>
       </Box>
     </>

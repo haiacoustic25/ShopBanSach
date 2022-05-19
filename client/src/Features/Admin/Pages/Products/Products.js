@@ -24,6 +24,7 @@ import Popup from "../../Components/controls/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
 import ProductForm from "../../Components/Form/ProductForm";
+import ModalEditProduct from "../../Components/Form/ModalEditProduct";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -71,16 +72,23 @@ export const Products = () => {
   }
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  const handleEditProduct = (Product) =>{
-    handleClickOpen()
+  const handleClickOpenEdit = () =>{
+    setOpenEdit(true)
+  }
+  const handleClickCloseEdit = () =>{
+    setOpenEdit(false);
+  }
+  const handleEditProduct = (Category) =>{
+    setOpenEdit(true)
     setEditData(null)
-    setEditData(Product)
+    setEditData(Category)
   }
 
   return (
@@ -188,6 +196,18 @@ export const Products = () => {
                 handleClose={handleClose}
               />
           </Popup>
+          {openEdit && 
+            <Popup
+              open={openEdit}
+              setOpen={handleClickOpenEdit}
+            >
+              <ModalEditProduct
+                Data={editData}
+                title="Edit Product" 
+                handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
         </Container>
       </Box>
     </>

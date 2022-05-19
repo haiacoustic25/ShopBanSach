@@ -6,11 +6,15 @@ import {
   REGISTER_SUCCESS,
   REGISTER_REQUEST,
   LOGOUT_SUCCESS,
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_ERROR,
 } from "../Action/type";
 
 const INITTAL_STATE = {
   user: {},
   isAuth: false,
+  listUser: []
 };
 const userReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {
@@ -36,6 +40,23 @@ const userReducer = (state = INITTAL_STATE, action) => {
     }
     case REGISTER_ERROR: {
       return { ...state, isAuth: false };
+    }
+
+    case FETCH_USER_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case FETCH_USER_SUCCESS: {
+      return {
+        ...state,
+        listUser: action.dataUsers,
+      };
+    }
+    case FETCH_USER_ERROR: {
+      return {
+        ...state,
+      };
     }
 
     // logout
