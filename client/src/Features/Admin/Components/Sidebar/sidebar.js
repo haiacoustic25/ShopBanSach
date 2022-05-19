@@ -53,9 +53,8 @@ export const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
-    setTimeout(() => {
-      dispatch(logoutRedux());
-    }, 500);
+    dispatch(logoutRedux());
+    navigate("/");
   };
   return (
     <Drawer
@@ -84,6 +83,7 @@ export const Sidebar = () => {
               component={RouterLink}
               key={href}
               to={href}
+              onClick = {label === 'Logout' ? handleLogout : null}
               sx={{
                 flexDirection: 'column',
                 color: active ? 'rgb(0, 194, 0)' : 'text.secondary',
@@ -104,7 +104,6 @@ export const Sidebar = () => {
               </ListItemIcon>
               <ListItemText
                 primary={label}
-                onClick = {label === 'Logout' ? handleLogout : null}
                 primaryTypographyProps={{
                   sx: {
                     pb: 0,
