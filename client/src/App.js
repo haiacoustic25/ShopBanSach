@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import "./Assets/SCSS/app.scss";
 import ScrollTop from "./Assets/Img/ScrollTop.png";
 import HomePage from "./Features/Web/Home/HomePage";
@@ -35,6 +36,10 @@ function App() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const isAuth = useSelector((state) => state?.user.isAuth);
+  const isAdmin = useSelector((state) => state?.user.user.user?.isAdmin);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -49,18 +54,23 @@ function App() {
               <Route path="/dang-nhap" element={<Login />} />
               <Route path="/thanh-toan" element={<PayPage />} />
               <Route path="/account/:id" element={<Account />} />
-              <Route path="/admin" element={<Layout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="Users" >
-                  <Route index element={<Users />} />
-                </Route>
-                <Route path="Products" >
-                <Route index element={<Products />} />
-                </Route>
-                <Route path="Orders" element={<Orders />} />
-                <Route path="Authors" element={<Authors />} />
-                <Route path="Categorys" element={<Categorys />} />
-              </Route>
+
+              {isAuth && isAdmin && (
+                <>
+                  <Route path="/admin" element={<Layout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path="Users">
+                      <Route index element={<Users />} />
+                    </Route>
+                    <Route path="Products">
+                      <Route index element={<Products />} />
+                    </Route>
+                    <Route path="Orders" element={<Orders />} />
+                    <Route path="Authors" element={<Authors />} />
+                    <Route path="Categorys" element={<Categorys />} />
+                  </Route>
+                </>
+              )}
             </Route>
           </Routes>
         </ThemeProvider>
