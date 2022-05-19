@@ -8,6 +8,10 @@ import {
     FormControl,
     InputLabel,
 } from "@mui/material";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 export default function ModalEditCategory({title, handleClose, Data}) {
     
@@ -30,7 +34,7 @@ export default function ModalEditCategory({title, handleClose, Data}) {
                 Error: "Nhập đầy đủ thông tin"
             });
         } else{ 
-            
+            NotificationManager.success("Update Success", "", 2000);
             dispatch(createNewCategory(tl_name))
             handleClose();
         }
@@ -84,6 +88,7 @@ export default function ModalEditCategory({title, handleClose, Data}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

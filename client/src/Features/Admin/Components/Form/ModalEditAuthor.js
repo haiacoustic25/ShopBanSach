@@ -13,6 +13,10 @@ import {
     Fab,
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 export default function ModalEditAuthor({title, handleClose, Data}) {
     const dispatch = useDispatch();
@@ -43,6 +47,7 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
             Object.keys(data).forEach((key) => {
               formData.append(`${key}`, data[key]);
             });
+            NotificationManager.success("Update Success", "", 2000);
             dispatch(createNewAuthor(formData));
             handleClose();
         }
@@ -178,6 +183,7 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

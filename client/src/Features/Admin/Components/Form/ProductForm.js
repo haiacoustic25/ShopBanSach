@@ -14,6 +14,10 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 const productStatus = [
     {
@@ -82,6 +86,7 @@ export default function ProductForm({title, handleClose}) {
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
+            NotificationManager.success("Add Success", "", 2000);
             dispatch(createNewProductsRedux(formData))
             handleClose();
         }
@@ -321,6 +326,7 @@ export default function ProductForm({title, handleClose}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

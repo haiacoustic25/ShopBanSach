@@ -27,7 +27,10 @@ import { fetchAllAuthors, deleteAuthor } from "../../../../Redux/Action/action"
 import AuthorForm from "../../Components/Form/AuthorForm";
 import ModalEditAuthor from "../../Components/Form/ModalEditAuthor";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { getOptionGroupUnstyledUtilityClass } from "@mui/base";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -53,6 +56,9 @@ export const Authors = () => {
 
   const handleDeleteAuthor = (Author) => {
     dispatch(deleteAuthor(Author.id))
+    setTimeout(function(){
+      NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
   }
 
   const [filterFn, setFilterFn] = useState({ fn: Authors => { return Authors; } })
@@ -205,6 +211,7 @@ export const Authors = () => {
             </Popup>
           }
         </Container>
+        <NotificationContainer />
       </Box>
     </>
   );

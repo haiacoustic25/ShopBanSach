@@ -8,6 +8,10 @@ import {
     FormControl,
     InputLabel,
 } from "@mui/material";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 export default function CategoryForm({title, handleClose}) {
     
@@ -30,7 +34,7 @@ export default function CategoryForm({title, handleClose}) {
                 Error: "Nhập đầy đủ thông tin"
             });
         } else{ 
-            
+            NotificationManager.success("Add Success", "", 2000);
             dispatch(createNewCategory(tl_name))
             handleClose();
         }
@@ -84,6 +88,7 @@ export default function CategoryForm({title, handleClose}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

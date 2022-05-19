@@ -14,6 +14,10 @@ import {
     MenuItem
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 const userRole = [
     {
@@ -78,6 +82,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
+            NotificationManager.success("Update Success", "", 2000);
             dispatch(createNewUsersRedux(formData));
             handleClose();
           }
@@ -309,6 +314,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )

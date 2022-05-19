@@ -14,6 +14,10 @@ import {
     MenuItem
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
+import {
+    NotificationContainer,
+    NotificationManager,
+  } from "react-notifications";
 
 const userRole = [
     {
@@ -77,6 +81,7 @@ export default function UserForm({title, handleClose}) {
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
+            NotificationManager.success("Add Success", "", 2000);
             dispatch(createNewUsersRedux(formData));
             handleClose();
           }
@@ -305,6 +310,7 @@ export default function UserForm({title, handleClose}) {
                         </button>
                     </div>
                 </form>
+                <NotificationContainer />
             </div> 
         </>
     )
