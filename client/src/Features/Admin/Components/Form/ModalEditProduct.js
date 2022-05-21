@@ -83,10 +83,15 @@ export default function ModalEditProduct({title, handleClose, Data}) {
                 Error_discount: "Giảm giá trong khoảng 0 - 100",
             });
         }else{
+            let formData = new FormData();
+            formData.append("file_upload", fileUpload);
+            Object.keys(registerData).forEach((key) => {
+                formData.append(`${key}`, registerData[key]);
+            });
             setTimeout(function(){
                 NotificationManager.success("Update Success", "", 2000);
             },1000)
-            dispatch(updateProduct(Data.id, registerData))
+            dispatch(updateProduct(Data.id, formData))
             handleClose();
         }
     }

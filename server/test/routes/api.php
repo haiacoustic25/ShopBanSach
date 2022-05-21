@@ -26,7 +26,7 @@ Route::post('/add-author', [AuthorController::class,'store']);
 
 Route::get('/edit-author/{id}',[AuthorController::class,'findAuthorById']);
 
-Route::put('/update-author/{id}',[AuthorController::class, 'updateAuthor']);
+Route::post('/update-author',[AuthorController::class, 'updateAuthor']);
 
 Route::delete('/delete-author/{id}',[AuthorController::class, 'deleteById']);
 

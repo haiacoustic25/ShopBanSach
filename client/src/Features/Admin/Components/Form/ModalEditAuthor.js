@@ -21,6 +21,7 @@ import {
 export default function ModalEditAuthor({ title, handleClose, Data }) {
   const dispatch = useDispatch();
   const [data, SetData] = useState({
+    id: Data.id,
     tg_name: Data.tg_name,
     tg_description: Data.tg_description,
     tg_dob: format(new Date(Data.tg_dob), "yyyy-MM-dd"),
@@ -48,15 +49,18 @@ export default function ModalEditAuthor({ title, handleClose, Data }) {
       setTimeout(function () {
         NotificationManager.success("Update Success", "", 2000);
       }, 1000);
-      // let formData = new FormData();
-      // formData.append("file_upload", fileUpload, fileUpload.name);
-      // Object.keys(data).forEach((key) => {
-      //   formData.append(`${key}`, data[key]);
-      // });
-      dispatch(updateAuthor(Data.id, data));
+      let formData = new FormData();
+      if (fileUpload) {
+        formData.append("file_upload", fileUpload);
+      }
+      Object.keys(data).forEach((key) => {
+        formData.append(`${key}`, data[key]);
+      });
+      dispatch(updateAuthor(Data.id, formData));
       handleClose();
     }
   };
+
   const imgOld = Data.tg_image
     ? `http://localhost:8000/uploads/author/${Data.tg_image}`
     : "";
