@@ -420,14 +420,14 @@ export const updateProductsSuccess = () => {
   };
 };
 
-export const updateProduct = (id, Product) => {
+export const updateProduct = (Product) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.put(
-        `http://localhost:8000/api/update-book/${id}`,Product
+      let res = await axios.post(
+        'http://localhost:8000/api/update-book',Product
       );
       if (res && res.data.status === 200) {
-        dispatch(updateProductsSuccess(Product));
+        dispatch(updateProductsSuccess());
         dispatch(fetchAllProducts());
       }
     } catch (error) {}
@@ -554,11 +554,11 @@ export const updateAuthorsSuccess = () => {
   };
 };
 
-export const updateAuthor = (id, Author) => {
+export const updateAuthor = (Author) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.put(
-        `http://localhost:8000/api/update-author/${id}`, Author
+      let res = await axios.post(
+        'http://localhost:8000/api/update-author', Author
       );
       if (res && res.data.status === 200) {
         dispatch(updateAuthorsSuccess());

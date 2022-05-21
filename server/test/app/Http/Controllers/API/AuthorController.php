@@ -66,8 +66,9 @@ class AuthorController extends Controller
 		]);
 	}
 
-	public function updateAuthor(Request $request, $id)
+	public function updateAuthor(Request $request)
 	{
+		$id = (int)$request -> input('id');
 		$validator = Validator::make($request->all(),[
 			'tg_name' => 'required|max:100',
 		]);
@@ -92,10 +93,11 @@ class AuthorController extends Controller
 				// {
 				// 	File::delete($des);
 				// }
-				$file = $request->file_upload;
-				$ext = $request->file_upload->extension();
-				$file_name = time().'-'.'user'.'.'.$ext;
-				$file->move(public_path('uploads/user'),$file_name);
+				// $file = $request->file_upload;
+				// $ext = $request->file_upload->extension();
+				// $file_name = time().'-'.'user'.'.'.$ext;
+				// $file->move(public_path('uploads/user'),$file_name);
+
 				$file = $request->file_upload;
 				$ext = $request->file_upload->extension();
 				$file_name = time().'-'.'author'.'.'.$ext;
