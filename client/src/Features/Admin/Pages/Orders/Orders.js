@@ -21,8 +21,15 @@ import Controls from "../../Components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import ProductForm from "../../Components/Form/ProductForm";
+import OrderForm from "../../Components/Form/OrderForm";
+import { useDispatch, useSelector } from "react-redux";
 import Popup from "../../Components/controls/Popup";
+import ModalEditOrder from "../../Components/Form/ModalEditOrder";
+import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -62,7 +69,7 @@ const headCells = [
 ];
 
 export const Orders = () => {
-
+  const dispatch = useDispatch();
   const [listUsers, setListUsers] = useState(rows);
   const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
   const [editData, setEditData] = useState('')
@@ -83,20 +90,29 @@ export const Orders = () => {
         }
     })
   }
+  const handleDeleteOrder = (User) => {
+    dispatch(deleteProduct(User.id))
+    setTimeout(function(){
+      NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
+  }
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDeleteOrder = (User) =>{
-    // dispatch(deleteOrder(User.id))
+  const handleClickOpenEdit = () =>{
+    setOpenEdit(true)
   }
-
+  const handleClickCloseEdit = () =>{
+    setOpenEdit(false);
+  }
   const handleEditOrder = (User) =>{
-    handleClickOpen()
+    setOpenEdit(true)
     setEditData(null)
     setEditData(User)
   }
@@ -155,7 +171,7 @@ export const Orders = () => {
                     lineHeight: '56px',
                     marginLeft: '32px'
                   }}
-                  onClick={handleEditOrder}
+                  onClick={() => { setOpen(true)}}
                 />
             </Toolbar>
             <tblContainer>
@@ -194,12 +210,25 @@ export const Orders = () => {
             open={open}
             setOpen={setOpen}
           >
-              <ProductForm 
+              <OrderForm 
                 title="Add New Order" 
                 handleClose={handleClose}
               />
           </Popup>
+          {openEdit && 
+            <Popup
+              open={openEdit}
+              setOpen={handleClickOpenEdit}
+            >
+              <ModalEditOrder
+                Data={editData}
+                title="Edit Order" 
+                handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
         </Container>
+        <NotificationContainer />
       </Box>
     </>
   );

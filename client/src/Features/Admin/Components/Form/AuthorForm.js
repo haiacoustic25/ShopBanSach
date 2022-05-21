@@ -19,11 +19,12 @@ import {
   } from "react-notifications";
 
 export default function AuthorForm({title, handleClose}) {
+    const [date, setDate] = useState(false)
     const dispatch = useDispatch();
     const [data, SetData] = useState({
         tg_name: "",
         tg_description: "",
-        tg_dob:""
+        tg_dob:"",
     })
     const [registerError, setRegisterError] = useState({
         Error: "",
@@ -34,23 +35,8 @@ export default function AuthorForm({title, handleClose}) {
             [event.target.name]: event.target.value
         })
     } 
-    const handleCreateNewAuthor = (event) =>{
-        event.preventDefault();
-        if( data.tg_name === "" || data.tg_dob === ""){
-            setRegisterError({
-                Error: "Nhập đầy đủ thông tin"
-            });
-        } else{
-            let formData = new FormData();
-            // formData.append("file_upload", fileUpload, fileUpload.name);
-      
-            Object.keys(data).forEach((key) => {
-              formData.append(`${key}`, data[key]);
-            });
-            NotificationManager.success("Add Success", "", 2000);
-            dispatch(createNewAuthor(formData));
-            handleClose();
-        }
+    const onClick = () =>{
+        setDate(true)
     }
     const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
@@ -71,6 +57,27 @@ export default function AuthorForm({title, handleClose}) {
           setFileUpload(e.target.files[0]);
         }
     };
+
+    const handleCreateNewAuthor = (event) =>{
+        event.preventDefault();
+        if( data.tg_name === "" || data.tg_dob === "" || data.tg_description === ""){
+            setRegisterError({
+                Error: "Nhập đầy đủ thông tin"
+            });
+        } else{
+            let formData = new FormData();
+            if(fileUpload != null){
+                formData.append("file_upload", fileUpload, fileUpload.name);
+            }
+      
+            Object.keys(data).forEach((key) => {
+              formData.append(`${key}`, data[key]);
+            });
+            NotificationManager.success("Add Success", "", 2000);
+            dispatch(createNewAuthor(formData));
+            handleClose();
+        }
+    }
 
     const styleInput = {
         width: "350px",
@@ -94,7 +101,6 @@ export default function AuthorForm({title, handleClose}) {
                                 type="text"
                                 name="tg_name"
                                 value={data.tg_name}
-                                // value={editData == null ? data.tg_name : editData.tg_name}
                                 onChange={onChange}
                                 label="Họ và tên"
                                 style={{
@@ -106,17 +112,19 @@ export default function AuthorForm({title, handleClose}) {
                             </FormControl>
                             <br></br>
                             <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    <div >
-                                        Birthday
-                                    </div>
-                                </InputLabel>
+                                {date && 
+                                    <InputLabel htmlFor="outlined-adornment-password">
+                                        <div >
+                                            Birthday
+                                        </div>
+                                    </InputLabel>
+                                }
                                 <OutlinedInput
                                 type="date"
                                 name="tg_dob"
                                 value={data.tg_dob}
-                                // value={editData == null ? data.tg_dob : format(new Date(editData.tg_dob), 'yyyy-MM-dd')}
                                 onChange={onChange}
+                                onFocus={onClick}
                                 label="Birthday"
                                 style={styleInput}
                                 />
@@ -128,7 +136,6 @@ export default function AuthorForm({title, handleClose}) {
                                     label="Description"
                                     name="tg_description"
                                     value={data.tg_description}
-                                    // value={editData == null ? data.tg_description : editData.tg_description}
                                     onChange={onChange}
                                     multiline
                                     style={styleInput}

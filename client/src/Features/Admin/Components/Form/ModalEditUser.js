@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNewUsersRedux } from '../../../../Redux/Action/action'
+import { updateUser } from '../../../../Redux/Action/action'
 import './Form.scss';
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
@@ -51,14 +51,12 @@ export default function ModalEditUser({title, handleClose, Data}) {
             ...registerData,
             [event.target.name]: event.target.value,
     })};
-    const handleCreateNewUser = (event) =>{
+    const handleEditUser = (event) =>{
         event.preventDefault();
         if (
             registerData.name === "" ||
             registerData.email === "" ||
             registerData.username === "" ||
-            // registerData.password === "" ||
-            // registerData.address === "" ||
             registerData.phone === "" ||
             registerData.isAdmin === ""
           ) {
@@ -66,40 +64,29 @@ export default function ModalEditUser({title, handleClose, Data}) {
               Error: "Nhập đầy đủ thông tin",
             });
           } 
-        //   else if (registerData.password.length < 8) {
-        //     setRegisterError({
-        //       Error_Password: "Mật khẩu ít nhất 8 kí tự",
-        //     });
-        //   } 
           else if (registerData.phone.length > 10) {
             setRegisterError({
               Error_Phone: "Điện thoại nhiều nhất 10 kí tự",
             });
           } else {
-            let formData = new FormData();
-            // formData.append("file_upload", fileUpload, fileUpload.name);
-      
-            Object.keys(registerData).forEach((key) => {
-              formData.append(`${key}`, registerData[key]);
-            });
-            NotificationManager.success("Update Success", "", 2000);
-            dispatch(createNewUsersRedux(formData));
+            setTimeout(function(){
+                NotificationManager.success("Update Success", "", 2000);
+            },1000)
+            dispatch(updateUser(Data.id, registerData));
             handleClose();
           }
     }
-    const [tg_image, setTg_image] = useState('')
-    const [previewImg, setPreviewImg] = useState();
+    const imgOld = Data.avatar ? `http://localhost:8000/uploads/user/${Data.avatar}` : '' 
+    const [previewImg, setPreviewImg] = useState(imgOld);
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
     useEffect(() => {
         if (!selectedImage) {
-          setPreviewImg(undefined);
           return;
         }
         const objectUrl = URL.createObjectURL(selectedImage);
         setPreviewImg(objectUrl);
     
-        // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl);
       }, [selectedImage]);
     const imageChange = (e) => {
@@ -120,7 +107,7 @@ export default function ModalEditUser({title, handleClose, Data}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form onSubmit={handleCreateNewUser}>
+                <form onSubmit={handleEditUser}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -174,35 +161,6 @@ export default function ModalEditUser({title, handleClose, Data}) {
                                 disabled
                                 />
                             </FormControl>
-                            {/* <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    <div >
-                                        Mật khẩu
-                                    </div>
-                                </InputLabel>
-                                <OutlinedInput
-                                type="password"
-                                name="password"
-                                value={registerData.password}
-                                onChange={onChange}
-                                label="Password"
-                                style={styleInput}
-                                disabled
-                                />
-                                {registerError.Error_Password !== "" && (
-                                    <FormHelperText
-                                        style={{
-                                        color: "red",
-                                        fontSize: "14px",
-                                        marginBottom: "15px",
-                                        marginTop: "-20px",
-                                        }}
-                                    >
-                                        {registerError.Error_Password}
-                                    </FormHelperText>
-                                )}
-                            </FormControl> */}
                             <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">

@@ -14,9 +14,6 @@ export default function useTable(data, headCells, filterFn) {
     const StyledTableCell = styled(TableCell)(() => ({
           backgroundColor: '#008000a6',
           color: 'black',
-        //   ':hover':{
-        //       cursor:'pointer'
-        //   }
       }));
 
     const tblContainer = props => (
