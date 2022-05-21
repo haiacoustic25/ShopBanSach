@@ -27,6 +27,9 @@ import {
   CREATE_CATEGORY_SUCCESS,
   CREATE_CATEGORY_ERROR,
   DELETE_CATEGORY_SUCCESS,
+  FETCH_CATEGORYBYID_ERROR,
+  FETCH_CATEGORYBYID_REQUEST,
+  FETCH_CATEGORYBYID_SUCCESS,
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
@@ -43,6 +46,9 @@ import {
   CREATE_AUTHOR_SUCCESS,
   CREATE_AUTHOR_ERROR,
   DELETE_AUTHOR_SUCCESS,
+  FETCH_AUTHORBYID_ERROR,
+  FETCH_AUTHORBYID_REQUEST,
+  FETCH_AUTHORBYID_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -471,6 +477,33 @@ export const deleteAuthor = (id) => {
   };
 };
 
+// fetch author by id
+export const fetchAuthorByIdRequest = () => {
+  return { type: FETCH_AUTHORBYID_REQUEST };
+};
+export const fetchAuthorByIdSuccess = (payload) => {
+  return { type: FETCH_AUTHORBYID_SUCCESS, payload };
+};
+export const fetchAuthorByIdError = () => {
+  return { type: FETCH_AUTHORBYID_ERROR };
+};
+
+export const fetchAuthorByIdRedux = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(fetchAuthorByIdRequest());
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/edit-author/${id}`
+      );
+      if (res.data.status === 200) {
+        dispatch(fetchAuthorByIdSuccess(res.data.author.tg_name));
+      }
+    } catch (error) {
+      dispatch(fetchAuthorByIdError());
+    }
+  };
+};
+
 // Infor Categorys
 export const fetchCategorysRequest = () => {
   return {
@@ -560,5 +593,33 @@ export const deleteCategory = (id) => {
         dispatch(fetchAllCategorys());
       }
     } catch (error) {}
+  };
+};
+
+// find category by id
+export const fetchCategoryByIdRequest = () => {
+  return { type: FETCH_CATEGORYBYID_REQUEST };
+};
+export const fetchCategoryByIdSuccess = (payload) => {
+  return { type: FETCH_CATEGORYBYID_SUCCESS, payload };
+};
+export const fetchCategoryByIdError = () => {
+  return { type: FETCH_CATEGORYBYID_ERROR };
+};
+
+export const fetchCategoryByIdRedux = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(fetchCategoryByIdRequest());
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/edit-category/${id}`
+      );
+      console.log(res.data);
+      if (res.data.status === 200) {
+        dispatch(fetchCategoryByIdSuccess(res.data.category.tl_name));
+      }
+    } catch (error) {
+      dispatch(fetchCategoryByIdError());
+    }
   };
 };
