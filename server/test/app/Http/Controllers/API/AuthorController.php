@@ -88,10 +88,10 @@ class AuthorController extends Controller
 			if($request->has('file_upload'))
 			{
 				$des = public_path('uploads/author/'.$tacgia->tg_image);
-				if(File::exists($des))
-				{
-					File::delete($des);
-				}
+				// if(File::exists($des))
+				// {
+				// 	File::delete($des);
+				// }
 				$file = $request->file_upload;
 				$ext = $request->file_upload->extension();
 				$file_name = time().'-'.'user'.'.'.$ext;

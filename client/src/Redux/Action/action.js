@@ -531,7 +531,7 @@ export const updateAuthor = (id, Author) => {
         `http://localhost:8000/api/update-author/${id}`, Author
       );
       if (res && res.data.status === 200) {
-        dispatch(updateAuthorsSuccess(id, Author));
+        dispatch(updateAuthorsSuccess());
         dispatch(fetchAllAuthors());
       }
     } catch (error) {
@@ -646,8 +646,7 @@ export const updateCategory = (id, category) => {
         `http://localhost:8000/api/update-category/${id}`,category
       );
       if (res && res.data.status === 200) {
-        console.log('ko chay')
-        dispatch(updateCategorysSuccess(category));
+        dispatch(updateCategorysSuccess());
         dispatch(fetchAllCategorys());
       }
     } catch (error) {}

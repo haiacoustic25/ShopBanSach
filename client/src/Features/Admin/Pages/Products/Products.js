@@ -34,6 +34,16 @@ const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
       backgroundColor: '#008000a6',
       cursor:'pointer'
+  },
+  'div':{
+    whiteSpace: 'nowrap',
+    width: '200px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+  'div:hover':{
+    overflow: 'visible',
+    whiteSpace: 'normal'
   }
 }));
 
@@ -162,15 +172,17 @@ export const Products = () => {
                 {
                   daTaAfterPagingAndSorting()?.map(Product => (
                       <StyledTableRow key={Product.id}>
-                        <TableCell >{Product.s_name}</TableCell>
+                        <TableCell >
+                          <div>{Product.s_name}</div>
+                        </TableCell>
                         <TableCell >{Product.s_amount}</TableCell>
                         <TableCell >{Product.s_price} VNĐ</TableCell>
                         <TableCell >
                           {
                             Product.s_status === 1 ? (
-                              <div style={{color: 'green', fontWeight: '600'}}>Published</div>
+                              <span style={{color: 'green', fontWeight: '600'}}>Published</span>
                             ) : (
-                              <div style={{color: 'blue', fontWeight: '600'}}>Draft</div>
+                              <span style={{color: 'blue', fontWeight: '600'}}>Draft</span>
                             )
                           }
                         </TableCell>

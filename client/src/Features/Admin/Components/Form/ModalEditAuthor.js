@@ -41,16 +41,17 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
                 Error: "Nhập đầy đủ thông tin"
             });
         } else{
-            setTimeout(function(){
-                NotificationManager.success("Update Success", "", 2000);
-            },1000)
-            // let formData = new FormData();
-            // formData.append("file_upload", fileUpload, fileUpload.name);
-            // Object.keys(data).forEach((key) => {
-            //   formData.append(`${key}`, data[key]);
-            // });
-            dispatch(updateAuthor(Data.id, data));
+            // setTimeout(function(){
+            //     NotificationManager.success("Update Success", "", 2000);
+            // },1000)
+            let formData = new FormData();
+            formData.append("file_upload", fileUpload);
+            Object.keys(data).forEach((key) => {
+              formData.append(`${key}`, data[key]);
+            });
+            dispatch(updateAuthor(Data.id, formData));
             handleClose();
+            console.log(formData.getAll("tg_name"))
         }
     }
     const imgOld = Data.tg_image ? `http://localhost:8000/uploads/author/${Data.tg_image}` : '';
