@@ -29,13 +29,10 @@ import {
   CREATE_CATEGORY_SUCCESS,
   CREATE_CATEGORY_ERROR,
   DELETE_CATEGORY_SUCCESS,
-<<<<<<< HEAD
   FETCH_CATEGORYBYID_ERROR,
   FETCH_CATEGORYBYID_REQUEST,
   FETCH_CATEGORYBYID_SUCCESS,
-=======
   UPDATE_CATEGORY_SUCCESS,
->>>>>>> baec5d021da5006e866dad0cf9ceed4ba5fa34f9
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
@@ -525,7 +522,6 @@ export const deleteAuthor = (id) => {
   };
 };
 
-<<<<<<< HEAD
 // fetch author by id
 export const fetchAuthorByIdRequest = () => {
   return { type: FETCH_AUTHORBYID_REQUEST };
@@ -549,7 +545,6 @@ export const fetchAuthorByIdRedux = (id) => {
       }
     } catch (error) {
       dispatch(fetchAuthorByIdError());
-=======
 
 // Update Author
 export const updateAuthorsSuccess = () => {
@@ -570,7 +565,6 @@ export const updateAuthor = (id, Author) => {
       }
     } catch (error) {
       console.log(error)
->>>>>>> baec5d021da5006e866dad0cf9ceed4ba5fa34f9
     }
   };
 };
@@ -667,7 +661,6 @@ export const deleteCategory = (id) => {
   };
 };
 
-<<<<<<< HEAD
 // find category by id
 export const fetchCategoryByIdRequest = () => {
   return { type: FETCH_CATEGORYBYID_REQUEST };
@@ -693,7 +686,6 @@ export const fetchCategoryByIdRedux = (id) => {
     } catch (error) {
       dispatch(fetchCategoryByIdError());
     }
-=======
 // Update Category
 export const updateCategorysSuccess = () => {
   return {
@@ -701,18 +693,20 @@ export const updateCategorysSuccess = () => {
   };
 };
 
-export const updateCategory = (id, category) => {
-  return async (dispatch, getState) => {
-    try {
-      let res = await axios.put(
-        `http://localhost:8000/api/update-category/${id}`,category
-      );
-      if (res && res.data.status === 200) {
-        console.log('ko chay')
-        dispatch(updateCategorysSuccess(category));
-        dispatch(fetchAllCategorys());
-      }
-    } catch (error) {}
->>>>>>> baec5d021da5006e866dad0cf9ceed4ba5fa34f9
-  };
-};
+// export const updateCategory = (id, category) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       let res = await axios.put(
+//         `http://localhost:8000/api/update-category/${id}`,category
+//       );
+//       if (res && res.data.status === 200) {
+//         console.log('ko chay')
+//         dispatch(updateCategorysSuccess(category));
+//         dispatch(fetchAllCategorys());
+//       }
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
+  
