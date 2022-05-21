@@ -545,7 +545,8 @@ export const fetchAuthorByIdRedux = (id) => {
       }
     } catch (error) {
       dispatch(fetchAuthorByIdError());
-
+    }}
+}
 // Update Author
 export const updateAuthorsSuccess = () => {
   return {
@@ -560,7 +561,7 @@ export const updateAuthor = (id, Author) => {
         `http://localhost:8000/api/update-author/${id}`, Author
       );
       if (res && res.data.status === 200) {
-        dispatch(updateAuthorsSuccess(id, Author));
+        dispatch(updateAuthorsSuccess());
         dispatch(fetchAllAuthors());
       }
     } catch (error) {
@@ -679,13 +680,14 @@ export const fetchCategoryByIdRedux = (id) => {
       const res = await axios.get(
         `http://localhost:8000/api/edit-category/${id}`
       );
-      console.log(res.data);
       if (res.data.status === 200) {
         dispatch(fetchCategoryByIdSuccess(res.data.category.tl_name));
       }
     } catch (error) {
       dispatch(fetchCategoryByIdError());
     }
+  }
+}
 // Update Category
 export const updateCategorysSuccess = () => {
   return {
@@ -693,20 +695,20 @@ export const updateCategorysSuccess = () => {
   };
 };
 
-// export const updateCategory = (id, category) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       let res = await axios.put(
-//         `http://localhost:8000/api/update-category/${id}`,category
-//       );
-//       if (res && res.data.status === 200) {
-//         console.log('ko chay')
-//         dispatch(updateCategorysSuccess(category));
-//         dispatch(fetchAllCategorys());
-//       }
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
-  
+export const updateCategory = (id, category) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await axios.put(
+        `http://localhost:8000/api/update-category/${id}`,category
+      );
+      if (res && res.data.status === 200) {
+        dispatch(updateCategorysSuccess(category));
+        dispatch(fetchAllCategorys());
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+

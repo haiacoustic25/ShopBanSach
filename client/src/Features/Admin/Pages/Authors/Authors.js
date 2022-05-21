@@ -35,8 +35,15 @@ const StyledTableRow = styled(TableRow)(() => ({
       backgroundColor: '#008000a6',
       cursor:'pointer',
   },
-  '.div:hover':{
+  'div':{
+    whiteSpace: 'nowrap',
+    width: '400px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+  'div:hover':{
     overflow: 'visible',
+    whiteSpace: 'normal'
   }
 }));
 
@@ -170,14 +177,7 @@ export const Authors = () => {
                             {format(new Date(Author.tg_dob), 'dd/MM/yyyy')}
                         </TableCell>
                         <TableCell>
-                          <div
-                            style={{
-                              whiteSpace: 'nowrap',
-                              width: '400px',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis'
-                            }}
-                          >
+                          <div >
                             {Author.tg_description}
                           </div>
                         </TableCell>
