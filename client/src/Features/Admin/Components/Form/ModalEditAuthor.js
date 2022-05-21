@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNewAuthor } from '../../../../Redux/Action/action'
+import { updateAuthor } from '../../../../Redux/Action/action'
 import './Form.scss';
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
@@ -34,31 +34,31 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
             [event.target.name]: event.target.value
         })
     } 
-    const handleCreateNewAuthor = (event) =>{
+    const handleEditAuthor = (event) =>{
         event.preventDefault();
-        if( data.tg_name === "" || data.tg_dob === ""){
+        if( data.tg_name === "" || data.tg_dob === "" || data.tg_description === ""){
             setRegisterError({
                 Error: "Nhập đầy đủ thông tin"
             });
         } else{
-            let formData = new FormData();
+            setTimeout(function(){
+                NotificationManager.success("Update Success", "", 2000);
+            },1000)
+            // let formData = new FormData();
             // formData.append("file_upload", fileUpload, fileUpload.name);
-      
-            Object.keys(data).forEach((key) => {
-              formData.append(`${key}`, data[key]);
-            });
-            NotificationManager.success("Update Success", "", 2000);
-            dispatch(createNewAuthor(formData));
+            // Object.keys(data).forEach((key) => {
+            //   formData.append(`${key}`, data[key]);
+            // });
+            dispatch(updateAuthor(Data.id, data));
             handleClose();
         }
     }
-    const [tg_image, setTg_image] = useState('')
-    const [previewImg, setPreviewImg] = useState();
+    const imgOld = Data.tg_image ? `http://localhost:8000/uploads/author/${Data.tg_image}` : '';
+    const [previewImg, setPreviewImg] = useState(imgOld);
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
     useEffect(() => {
         if (!selectedImage) {
-          setPreviewImg(undefined);
           return;
         }
         const objectUrl = URL.createObjectURL(selectedImage);
@@ -83,7 +83,7 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form onSubmit={handleCreateNewAuthor}>
+                <form onSubmit={handleEditAuthor}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -94,7 +94,6 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
                                 type="text"
                                 name="tg_name"
                                 value={data.tg_name}
-                                // value={editData == null ? data.tg_name : editData.tg_name}
                                 onChange={onChange}
                                 label="Họ và tên"
                                 style={{
@@ -115,7 +114,6 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
                                 type="date"
                                 name="tg_dob"
                                 value={data.tg_dob}
-                                // value={editData == null ? data.tg_dob : format(new Date(editData.tg_dob), 'yyyy-MM-dd')}
                                 onChange={onChange}
                                 label="Birthday"
                                 style={styleInput}
@@ -128,7 +126,6 @@ export default function ModalEditAuthor({title, handleClose, Data}) {
                                     label="Description"
                                     name="tg_description"
                                     value={data.tg_description}
-                                    // value={editData == null ? data.tg_description : editData.tg_description}
                                     onChange={onChange}
                                     multiline
                                     style={styleInput}

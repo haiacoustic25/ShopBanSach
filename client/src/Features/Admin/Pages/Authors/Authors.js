@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet";
 import {
   Paper,
   Box,
-  Button,
   Container,
   Divider,
   TableBody,
@@ -13,7 +12,6 @@ import {
   Toolbar,
   InputAdornment,
 } from "@material-ui/core";
-import Modal from '@mui/material/Modal';
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
@@ -35,7 +33,10 @@ import {
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
       backgroundColor: '#008000a6',
-      cursor:'pointer'
+      cursor:'pointer',
+  },
+  '.div:hover':{
+    overflow: 'visible',
   }
 }));
 
@@ -168,7 +169,18 @@ export const Authors = () => {
                         <TableCell>
                             {format(new Date(Author.tg_dob), 'dd/MM/yyyy')}
                         </TableCell>
-                        <TableCell>{Author.tg_description}</TableCell>
+                        <TableCell>
+                          <div
+                            style={{
+                              whiteSpace: 'nowrap',
+                              width: '400px',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {Author.tg_description}
+                          </div>
+                        </TableCell>
                         <TableCell>
                           <Controls.ActionButton
                             onClick = {() => handleEditAuthor(Author)}

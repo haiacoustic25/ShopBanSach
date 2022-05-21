@@ -76,7 +76,7 @@ export default function UserForm({title, handleClose}) {
             });
           } else {
             let formData = new FormData();
-            // formData.append("file_upload", fileUpload, fileUpload.name);
+            formData.append("file_upload", fileUpload, fileUpload.name);
       
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
@@ -86,7 +86,6 @@ export default function UserForm({title, handleClose}) {
             handleClose();
           }
     }
-    const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
@@ -98,7 +97,6 @@ export default function UserForm({title, handleClose}) {
         const objectUrl = URL.createObjectURL(selectedImage);
         setPreviewImg(objectUrl);
     
-        // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl);
       }, [selectedImage]);
     const imageChange = (e) => {

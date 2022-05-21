@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, updateProduct } from "../../../../Redux/Action/action"
 import {
     NotificationContainer,
     NotificationManager,
@@ -48,9 +48,10 @@ export default function ModalEditProduct({title, handleClose, Data}) {
         s_nsx: Data.s_nsx,
         s_amount: Data.s_amount,
         s_status: Data.s_status,
-        s_discount: `${Data.s_discount} %`,
+        s_discount: Data.s_discount ,
         author_id: Data.author_id,
-        category_id: Data.category_id
+        category_id: Data.category_id,
+        s_description: Data.s_description
     });
     const [registerError, setRegisterError] = useState({
         Error: "",
@@ -61,7 +62,7 @@ export default function ModalEditProduct({title, handleClose, Data}) {
             ...registerData,
             [event.target.name]: event.target.value,
     })};
-    const handleCreateNewProduct = (event) =>{
+    const handleEditProduct = (event) =>{
         event.preventDefault();
         if (
             registerData.s_name === "" ||
@@ -71,7 +72,8 @@ export default function ModalEditProduct({title, handleClose, Data}) {
             registerData.author_id === "" ||
             registerData.category_id === "" ||
             registerData.s_status === "" ||
-            registerData.s_discount === ""
+            registerData.s_discount === "" ||
+            registerData.s_description === ""
           ) {
             setRegisterError({
               Error: "Nhập đầy đủ thông tin",
@@ -81,30 +83,24 @@ export default function ModalEditProduct({title, handleClose, Data}) {
                 Error_discount: "Giảm giá trong khoảng 0 - 100",
             });
         }else{
-            let formData = new FormData();
-            // formData.append("file_upload", fileUpload, fileUpload.name);
-      
-            Object.keys(registerData).forEach((key) => {
-              formData.append(`${key}`, registerData[key]);
-            });
-            NotificationManager.success("Update Success", "", 2000);
-            dispatch(createNewProductsRedux(formData))
+            setTimeout(function(){
+                NotificationManager.success("Update Success", "", 2000);
+            },1000)
+            dispatch(updateProduct(Data.id, registerData))
             handleClose();
         }
     }
-    const [tg_image, setTg_image] = useState('')
-    const [previewImg, setPreviewImg] = useState();
+    const imgOld = Data.s_image ? `http://localhost:8000/uploads/book/${Data.s_image}` : '' 
+    const [previewImg, setPreviewImg] = useState(imgOld);
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
     useEffect(() => {
         if (!selectedImage) {
-          setPreviewImg(undefined);
           return;
         }
         const objectUrl = URL.createObjectURL(selectedImage);
         setPreviewImg(objectUrl);
     
-        // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl);
       }, [selectedImage]);
     const imageChange = (e) => {
@@ -124,7 +120,7 @@ export default function ModalEditProduct({title, handleClose, Data}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form onSubmit={handleCreateNewProduct}>
+                <form onSubmit={handleEditProduct}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -225,14 +221,14 @@ export default function ModalEditProduct({title, handleClose, Data}) {
                             <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
-                                    Giảm giá
+                                    Giảm giá %
                                 </InputLabel>
                                 <OutlinedInput
                                 type="text"
                                 name="s_discount"
                                 value={registerData.s_discount}
                                 onChange={onChange}
-                                label="Giảm giá"
+                                label="Giảm giá %"
                                 placeholder='20%'
                                 style={styleInput}
                                 />

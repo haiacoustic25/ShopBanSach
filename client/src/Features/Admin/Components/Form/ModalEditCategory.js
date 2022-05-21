@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNewCategory} from '../../../../Redux/Action/action'
+import { updateCategory} from '../../../../Redux/Action/action'
 import './Form.scss';
 import "../../../../Assets/SCSS/register.scss";
 import {
@@ -15,27 +15,30 @@ import {
 
 export default function ModalEditCategory({title, handleClose, Data}) {
     
-    const [tl_name, setTl_name] = useState({tl_name: Data.tl_name})
+    const [data, SetData] = useState({
+        tl_name: Data.tl_name
+    })
     const dispatch = useDispatch();
     const [registerError, setRegisterError] = useState({
         Error: "",
     });
     const onChange = (event) =>{
-        setTl_name({
-            ...tl_name,
-            tl_name: event.target.value
+        SetData({
+            ...data,
+            [event.target.name]: event.target.value
         })
     } 
-    const handleCreateNewCategory = (event) =>{
+    const handleUpdateCategory = (event) =>{
         event.preventDefault();
-        console.log(tl_name);
-        if( tl_name.tl_name === ""){
+        if( data.tl_name === ""){
             setRegisterError({
                 Error: "Nhập đầy đủ thông tin"
             });
         } else{ 
-            NotificationManager.success("Update Success", "", 2000);
-            dispatch(createNewCategory(tl_name))
+            setTimeout(function(){
+                NotificationManager.success("Update Success", "", 2000);
+            },1000)
+            dispatch(updateCategory(Data.id, data))
             handleClose();
         }
     }
@@ -45,7 +48,7 @@ export default function ModalEditCategory({title, handleClose, Data}) {
                 <h1> {title} </h1>
             </div>
             <div className="bottom">
-                <form onSubmit={handleCreateNewCategory}>
+                <form onSubmit={handleUpdateCategory}>
                     <div className="d-flex">
                         <div className="register__form--left ">
                             <FormControl>
@@ -55,7 +58,7 @@ export default function ModalEditCategory({title, handleClose, Data}) {
                                 <OutlinedInput
                                 type="text"
                                 name="tl_name"
-                                value={tl_name.tl_name}
+                                value={data.tl_name}
                                 onChange={onChange}
                                 label="Category Name"
                                 style={{

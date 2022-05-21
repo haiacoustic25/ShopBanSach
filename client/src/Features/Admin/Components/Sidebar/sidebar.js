@@ -26,11 +26,11 @@ const items = [
     icon: ShoppingCartIcon,
     label: 'Products'
   },
-  {
-    href: '/admin/orders',
-    icon: CubeIcon,
-    label: 'Orders'
-  },
+  // {
+  //   href: '/admin/orders',
+  //   icon: CubeIcon,
+  //   label: 'Orders'
+  // },
   {
     href: '/admin/authors',
     icon: AuthorIcon,

@@ -50,7 +50,8 @@ export default function ProductForm({title, handleClose}) {
         s_status: "",
         s_discount: "",
         author_id: "",
-        category_id: ""
+        category_id: "",
+        s_description: ""
     });
     const [registerError, setRegisterError] = useState({
         Error: "",
@@ -70,7 +71,8 @@ export default function ProductForm({title, handleClose}) {
             registerData.author_id === "" ||
             registerData.category_id === "" ||
             registerData.s_status === "" ||
-            registerData.s_discount === ""
+            registerData.s_discount === "" ||
+            registerData.s_description === ""
           ) {
             setRegisterError({
               Error: "Nhập đầy đủ thông tin",
@@ -81,8 +83,9 @@ export default function ProductForm({title, handleClose}) {
             });
         } else{
             let formData = new FormData();
-            // formData.append("file_upload", fileUpload, fileUpload.name);
-      
+            if(fileUpload != null){
+                formData.append("file_upload", fileUpload, fileUpload.name);
+            }
             Object.keys(registerData).forEach((key) => {
               formData.append(`${key}`, registerData[key]);
             });
@@ -91,7 +94,6 @@ export default function ProductForm({title, handleClose}) {
             handleClose();
         }
     }
-    const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
@@ -102,8 +104,6 @@ export default function ProductForm({title, handleClose}) {
         }
         const objectUrl = URL.createObjectURL(selectedImage);
         setPreviewImg(objectUrl);
-    
-        // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl);
       }, [selectedImage]);
     const imageChange = (e) => {
@@ -224,14 +224,14 @@ export default function ProductForm({title, handleClose}) {
                             <br></br>
                             <FormControl>
                                 <InputLabel htmlFor="outlined-adornment-password">
-                                    Giảm giá
+                                    Giảm giá %
                                 </InputLabel>
                                 <OutlinedInput
                                 type="text"
                                 name="s_discount"
                                 value={registerData.s_discount}
                                 onChange={onChange}
-                                label="Giảm giá"
+                                label="Giảm giá %"
                                 placeholder='20%'
                                 style={styleInput}
                                 />

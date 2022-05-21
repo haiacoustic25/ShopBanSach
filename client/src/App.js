@@ -59,7 +59,7 @@ function App() {
               <Route path="/thanh-toan" element={<PayPage />} />
               <Route path="/account/:id" element={<Account />} />
 
-              {isAuth && isAdmin && (
+              {/* {isAuth && isAdmin && ( */}
                 <>
                   <Route path="/admin" element={<Layout />}>
                     <Route index element={<Dashboard />} />
@@ -74,7 +74,7 @@ function App() {
                     <Route path="Categorys" element={<Categorys />} />
                   </Route>
                 </>
-              )}
+              {/* )} */}
             </Route>
           </Routes>
         </ThemeProvider>
