@@ -8,15 +8,10 @@ import { Modal } from "react-bootstrap";
 import {
   Button,
   OutlinedInput,
-  InputAdornment,
-  IconButton,
   FormControl,
   InputLabel,
-  FormHelperText,
   Fab,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@material-ui/icons/Add";
 const Account = () => {
   const styleInput = {
@@ -34,7 +29,9 @@ const Account = () => {
   });
   const [selectedImage, setSelectedImage] = useState();
   const [previewImg, setPreviewImg] = useState();
-
+  const oldImg = user.user?.avatar
+    ? `http://localhost:8000/uploads/user/${user.user?.avatar}`
+    : "";
   const onChange = (event) => {
     setUpdateUserData({
       ...updateUserData,
@@ -88,7 +85,7 @@ const Account = () => {
         </div>
         <div className="account d-flex">
           <div className="account__img">
-            <img src={user?.user?.avatar} alt="" />
+            <img src={oldImg} alt="" />
           </div>
           <div className="account__infor d-flex">
             <div className="account__infor--row">
@@ -123,7 +120,7 @@ const Account = () => {
             <div className="d-flex">
               <div className="account__form--left">
                 <div className="account__form--left-img">
-                  <img src={previewImg} alt="" />
+                  <img src={previewImg ? previewImg : oldImg} alt="" />
                 </div>
                 <label
                   htmlFor="upload-photo"

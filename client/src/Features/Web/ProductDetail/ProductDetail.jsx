@@ -52,6 +52,7 @@ const ProductDetail = () => {
   const user = useSelector((state) => state?.user?.user?.user);
 
   const handleAddProduct = () => {
+    console.log(user.id, id, quantity);
     if (user) {
       dispatch(
         addProductIntoCartRedux(
