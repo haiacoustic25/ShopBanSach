@@ -56,7 +56,7 @@ export default function ModalEditAuthor({ title, handleClose, Data }) {
       Object.keys(data).forEach((key) => {
         formData.append(`${key}`, data[key]);
       });
-      dispatch(updateAuthor(Data.id, formData));
+      dispatch(updateAuthor(formData));
       handleClose();
     }
   };

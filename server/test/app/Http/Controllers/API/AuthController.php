@@ -81,32 +81,54 @@ class AuthController extends Controller
 			]);
 		}
 
-        // public function updateUser(Request $request, $id)
-        // {
+        public function updateUser(Request $request)
+        {
+				$id = (int)$request -> input('id');
+				$validator = Validator::make($request->all(),[
+					'name' => ['required', 'string', 'max:255'],
+					'email' => ['required', 'string', 'email', 'max:255'],
+					'phone' => ['required', 'string' ,'max:10'],
+					'address' => ['required'],
+					'isAdmin' => ['required']
+				]);
+		
+				if($validator->fails())
+				{
+		
+				return response()->json([
+					'validate_err' => $validator->errors(),
+				]);
+				}
+				else{
+					$user = User::find($id);
+					$user->name = $request->input('name');
+					$user->email = $request->input('email');
+					$user->username = $request->input('username');
+					$user->phone = $request->input('phone');
+					$user->address = $request->input('address');
+					$user->isAdmin = $request->input('isAdmin');
+					if($request->has('file_upload'))
+					{
+						$des = public_path('uploads/user/'.$user->avatar);
+							if(File::exists($des))
+							{
+								File::delete($des);
+							}
+							$file = $request->file_upload;
+							$ext = $request->file_upload->extension();
+							$file_name = time().'-'.'user'.'.'.$ext;
 
-		// 		$user = User::find($id);
-		// 		$des = public_path('uploads/user/'.$user->avatar);
-		// 			if(File::exists($des))
-		// 			{
-		// 				File::delete($des);
-		// 			}
-		// 			$file = $request->file_upload;
-		// 			$ext = $request->file_upload->extension();
-		// 			$file_name = time().'-'.'user'.'.'.$ext;
+						$file->move(public_path('uploads/user'),$file_name);
+						$user->avatar = $file_name;
+					}
+					$user->update();
 
-		// 			$file->move(public_path('uploads/user'),$file_name);
-					
-		// 		$user->avatar = $file_name;
-		// 		$user->update();
-
-		// 		return response()->json([
-		// 			'status'=> 200,
-		// 			'message' => 'update successful',
-		// 			'tesst' => $des,
-		// 		]);
-
-		// 		// }
-		// 	}
+					return response()->json([
+						'status'=> 200,
+						'message' => 'update successful',
+					]);
+				}
+			}
 		public function postAuthLogin(Request $request)
 		{
 			// $arr = [

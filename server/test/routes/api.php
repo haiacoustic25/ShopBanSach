@@ -49,7 +49,7 @@ Route::post('/add-book', [BookController::class,'store']);
 
 Route::get('/edit-book/{id}',[BookController::class,'findBookById']);
 
-Route::put('/update-book/{id}',[BookController::class, 'updateBook']);
+Route::post('/update-book',[BookController::class, 'updateBook']);
 
 Route::delete('/delete-book/{id}',[BookController::class, 'deleteById']);
 
@@ -59,7 +59,7 @@ Route::get('/get-user',[AuthController::class,'show']);
 
 Route::post('/register', [AuthController::class,'store']);
 
-Route::put('/update-user/{id}',[AuthController::class, 'updateUser']);
+Route::post('/update-user',[AuthController::class, 'updateUser']);
 
 Route::post('/login', [AuthController::class,'postAuthLogin']);
 

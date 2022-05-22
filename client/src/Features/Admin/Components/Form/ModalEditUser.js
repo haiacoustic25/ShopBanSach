@@ -33,6 +33,7 @@ const userRole = [
 export default function ModalEditUser({title, handleClose, Data}) {
     const dispatch = useDispatch();
     const [registerData, setRegisterData] = useState({
+        id: Data.id,
         name: Data.name,
         username: Data.username,
         email: Data.email,
@@ -72,7 +73,14 @@ export default function ModalEditUser({title, handleClose, Data}) {
             setTimeout(function(){
                 NotificationManager.success("Update Success", "", 2000);
             },1000)
-            dispatch(updateUser(Data.id, registerData));
+            let formData = new FormData();
+            if (fileUpload) {
+                formData.append("file_upload", fileUpload);
+            }
+            Object.keys(registerData).forEach((key) => {
+                formData.append(`${key}`, registerData[key]);
+            });
+            dispatch(updateUser(formData));
             handleClose();
           }
     }

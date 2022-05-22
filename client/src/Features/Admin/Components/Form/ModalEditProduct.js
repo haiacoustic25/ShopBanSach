@@ -43,6 +43,7 @@ export default function ModalEditProduct({title, handleClose, Data}) {
     }, [])
 
     const [registerData, setRegisterData] = useState({
+        id: Data.id,
         s_name: Data.s_name,
         s_price: Data.s_price,
         s_nsx: Data.s_nsx,
@@ -84,18 +85,22 @@ export default function ModalEditProduct({title, handleClose, Data}) {
             });
         }else{
             let formData = new FormData();
-            formData.append("file_upload", fileUpload);
+            if (fileUpload) {
+                formData.append("file_upload", fileUpload);
+            }
             Object.keys(registerData).forEach((key) => {
                 formData.append(`${key}`, registerData[key]);
             });
             setTimeout(function(){
                 NotificationManager.success("Update Success", "", 2000);
             },1000)
-            dispatch(updateProduct(Data.id, formData))
+            dispatch(updateProduct(formData))
             handleClose();
         }
     }
-    const imgOld = Data.s_image ? `http://localhost:8000/uploads/book/${Data.s_image}` : '' 
+    const imgOld = Data.s_image 
+      ? `http://localhost:8000/uploads/book/${Data.s_image}` 
+      : '';
     const [previewImg, setPreviewImg] = useState(imgOld);
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);

@@ -285,14 +285,14 @@ export const updateUsersSuccess = () => {
   };
 };
 
-export const updateUser = (id, User) => {
+export const updateUser = (User) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.put(
-        `http://localhost:8000/api/update-user/${id}`,User
+      let res = await axios.post(
+        'http://localhost:8000/api/update-user',User
       );
       if (res && res.data.status === 200) {
-        dispatch(updateUsersSuccess(User));
+        dispatch(updateUsersSuccess());
         dispatch(fetchAllUsers());
       }
     } catch (error) {}
