@@ -24,17 +24,16 @@ const Account = () => {
     marginBottom: "20px",
     backgroundColor: "#fff",
   };
+  const user = useSelector((state) => state.user.user);
   const [updateUserData, setUpdateUserData] = useState({
-    name: "",
-    username: "",
-    password: "",
-    address: "",
-    phone: "",
-    email: "",
+    name: user?.user?.name,
+    password: user?.user?.password,
+    address: user?.user?.address,
+    phone: user?.user?.phone,
+    email: user?.user?.email,
   });
   const [selectedImage, setSelectedImage] = useState();
   const [previewImg, setPreviewImg] = useState();
-  const user = useSelector((state) => state.user.user);
 
   const onChange = (event) => {
     setUpdateUserData({
@@ -48,6 +47,8 @@ const Account = () => {
   };
 
   // preview img
+  const [fileUpload, setFileUpload] = useState(null);
+
   useEffect(() => {
     if (!selectedImage) {
       setPreviewImg(undefined);
@@ -62,7 +63,7 @@ const Account = () => {
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
-      // setFileUpload(e.target.files[0]);
+      setFileUpload(e.target.files[0]);
     }
   };
   // modal
@@ -161,21 +162,6 @@ const Account = () => {
                   />
                 </FormControl>
                 <br></br>
-                <FormControl>
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Tên đăng nhập
-                  </InputLabel>
-                  <OutlinedInput
-                    type="text"
-                    name="username"
-                    value={updateUserData.username}
-                    onChange={onChange}
-                    label="Tên đăng nhập"
-                    style={styleInput}
-                  />
-                </FormControl>
-                <br></br>
-
                 <FormControl>
                   <InputLabel htmlFor="outlined-adornment-password">
                     Địa chỉ

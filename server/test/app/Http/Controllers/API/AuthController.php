@@ -23,7 +23,7 @@ class AuthController extends Controller
 			'username' => ['required', 'string', 'max:255', 'unique:users'],
 			'phone' => ['required', 'string' ,'max:10'],
 			'address' => ['required'],
-			'isAdmin' => ['required'],
+			'isAdmin' =>[],
 			'password' => ['required', 'string', 'min:8'],
 		]);
 
@@ -35,6 +35,8 @@ class AuthController extends Controller
 		]);
 		}
 		else{
+		if($request->input('isAdmin') == null) $isAdmin = 0;
+		else $isAdmin = $request->input('isAdmin');
 		if($request->has('file_upload'))
 		{
 			$file = $request->file_upload;
@@ -47,7 +49,7 @@ class AuthController extends Controller
             'name' => $request->name,
 			'email' => $request->email,
 			'address' => $request->address,
-			'isAdmin' => $request->isAdmin,
+			'isAdmin' => $isAdmin,
 			'username' => $request->username,
             'password' => bcrypt($request->password),
 			'phone' => $request->phone,
