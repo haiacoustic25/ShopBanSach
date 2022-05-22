@@ -171,15 +171,11 @@ export const addProductIntoCartRedux = (
   return async (dispatch, getState) => {
     dispatch(addProductIntoCartRequest());
     try {
-      const sendData = {
+      const res = await axios.post("http://localhost:8000/api/add-cart", {
         cart_id,
         book_id,
         gh_amount,
-      };
-      const res = await axios.post(
-        "http://localhost:8000/api/add-cart",
-        sendData
-      );
+      });
       if (res.data.status === 200) {
         dispatch(addProductIntoCartSuccess());
         dispatch(fetchAllCartReduct(username));
@@ -288,9 +284,7 @@ export const updateUsersSuccess = () => {
 export const updateUser = (User) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post(
-        'http://localhost:8000/api/update-user',User
-      );
+      let res = await axios.post("http://localhost:8000/api/update-user", User);
       if (res && res.data.status === 200) {
         dispatch(updateUsersSuccess());
         dispatch(fetchAllUsers());
@@ -424,7 +418,8 @@ export const updateProduct = (Product) => {
   return async (dispatch, getState) => {
     try {
       let res = await axios.post(
-        'http://localhost:8000/api/update-book',Product
+        "http://localhost:8000/api/update-book",
+        Product
       );
       if (res && res.data.status === 200) {
         dispatch(updateProductsSuccess());
@@ -490,7 +485,10 @@ export const createNewAuthor = (Author) => {
   return async (dispatch, getState) => {
     dispatch(createAuthorsRequest());
     try {
-      let res = await axios.post("http://localhost:8000/api/add-author", Author);
+      let res = await axios.post(
+        "http://localhost:8000/api/add-author",
+        Author
+      );
       if (res.data.status === 200) {
         dispatch(createAuthorsSuccess());
         dispatch(fetchAllAuthors());
@@ -545,8 +543,9 @@ export const fetchAuthorByIdRedux = (id) => {
       }
     } catch (error) {
       dispatch(fetchAuthorByIdError());
-    }}
-}
+    }
+  };
+};
 // Update Author
 export const updateAuthorsSuccess = () => {
   return {
@@ -558,14 +557,15 @@ export const updateAuthor = (Author) => {
   return async (dispatch, getState) => {
     try {
       let res = await axios.post(
-        'http://localhost:8000/api/update-author', Author
+        "http://localhost:8000/api/update-author",
+        Author
       );
       if (res && res.data.status === 200) {
         dispatch(updateAuthorsSuccess());
         dispatch(fetchAllAuthors());
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 };
@@ -686,8 +686,8 @@ export const fetchCategoryByIdRedux = (id) => {
     } catch (error) {
       dispatch(fetchCategoryByIdError());
     }
-  }
-}
+  };
+};
 // Update Category
 export const updateCategorysSuccess = () => {
   return {
@@ -699,16 +699,15 @@ export const updateCategory = (id, category) => {
   return async (dispatch, getState) => {
     try {
       let res = await axios.put(
-        `http://localhost:8000/api/update-category/${id}`,category
+        `http://localhost:8000/api/update-category/${id}`,
+        category
       );
       if (res && res.data.status === 200) {
         dispatch(updateCategorysSuccess(category));
         dispatch(fetchAllCategorys());
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-}
-
-
+  };
+};

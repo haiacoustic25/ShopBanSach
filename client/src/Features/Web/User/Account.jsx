@@ -8,15 +8,10 @@ import { Modal } from "react-bootstrap";
 import {
   Button,
   OutlinedInput,
-  InputAdornment,
-  IconButton,
   FormControl,
   InputLabel,
-  FormHelperText,
   Fab,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@material-ui/icons/Add";
 const Account = () => {
   const styleInput = {
@@ -24,18 +19,19 @@ const Account = () => {
     marginBottom: "20px",
     backgroundColor: "#fff",
   };
+  const user = useSelector((state) => state.user.user);
   const [updateUserData, setUpdateUserData] = useState({
-    name: "",
-    username: "",
-    password: "",
-    address: "",
-    phone: "",
-    email: "",
+    name: user?.user?.name,
+    password: user?.user?.password,
+    address: user?.user?.address,
+    phone: user?.user?.phone,
+    email: user?.user?.email,
   });
   const [selectedImage, setSelectedImage] = useState();
   const [previewImg, setPreviewImg] = useState();
-  const user = useSelector((state) => state.user.user);
-
+  const oldImg = user.user?.avatar
+    ? `http://localhost:8000/uploads/user/${user.user?.avatar}`
+    : "";
   const onChange = (event) => {
     setUpdateUserData({
       ...updateUserData,
@@ -48,6 +44,8 @@ const Account = () => {
   };
 
   // preview img
+  const [fileUpload, setFileUpload] = useState(null);
+
   useEffect(() => {
     if (!selectedImage) {
       setPreviewImg(undefined);
@@ -62,7 +60,7 @@ const Account = () => {
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
-      // setFileUpload(e.target.files[0]);
+      setFileUpload(e.target.files[0]);
     }
   };
   // modal
@@ -87,7 +85,7 @@ const Account = () => {
         </div>
         <div className="account d-flex">
           <div className="account__img">
-            <img src={user?.user?.avatar} alt="" />
+            <img src={oldImg} alt="" />
           </div>
           <div className="account__infor d-flex">
             <div className="account__infor--row">
@@ -122,7 +120,7 @@ const Account = () => {
             <div className="d-flex">
               <div className="account__form--left">
                 <div className="account__form--left-img">
-                  <img src={previewImg} alt="" />
+                  <img src={previewImg ? previewImg : oldImg} alt="" />
                 </div>
                 <label
                   htmlFor="upload-photo"
@@ -161,21 +159,6 @@ const Account = () => {
                   />
                 </FormControl>
                 <br></br>
-                <FormControl>
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Tên đăng nhập
-                  </InputLabel>
-                  <OutlinedInput
-                    type="text"
-                    name="username"
-                    value={updateUserData.username}
-                    onChange={onChange}
-                    label="Tên đăng nhập"
-                    style={styleInput}
-                  />
-                </FormControl>
-                <br></br>
-
                 <FormControl>
                   <InputLabel htmlFor="outlined-adornment-password">
                     Địa chỉ

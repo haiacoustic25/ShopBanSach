@@ -26,7 +26,10 @@ class DetailCartController extends Controller
 		]);
 		}
 		else{
-			$gh = tb_detail_cart::where('book_id','=',$request->input('book_id'));
+			$gh = tb_detail_cart::where([['cart_id','=',$request->input('cart_id')],
+			['book_id','=',$request->input('book_id')]
+		])->first();
+			
 			if($gh != null)
 			{
 				$amount = $gh->gh_amount + $request->input('gh_amount');

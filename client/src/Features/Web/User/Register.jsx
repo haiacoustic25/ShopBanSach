@@ -90,7 +90,7 @@ const Register = () => {
       registerData.name === "" ||
       registerData.username === "" ||
       registerData.password === "" ||
-      // registerData.address === "" ||
+      registerData.address === "" ||
       registerData.phone === "" ||
       confirmPassword === ""
     ) {
