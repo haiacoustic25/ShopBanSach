@@ -67,5 +67,19 @@ class DetailCartController extends Controller
                 'test' => $cart_id,
 			]);
 		}
+		public function deleteDetailCartByProduct(Request $request)
+		{
+			$gh = tb_detail_cart::where([['cart_id','=',$request->input('cart_id')],
+			['book_id','=',$request->input('book_id')]])->first();
+			if($gh != null)
+			{
+				$gh->delete();
+			}
+
+			return response()->json([
+				'status' => 200,
+				'mes' => "Delete produc successful.",
+			]);
+		}
 
 }

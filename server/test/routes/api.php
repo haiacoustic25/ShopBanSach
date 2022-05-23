@@ -41,6 +41,8 @@ Route::put('/update-category/{id}',[CategoryController::class, 'updateCategory']
 
 Route::delete('/delete-category/{id}',[CategoryController::class, 'deleteById']);
 
+Route::post('/delete-product-in-cart',[DetailCartController::class, 'deleteDetailCartByProductdeleteById']);
+
 //book
 
 Route::get('/book',[BookController::class,'show']);
