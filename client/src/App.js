@@ -64,9 +64,12 @@ function App() {
                 element={isAuth ? <Account /> : <Navigate to="/" />}
               />
 
-              {/* {isAuth && isAdmin && ( */}
+              {/*  ( */}
               <>
-                <Route path="/admin" element={<Layout />}>
+                <Route
+                  path="/admin"
+                  element={isAdmin ? <Layout /> : <Navigate to="/" />}
+                >
                   <Route index element={<Dashboard />} />
                   <Route path="Users">
                     <Route index element={<Users />} />
@@ -79,7 +82,6 @@ function App() {
                   <Route path="Categorys" element={<Categorys />} />
                 </Route>
               </>
-              {/* )} */}
             </Route>
           </Routes>
         </ThemeProvider>

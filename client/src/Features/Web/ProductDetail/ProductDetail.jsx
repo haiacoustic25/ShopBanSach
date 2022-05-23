@@ -76,6 +76,11 @@ const ProductDetail = () => {
   const nameCategory = useSelector((state) => state.category.nameCategory);
   const nameAuthor = useSelector((state) => state.author.nameAuthor);
 
+  const oldImg = inforProduct ? (
+    `http://localhost:8000/uploads/book/${inforProduct.s_image}`
+  ) : (
+    <></>
+  );
   return (
     <div>
       <>
@@ -99,14 +104,7 @@ const ProductDetail = () => {
             </div>
             <div className="row my-4">
               <div className="inforProduct__img col-sm-4">
-                <img
-                  src={
-                    inforProduct &&
-                    require(`../../../Assets/Img/${inforProduct.s_image}`)
-                      .default
-                  }
-                  alt=""
-                />
+                <img src={oldImg} alt="" />
               </div>
               <div className="col-sm-7 p-0">
                 <div className="inforProduct__name row text-uppercase m-0">
@@ -126,16 +124,16 @@ const ProductDetail = () => {
                 <div className="row">
                   <div className="inforProduct__price d-flex">
                     <div className="inforProduct__price--new">
-                      {Number(inforProduct.s_price).toLocaleString("vi-VN", {
+                      {Number(
+                        inforProduct.s_price -
+                          (inforProduct.s_price * inforProduct.s_discount) / 100
+                      ).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}
                     </div>
                     <div className="inforProduct__price--old">
-                      {Number(
-                        inforProduct.s_price -
-                          (inforProduct.s_price * inforProduct.s_discount) / 100
-                      ).toLocaleString("vi-VN", {
+                      {Number(inforProduct.s_price).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}

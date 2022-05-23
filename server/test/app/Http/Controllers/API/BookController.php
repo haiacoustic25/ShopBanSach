@@ -11,7 +11,7 @@ class BookController extends Controller
 {
    public function store(Request $request)
 	{
-		$file_name = "";
+		// $file_name = "";
 		$validator = Validator::make($request->all(),[
 			's_name' => 'required|max:100',
 			's_price' => 'required',
@@ -31,15 +31,7 @@ class BookController extends Controller
 		]);
 		}
 		else{
-		if($request->has('file_upload'))
-		{
-			$file = $request->file_upload;
-			$ext = $request->file_upload->extension();
-			$file_name = time().'-'.'book'.'.'.$ext;
-
-			$file->move(public_path('uploads/book'),$file_name);
-			// $sach->s_image = $file_name;
-		}
+		
 		// $sach = tb_book::create([
 		// 	's_name' => $request->s_name
 		// ])
@@ -54,6 +46,15 @@ class BookController extends Controller
 		$sach->author_id = $request->input('author_id');
 		$sach->category_id = $request->input('category_id');
 		$sach->s_amount = $request->input('s_amount');
+		if($request->has('file_upload'))
+		{
+			$file = $request->file_upload;
+			$ext = $request->file_upload->extension();
+			$file_name = time().'-'.'book'.'.'.$ext;
+			
+			$file->move(public_path('uploads/book'),$file_name);
+			$sach->s_image = $file_name;
+		}
 		$sach->save();
 
 		return response()->json([

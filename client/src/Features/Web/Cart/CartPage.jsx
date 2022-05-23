@@ -72,9 +72,7 @@ const CartPage = () => {
               <tr key={index}>
                 <td>
                   <img
-                    src={
-                      require(`../../../Assets/Img/${product.s_image}`).default
-                    }
+                    src={`http://localhost:8000/uploads/book/${product.s_image}`}
                     alt=""
                     className="cartPage__img"
                   />
