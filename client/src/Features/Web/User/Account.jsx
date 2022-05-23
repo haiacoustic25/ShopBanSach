@@ -64,6 +64,7 @@ const Account = () => {
         Error_Phone: "Điện thoại nhiều nhất 10 kí tự",
       });
     } else {
+      setUpdateError({ Error: "", Error_Phone: "" });
       let formData = new FormData();
       if (fileUpload) {
         formData.append("file_upload", fileUpload);
@@ -74,7 +75,6 @@ const Account = () => {
       dispatch(updateUser(formData));
       handleClose();
     }
-    setShow(false);
   };
 
   // preview img
@@ -100,7 +100,10 @@ const Account = () => {
   // modal
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    if (updateError.Error === "" && updateError.Error_Phone === "")
+      setShow(false);
+  };
   const handleShow = () => setShow(true);
   return (
     <>
