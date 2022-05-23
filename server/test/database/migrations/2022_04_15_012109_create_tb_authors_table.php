@@ -18,7 +18,7 @@ class CreateTbAuthorsTable extends Migration
 			$table->string('tg_name');
 			$table->longText('tg_description');
 			$table->dateTime('tg_dob');
-            $table->string('tg_image');
+            $table->string('tg_image')->default(null);
             $table->timestamps();
         });
     }
