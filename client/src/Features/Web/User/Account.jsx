@@ -3,7 +3,7 @@ import Header from "../../../Components/Header/Header";
 import { Link } from "react-router-dom";
 import Footer from "../../../Components/Footer/Footer";
 import "../../../Assets/SCSS/accountPage.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import {
   Button,
@@ -11,8 +11,10 @@ import {
   FormControl,
   InputLabel,
   Fab,
+  FormHelperText,
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
+import { updateUser } from "../../../Redux/Action/action";
 const Account = () => {
   const styleInput = {
     width: "250px",
@@ -21,14 +23,21 @@ const Account = () => {
   };
   const user = useSelector((state) => state.user.user);
   const [updateUserData, setUpdateUserData] = useState({
+    id: user?.user?.id,
     name: user?.user?.name,
+    username: user?.user?.username,
     password: user?.user?.password,
     address: user?.user?.address,
     phone: user?.user?.phone,
     email: user?.user?.email,
   });
+  const [updateError, setUpdateError] = useState({
+    Error: "",
+    Error_Phone: "",
+  });
   const [selectedImage, setSelectedImage] = useState();
   const [previewImg, setPreviewImg] = useState();
+  const dispatch = useDispatch();
   const oldImg = user.user?.avatar
     ? `http://localhost:8000/uploads/user/${user.user?.avatar}`
     : "";
@@ -38,9 +47,34 @@ const Account = () => {
       [event.target.name]: event.target.value,
     });
   };
-  const handleUpdate = () => {
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    if (
+      updateUserData.name === "" ||
+      updateUserData.email === "" ||
+      updateUserData.username === "" ||
+      updateUserData.phone === "" ||
+      updateUserData.address === ""
+    ) {
+      setUpdateError({
+        Error: "Nhập đầy đủ thông tin",
+      });
+    } else if (updateUserData.phone.length > 10) {
+      setUpdateError({
+        Error_Phone: "Điện thoại nhiều nhất 10 kí tự",
+      });
+    } else {
+      let formData = new FormData();
+      if (fileUpload) {
+        formData.append("file_upload", fileUpload);
+      }
+      Object.keys(updateUserData).forEach((key) => {
+        formData.append(`${key}`, updateUserData[key]);
+      });
+      dispatch(updateUser(formData));
+      handleClose();
+    }
     setShow(false);
-    console.log(updateUserData);
   };
 
   // preview img
@@ -116,7 +150,7 @@ const Account = () => {
           <Modal.Title>Sửa thông tin cá nhân</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form onSubmit={handleUpdate}>
             <div className="d-flex">
               <div className="account__form--left">
                 <div className="account__form--left-img">
@@ -185,6 +219,18 @@ const Account = () => {
                     label="Số điện thoại"
                     style={styleInput}
                   />
+                  {updateError.Error_Phone !== "" && (
+                    <FormHelperText
+                      style={{
+                        color: "red",
+                        fontSize: "14px",
+                        marginBottom: "15px",
+                        marginTop: "-20px",
+                      }}
+                    >
+                      {updateError.Error_Phone}
+                    </FormHelperText>
+                  )}
                 </FormControl>
                 <br></br>
                 <FormControl>
@@ -200,6 +246,17 @@ const Account = () => {
                     style={styleInput}
                   />
                 </FormControl>
+                {updateError.Error !== "" && (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "14px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {updateError.Error}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -208,9 +265,8 @@ const Account = () => {
                 Hủy
               </Button>
               <Button
-                typr="submit"
+                type="submit"
                 variant="primary"
-                onClick={handleUpdate}
                 style={{
                   backgroundColor: "#00ab9f",
                 }}

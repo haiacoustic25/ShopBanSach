@@ -35,41 +35,41 @@ class AuthController extends Controller
 		]);
 		}
 		else{
-		if($request->input('isAdmin') == null) $isAdmin = 0;
-		else $isAdmin = $request->input('isAdmin');
-		if($request->has('file_upload'))
-		{
-			$file = $request->file_upload;
-			$ext = $request->file_upload->extension();
-			$file_name = time().'-'.'user'.'.'.$ext;
+			if($request->input('isAdmin') == null) $isAdmin = 0;
+			else $isAdmin = $request->input('isAdmin');
+			if($request->has('file_upload'))
+			{
+				$file = $request->file_upload;
+				$ext = $request->file_upload->extension();
+				$file_name = time().'-'.'user'.'.'.$ext;
 
-			$file->move(public_path('uploads/user'),$file_name);
-		}
-		$user = User::create([
-            'name' => $request->name,
-			'email' => $request->email,
-			'address' => $request->address,
-			'isAdmin' => $isAdmin,
-			'username' => $request->username,
-            'password' => bcrypt($request->password),
-			'phone' => $request->phone,
-            'avatar' => $file_name,
-		 ]);
-		$cart = tb_cart::create([
-			'username' => $request->username,
-		]);
-		
+				$file->move(public_path('uploads/user'),$file_name);
+			}
+			$user = User::create([
+				'name' => $request->name,
+				'email' => $request->email,
+				'address' => $request->address,
+				'isAdmin' => $isAdmin,
+				'username' => $request->username,
+				'password' => bcrypt($request->password),
+				'phone' => $request->phone,
+				'avatar' => $file_name,
+			]);
+			$cart = tb_cart::create([
+				'username' => $request->username,
+			]);
+			
 
 
-        $token = $user->createToken($user->username.'_Token')->plainTextToken;
+			$token = $user->createToken($user->username.'_Token')->plainTextToken;
 
-		return response()->json([
-			'status'=> 200,
-			'message' => 'add successful',
-            'username' => $user->username,
-            'token' => $token,
-			'user' => $user
-		]);
+			return response()->json([
+				'status'=> 200,
+				'message' => 'add successful',
+				'username' => $user->username,
+				'token' => $token,
+				'user' => $user
+			]);
 
 		}}
 
@@ -91,7 +91,7 @@ class AuthController extends Controller
 					'email' => ['required', 'string', 'email', 'max:255'],
 					'phone' => ['required', 'string' ,'max:10'],
 					'address' => ['required'],
-					'isAdmin' => ['required']
+					'isAdmin' => []
 				]);
 		
 				if($validator->fails())
@@ -102,13 +102,15 @@ class AuthController extends Controller
 				]);
 				}
 				else{
+					if($request->input('isAdmin') == null) $isAdmin = 0;
+					else $isAdmin = $request->input('isAdmin');
 					$user = User::find($id);
 					$user->name = $request->input('name');
 					$user->email = $request->input('email');
 					$user->username = $request->input('username');
 					$user->phone = $request->input('phone');
 					$user->address = $request->input('address');
-					$user->isAdmin = $request->input('isAdmin');
+					$user->isAdmin = $isAdmin;
 					if($request->has('file_upload'))
 					{
 						$des = public_path('uploads/user/'.$user->avatar);
