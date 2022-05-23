@@ -7,16 +7,40 @@ import { Button } from "@mui/material";
 
 import "../../../Assets/SCSS/cartPage.scss";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteProductInCartRedux } from "../../../Redux/Action/action";
 
 const CartPage = () => {
   const listProducts = useSelector((state) => state?.cart?.listProducts.books);
-
+  const user = useSelector((state) => state?.user?.user?.user);
   // modal
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const dispatch = useDispatch();
+  const [bookIdDelete, setBookIdDelete] = useState();
+  const handleShow = (id) => {
+    setBookIdDelete(id);
+    setShow(true);
+  };
+
+  const handleDeleteProductInCart = () => {
+    dispatch(
+      deleteProductInCartRedux(
+        { cart_id: user.id, book_id: bookIdDelete },
+        user.username
+      )
+    );
+    handleClose();
+  };
+
+  const totalPriceInCart = () => {
+    let total = 0;
+    listProducts.forEach((element) => {
+      total += Number(element?.s_price * element?.s_amount);
+    });
+    return total;
+  };
 
   return (
     <div>
@@ -57,7 +81,7 @@ const CartPage = () => {
                 </td>
                 <td className="cartPage__name">
                   {product.s_name}
-                  <span onClick={handleShow}>Xóa</span>
+                  <span onClick={() => handleShow(product.id)}>Xóa</span>
                 </td>
                 <td>
                   {Number(product?.s_price).toLocaleString("vi-VN", {
@@ -83,7 +107,11 @@ const CartPage = () => {
         </Table>
         <div>
           <div className="cartPage__total d-flex flex-row-reverse">
-            Tổng tiền: 88,000 đ
+            Tổng tiền:{" "}
+            {totalPriceInCart().toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}{" "}
           </div>
           <div className="cartPage__btn d-flex flex-row-reverse">
             <Button
@@ -111,7 +139,7 @@ const CartPage = () => {
           </Button>
           <Button
             variant="primary"
-            onClick={handleClose}
+            onClick={handleDeleteProductInCart}
             style={{
               backgroundColor: "#00ab9f",
             }}
