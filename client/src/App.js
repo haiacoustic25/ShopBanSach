@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./Assets/SCSS/app.scss";
@@ -52,11 +52,17 @@ function App() {
             <Route path="/">
               <Route index element={<HomePage />} />
               <Route path="/:id" element={<ProductDetail />} />
-              <Route path="/gio-hang" element={<CartPage />} />
+              <Route
+                path="/gio-hang"
+                element={isAuth ? <CartPage /> : <Navigate to="/" />}
+              />
               <Route path="/dang-ky" element={<Register />} />
               <Route path="/dang-nhap" element={<Login />} />
               <Route path="/thanh-toan" element={<PayPage />} />
-              {isAuth && <Route path="/account/:id" element={<Account />} />}
+              <Route
+                path="/account/:id"
+                element={isAuth ? <Account /> : <Navigate to="/" />}
+              />
 
               {/* {isAuth && isAdmin && ( */}
               <>
