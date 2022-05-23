@@ -43,7 +43,7 @@ export const Dashboard = () => {
   }, []);
 
   const listCategorys = useSelector(
-    (state) => state?.category.listCategorys.categories
+    (state) => state?.category?.listCategorys?.categories
   );
   useEffect(() => {
     dispatch(fetchAllCategorys());

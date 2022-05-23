@@ -13,12 +13,12 @@ const Navbar = () => {
     setSearch({ ...search, [e.target.name]: e.target.value });
   };
   const isAuth = useSelector((state) => state.user.isAuth);
-  const user = useSelector((state) => state.user?.user);
+  const user = useSelector((state) => state.user?.user?.user);
   const listProducts = useSelector((state) => state.cart.listProducts);
 
   useEffect(() => {
-    if (user?.user?.username) {
-      dispatch(fetchAllCartReduct(user?.user?.username));
+    if (user?.username) {
+      dispatch(fetchAllCartReduct(user?.username));
     }
   }, []);
   const handleSearch = () => {};
