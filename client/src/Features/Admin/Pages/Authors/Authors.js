@@ -29,6 +29,7 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import ConfirmForm from "../../Components/Form/ConfirmForm";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -62,13 +63,6 @@ export const Authors = () => {
     dispatch(fetchAllAuthors())
   }, [])
 
-  const handleDeleteAuthor = (Author) => {
-    dispatch(deleteAuthor(Author.id))
-    setTimeout(function(){
-      NotificationManager.success('Delete Success', '', 2000);
-    }, 1000);
-  }
-
   const [filterFn, setFilterFn] = useState({ fn: Authors => { return Authors; } })
   const { 
     tblContainer, 
@@ -91,6 +85,7 @@ export const Authors = () => {
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -100,6 +95,12 @@ export const Authors = () => {
   const handleClickOpenEdit = () =>{
     setOpenEdit(true)
   }
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true)
+  }
+  const handleClickCloseDelete = () =>{
+    setOpenDelete(false);
+  }
   const handleClickCloseEdit = () =>{
     setOpenEdit(false);
   }
@@ -107,6 +108,18 @@ export const Authors = () => {
     setOpenEdit(true)
     setEditData(null)
     setEditData(Author)
+  }
+  const handleDeleteAuthor = (Author) => {
+    setOpenDelete(true)
+    setEditData(null)
+    setEditData(Author)
+  }
+  const handleDelete = () =>{
+    dispatch(deleteAuthor(editData.id))
+    setTimeout(function(){
+          NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
+    handleClickCloseDelete()
   }
   return (
     <>
@@ -157,7 +170,6 @@ export const Authors = () => {
                   variant="outlined"
                   startIcon={<Plus />}
                   sx={{
-                    marginLeft: 2,
                     color: 'black',
                     backgroundColor: '#59ac59',
                     lineHeight: '56px',
@@ -219,6 +231,18 @@ export const Authors = () => {
                 Data={editData}
                 title="Edit Author" 
                 handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
+          {openDelete && 
+            <Popup
+              open={openDelete}
+              setOpen={handleClickOpenDelete}
+            >
+              <ConfirmForm
+                title="Delete Author" 
+                handleDelete={handleDelete}
+                handleClose={handleClickCloseDelete}
               />
             </Popup>
           }

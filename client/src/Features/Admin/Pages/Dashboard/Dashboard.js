@@ -10,9 +10,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { SummaryItem } from "../../Components/Dashboard/summary-item";
-import { PerformanceIndicators } from "../../Components/Dashboard/performance-indicators";
+// import { PerformanceIndicators } from "../../Components/Dashboard/performance-indicators";
 import { OrdersTable } from "../../Components/orders/orders-table";
-import { Cube as CubeIcon } from "../../icons/cube";
+// import { Cube as CubeIcon } from "../../icons/cube";
 import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
 import { User as UserIcon } from "../../icons/user";
 import { Author as AuthorIcon } from "../../icons/author";

@@ -40,7 +40,6 @@ export default function ModalEditUser({title, handleClose, Data}) {
         password: Data.password,
         address: Data.address,
         phone: Data.phone,
-        email: Data.email,
         isAdmin: Data.isAdmin
       });
     const [registerError, setRegisterError] = useState({

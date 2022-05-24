@@ -4,7 +4,7 @@ import { createNewAuthor } from '../../../../Redux/Action/action'
 import './Form.scss';
 import "../../../../Assets/SCSS/register.scss";
 import default_img from "../../../../Assets/Img/default-user-image-register.png";
-import { format } from 'date-fns';
+
 import {
     OutlinedInput,
     FormControl,
@@ -38,7 +38,6 @@ export default function AuthorForm({title, handleClose}) {
     const onClick = () =>{
         setDate(true)
     }
-    const [tg_image, setTg_image] = useState('')
     const [previewImg, setPreviewImg] = useState();
     const [selectedImage, setSelectedImage] = useState();
     const [fileUpload, setFileUpload] = useState(null);
