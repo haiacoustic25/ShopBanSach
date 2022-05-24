@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Form.scss';
 import "../../../../Assets/SCSS/register.scss";
-import default_img from "../../../../Assets/Img/default-user-image-register.png";
 import {
     OutlinedInput,
     FormControl,
@@ -9,9 +8,7 @@ import {
     TextField,
     MenuItem,
     FormHelperText,
-    Fab,
 } from "@mui/material";
-import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
 import {

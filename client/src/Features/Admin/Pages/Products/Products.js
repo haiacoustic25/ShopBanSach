@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet";
 import {
   Paper,
   Box,
-  Button,
   Container,
   Divider,
   TableBody,
@@ -29,6 +28,7 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import ConfirmForm from "../../Components/Form/ConfirmForm";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
@@ -63,12 +63,6 @@ export const Products = () => {
     dispatch(fetchAllProducts())
   }, [])
 
-  const handleDeleteProduct = (Product) => {
-    dispatch(deleteProduct(Product.id))
-    setTimeout(function(){
-      NotificationManager.success('Delete Success', '', 2000);
-    }, 1000);
-  }
   const [filterFn, setFilterFn] = useState({ fn: Products => { return Products; } })
   const { 
     tblContainer, 
@@ -80,7 +74,7 @@ export const Products = () => {
     let target = e.target;
     setFilterFn({
         fn: Products => {
-            if (target.value == "")
+            if (target.value === "")
                 return Products;
             else
                 return Products.filter(x => x.s_name.toLowerCase().includes(target.value))
@@ -90,14 +84,18 @@ export const Products = () => {
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [openDelete, setOpenDelete] = useState(false);
   const handleClose = () => {
     setOpen(false);
-  };
+  }
   const handleClickOpenEdit = () =>{
     setOpenEdit(true)
+  }
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true)
+  }
+  const handleClickCloseDelete = () =>{
+    setOpenDelete(false);
   }
   const handleClickCloseEdit = () =>{
     setOpenEdit(false);
@@ -107,7 +105,18 @@ export const Products = () => {
     setEditData(null)
     setEditData(Product)
   }
-
+  const handleDeleteProduct = (Product) => {
+    setOpenDelete(true)
+    setEditData(null)
+    setEditData(Product)
+  }
+  const handleDelete = () =>{
+    dispatch(deleteProduct(editData.id))
+    setTimeout(function(){
+          NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
+    handleClickCloseDelete()
+  }
   return (
     <>
       <Helmet>
@@ -157,7 +166,6 @@ export const Products = () => {
                 variant="outlined"
                 startIcon={<Plus />}
                 sx={{
-                  marginLeft: 2,
                   color: 'black',
                   backgroundColor: '#59ac59',
                   lineHeight: '56px',
@@ -224,6 +232,18 @@ export const Products = () => {
                 Data={editData}
                 title="Edit Product" 
                 handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
+          {openDelete && 
+            <Popup
+              open={openDelete}
+              setOpen={handleClickOpenDelete}
+            >
+              <ConfirmForm
+                title="Delete Product" 
+                handleDelete={handleDelete}
+                handleClose={handleClickCloseDelete}
               />
             </Popup>
           }

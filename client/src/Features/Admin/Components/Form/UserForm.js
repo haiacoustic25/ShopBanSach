@@ -39,7 +39,6 @@ export default function UserForm({title, handleClose}) {
         password: "",
         address: "",
         phone: "",
-        email: "",
         isAdmin: ""
       });
     const [registerError, setRegisterError] = useState({

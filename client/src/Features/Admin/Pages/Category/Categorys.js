@@ -25,9 +25,11 @@ import CategoryForm from "../../Components/Form/CategoryForm";
 import ModalEditCategory from "../../Components/Form/ModalEditCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategorys, deleteCategory } from "../../../../Redux/Action/action"
+import ConfirmForm from "../../Components/Form/ConfirmForm";
+
 import {
-  NotificationContainer,
-  NotificationManager,
+    NotificationContainer,
+    NotificationManager,
 } from "react-notifications";
 
 const StyledTableRow = styled(TableRow)(() => ({
@@ -52,13 +54,7 @@ export const Categorys = () => {
     dispatch(fetchAllCategorys())
   }, [])
 
-  const handleDeleteCategory = (Category) => {
-    dispatch(deleteCategory(Category.id))
-    setTimeout(function(){
-      NotificationManager.success('Delete Success', '', 2000);
-    }, 1000);
-  }
-
+  
   const [filterFn, setFilterFn] = useState({ fn: Categorys => { return Categorys; } })
   const { 
     tblContainer, 
@@ -70,17 +66,18 @@ export const Categorys = () => {
   const handleSearch = e => {
     let target = e.target;
     setFilterFn({
-        fn: Categorys => {
-            if (target.value == "")
-                return Categorys;
-            else
-                return Categorys.filter(x => x.tl_name.toLowerCase().includes(target.value))
-        }
+      fn: Categorys => {
+        if (target.value === "")
+        return Categorys;
+        else
+        return Categorys.filter(x => x.tl_name.toLowerCase().includes(target.value))
+      }
     })
   }
-
+  
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -90,13 +87,31 @@ export const Categorys = () => {
   const handleClickOpenEdit = () =>{
     setOpenEdit(true)
   }
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true)
+  }
   const handleClickCloseEdit = () =>{
     setOpenEdit(false);
+  }
+  const handleClickCloseDelete = () =>{
+    setOpenDelete(false);
   }
   const handleEditCategory = (Category) =>{
     setOpenEdit(true)
     setEditData(null)
     setEditData(Category)
+  }
+  const handleDeleteCategory = (Category) => {
+    setOpenDelete(true)
+    setEditData(null)
+    setEditData(Category)
+  }
+  const handleDelete = () =>{
+    dispatch(deleteCategory(editData.id))
+    setTimeout(function(){
+          NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
+    handleClickCloseDelete()
   }
   return (
     <>
@@ -147,7 +162,6 @@ export const Categorys = () => {
                   variant="outlined"
                   startIcon={<Plus />}
                   sx={{
-                    marginLeft: 2,
                     color: 'black',
                     backgroundColor: '#59ac59',
                     lineHeight: '56px',
@@ -204,6 +218,18 @@ export const Categorys = () => {
                 Data={editData}
                 title="Edit Category" 
                 handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
+          {openDelete && 
+            <Popup
+              open={openDelete}
+              setOpen={handleClickOpenDelete}
+            >
+              <ConfirmForm
+                title="Delete Category" 
+                handleDelete={handleDelete}
+                handleClose={handleClickCloseDelete}
               />
             </Popup>
           }

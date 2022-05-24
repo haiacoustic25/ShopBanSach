@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, updateProduct } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, fetchAllAuthors, updateProduct } from "../../../../Redux/Action/action"
 import {
     NotificationContainer,
     NotificationManager,
