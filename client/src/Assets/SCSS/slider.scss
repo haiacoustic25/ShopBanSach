@@ -10,16 +10,16 @@
 }
 .carousel-item {
   & > img {
-    height: 750px;
+    height: 550px;
   }
 }
 .carousel-control-prev {
-    &>span{
-        display: none;
-    }
+  & > span {
+    display: none;
+  }
 }
 .carousel-control-next {
-    &>span{
-        display: none;
-    }
+  & > span {
+    display: none;
+  }
 }
