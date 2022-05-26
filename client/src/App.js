@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./Assets/SCSS/app.scss";
-import ScrollTop from "./Assets/Img/ScrollTop.png";
 import HomePage from "./Features/Web/Home/HomePage";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
@@ -89,7 +88,7 @@ function App() {
       {/* scroll to top */}
       {scrollPosition >= 100 && (
         <img
-          src={ScrollTop}
+          src={require("./Assets/Img/ScrollTop.png").default}
           className="rollTheTop"
           onClick={handleRollTheTop}
         ></img>
