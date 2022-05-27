@@ -7,16 +7,15 @@ import {
   Divider,
   TableBody,
   TableCell,
+  Button,
   TableRow,
   Typography,
   Toolbar,
-  InputAdornment,
 } from "@material-ui/core";
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
-import { Search } from "@material-ui/icons";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Popup from "../../Components/controls/Popup";
@@ -24,6 +23,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
 import ProductForm from "../../Components/Form/ProductForm";
 import ModalEditProduct from "../../Components/Form/ModalEditProduct";
+import { CSVLink } from 'react-csv';
+import {
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import {
   NotificationContainer,
   NotificationManager,
@@ -32,7 +37,7 @@ import ConfirmForm from "../../Components/Form/ConfirmForm";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
-      backgroundColor: '#008000a6',
+      backgroundColor: '#00800075',
       cursor:'pointer'
   },
   'div':{
@@ -141,26 +146,33 @@ export const Products = () => {
               Products
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
+            <CSVLink 
+              data={listProducts} 
+            > 
+              <Button color="success" size="large" variant="contained">
+                Export 
+              </Button>
+            </CSVLink>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
           <Toolbar>
-            <Controls.Input
+              <FormControl
+                sx={{
+                  width: '85%',
+                  marginTop: '12px',
+                  marginBottom: '12px'
+                }}
+              >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Search Products
+                  </InputLabel>
+                  <OutlinedInput
+                  type="text"
                   label="Search Products"
-                  InputProps = {{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    )
-                  }}
-                  sx={{
-                    width: '85%',
-                    marginTop: '12px',
-                    marginBottom: '12px'
-                  }}
                   onChange={handleSearch}
-              />
+                  />
+              </FormControl>
               <Controls.Button 
                 text="Add New"
                 variant="outlined"
