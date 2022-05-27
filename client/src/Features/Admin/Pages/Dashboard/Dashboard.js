@@ -49,7 +49,7 @@ export const Dashboard = () => {
     dispatch(fetchAllCategorys());
   }, []);
 
-  const listAuthors = useSelector((state) => state.author.listAuthors.authors);
+  const listAuthors = useSelector((state) => state.author.listAuthors?.authors);
   useEffect(() => {
     dispatch(fetchAllAuthors());
   }, []);

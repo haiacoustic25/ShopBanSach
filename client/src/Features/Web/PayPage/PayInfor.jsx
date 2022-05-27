@@ -36,7 +36,7 @@ const PayInfor = (props) => {
           Cá Chép BookStore
         </Link>
         <h4>Thông tin thanh toán</h4>
-        <span>
+        <span style={{ display: isAuth ? "none" : "" }}>
           Bạn đã có tải khoản? <Link to="/dang-nhap">Đăng nhập</Link>{" "}
         </span>
       </div>
@@ -82,7 +82,6 @@ const PayInfor = (props) => {
         />
         <br></br>
         <TextField
-          disabled={isAuth}
           id="standard-textarea"
           label="Địa chỉ"
           placeholder="Địa chỉ"

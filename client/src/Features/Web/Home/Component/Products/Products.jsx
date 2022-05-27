@@ -20,18 +20,15 @@ const Products = () => {
   const indexOfFirstProduct = indexOfLastProduct - productPerPage;
   let currentProduct;
   if (products) {
-    currentProduct = products?.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
-    );
+    currentProduct = products?.slice(indexOfFirstProduct, indexOfLastProduct);
   }
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
-    window.scrollTo(0, 1000);
+    window.scrollTo(0, 800);
   };
   const handleComeBackPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-    window.scrollTo(0, 1000);
+    if (currentPage > 1) setCurrentPage(currentPage - 1); 
+    window.scrollTo(0, 800);
   };
   return (
     <div className="body">
@@ -40,7 +37,7 @@ const Products = () => {
         <div className="row">
           {products &&
             currentProduct.map((product, index) => (
-              <ProductItem product={product} key = {index} />
+              <ProductItem product={product} key={index} />
             ))}
         </div>
       </div>
