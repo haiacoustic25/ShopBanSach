@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
-const Filter = () => {
+const Filter = (props) => {
+  const { categories, authors } = props;
   const [dataFillter, setDataFilter] = useState({
     author: "",
     price: "",
@@ -21,14 +22,19 @@ const Filter = () => {
         <Row className="mb-3">
           <Form.Group as={Col} md="4">
             <Form.Label>Tác giả</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Tên tác giả"
+            <Form.Select
+              aria-label="Default select example"
               name="author"
               value={dataFillter.author}
               onChange={onChange}
-            />
+            >
+              <option value="">Chọn tác giả</option>
+              {authors?.map((author, index) => (
+                <option className="py-2" value={author.id} key={index}>
+                  {author.tg_name}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
           <Form.Group as={Col} md="2">
             <Form.Label>Giá</Form.Label>
@@ -67,9 +73,11 @@ const Filter = () => {
               onChange={onChange}
             >
               <option value="">Thể loại</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {categories?.map((category, index) => (
+                <option value={category.id} key={index}>
+                  {category.tl_name}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
           <Form.Group as={Col} md="2">

@@ -632,7 +632,7 @@ export const fetchAllCategorys = () => {
       const data = res && res.data ? res.data : [];
       dispatch(fetchCategorysSuccess(data));
     } catch (error) {
-      dispatch(fetchCategorysError);
+      dispatch(fetchCategorysError());
     }
   };
 };

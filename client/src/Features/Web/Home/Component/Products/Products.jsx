@@ -4,15 +4,25 @@ import ProductItem from "./ProductItem";
 import Filter from "./Filter";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllProducts } from "../../../../../Redux/Action/action";
+import {
+  fetchAllProducts,
+  fetchAllCategorys,
+  fetchAllAuthors,
+} from "../../../../../Redux/Action/action";
 const Products = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllProducts());
+    dispatch(fetchAllCategorys());
+    dispatch(fetchAllAuthors());
   }, []);
 
   const products = useSelector((state) => state.product.listProducts.books);
+  const categories = useSelector(
+    (state) => state?.category?.listCategorys?.categories
+  );
+  const authors = useSelector((state) => state?.author?.listAuthors?.authors);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [productPerPage, setProductPerPage] = useState(12);
@@ -32,7 +42,7 @@ const Products = () => {
   };
   return (
     <div className="body">
-      <Filter />
+      <Filter categories={categories} authors={authors} />
       <div className="grid grid-cols-6 gap-3 ">
         <div className="row">
           {products &&
