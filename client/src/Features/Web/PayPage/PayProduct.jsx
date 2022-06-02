@@ -1,31 +1,50 @@
 import React from "react";
-import ProductTest from "../../../Assets/Img/ProductTest.png";
-const PayProduct = () => {
-  
+const PayProduct = (props) => {
+  const { products } = props;
+
   return (
     <div className="payProduct">
       <div className="payProduct__list">
-        <div className="payProduct__item d-flex">
-          <div className="payProduct__item--img">
-            <img src={ProductTest} alt="" />
-          </div>
-          <div className="payProduct__item--infor">
-            <div className="payProduct__item--infor-name">
-              Tam Quốc Diến nghĩa Tam Quốc Diến nghĩa Tam Quốc Diến nghĩa
+        {products.map((product) => (
+          <div className="payProduct__item d-flex">
+            <div className="payProduct__item--img">
+              <img
+                src={`http://localhost:8000/uploads/book/${product.s_image}`}
+                alt=""
+              />
             </div>
-            <div className="payProduct__item--infor-quantity">
-              Số lượng : x2
+            <div className="payProduct__item--infor">
+              <div className="payProduct__item--infor-name">
+                {product.s_name}
+              </div>
+              <div className="payProduct__item--infor-quantity">
+                Số lượng : x1
+              </div>
+            </div>
+            <div className="payProduct__item--total">
+              {Number(
+                product.s_price - (product.s_price * product.s_discount) / 100
+              ).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
             </div>
           </div>
-          <div className="payProduct__item--total">312.000 đ</div>
-        </div>
+        ))}
       </div>
-      <div className="payProduct__total mt-3 d-flex justify-content-between">
+      {/* <div className="payProduct__total mt-3 d-flex justify-content-between">
         <h4>Tổng tiền</h4>
         <div>
-          <span>VND</span> 312.000 đ
+          <span>VND</span>{" "}
+          {Number(
+            product.s_price -
+              (product.s_price * product.s_discount) / 100
+          ).toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -3,32 +3,35 @@ import { Helmet } from "react-helmet";
 import {
   Paper,
   Box,
-  Button,
   Container,
   Divider,
   TableBody,
   TableCell,
   TableRow,
+  Button,
   Typography,
   Toolbar,
-  InputAdornment,
 } from "@material-ui/core";
-import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
-import { Search } from "@material-ui/icons";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Popup from "../../Components/controls/Popup";
 import UserForm from "../../Components/Form/UserForm";
 import ModalEditUser from "../../Components/Form/ModalEditUser";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsers } from "../../../../Redux/Action/action"
+import { CSVLink } from 'react-csv';
+import {
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
-      backgroundColor: '#008000a6',
+      backgroundColor: '#00800075',
       cursor:'pointer'
   }
 }));
@@ -59,7 +62,7 @@ export const Users = () => {
     let target = e.target;
     setFilterFn({
         fn: Users => {
-            if (target.value == "")
+            if (target.value === "")
                 return Users;
             else
                 return Users.filter(x => x.name.toLowerCase().includes(target.value))
@@ -69,9 +72,6 @@ export const Users = () => {
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -111,39 +111,45 @@ export const Users = () => {
               Users
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
+            <CSVLink 
+              data={listUsers} 
+            > 
+              <Button color="success" size="large" variant="contained">
+                Export 
+              </Button>
+            </CSVLink>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
             <Toolbar>
-              <Controls.Input
-                    label="Search Users"
-                    InputProps = {{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Search />
-                        </InputAdornment>
-                      )
-                    }}
-                    sx={{
-                      width: '85%',
-                      marginTop: '12px',
-                      marginBottom: '12px'
-                    }}
-                    onChange={handleSearch}
-                />
-                <Controls.Button 
-                  text="Add New"
-                  variant="outlined"
-                  startIcon={<Plus />}
+              <FormControl
                   sx={{
-                    marginLeft: 2,
-                    color: 'black',
-                    backgroundColor: '#59ac59',
-                    lineHeight: '56px',
-                    marginLeft: '32px'
+                    width: '85%',
+                    marginTop: '12px',
+                    marginBottom: '12px'
                   }}
-                  onClick={() => { setOpen(true); }}
-                />
+              >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                    Search Users
+                    </InputLabel>
+                    <OutlinedInput
+                    type="text"
+                    label="Search Users"
+                    onChange={handleSearch}
+                    />
+              </FormControl>
+              <Controls.Button 
+                text="Add New"
+                variant="outlined"
+                startIcon={<Plus />}
+                sx={{
+                  color: 'black',
+                  backgroundColor: '#59ac59',
+                  lineHeight: '56px',
+                  marginLeft: '32px'
+                }}
+                onClick={() => { setOpen(true); }}
+              />
             </Toolbar>
             <tblContainer>
               { tblHead() }

@@ -14,6 +14,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRedux } from "../../../Redux/Action/action";
+import { Helmet } from "react-helmet";
+
 const Login = () => {
   let navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -42,7 +44,7 @@ const Login = () => {
   useEffect(() => {
     if (isAuth) {
       let nextPageTime = setTimeout(() => {
-        if (user.user.user.isAdmin == 0) navigate("/");
+        if (user.user.user.isAdmin === 0) navigate("/");
         else navigate("/admin");
       }, 500);
 
@@ -64,6 +66,9 @@ const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Ca Chep | Dang nhap</title>
+      </Helmet>
       <Header />
 
       <div className="body">

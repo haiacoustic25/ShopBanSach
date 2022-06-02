@@ -17,6 +17,7 @@ import {
   addProductIntoCartRedux,
   fetchCategoryByIdRedux,
   fetchAuthorByIdRedux,
+  moveProducrtIntoPayload,
 } from "../../../Redux/Action/action";
 
 const ProductDetail = () => {
@@ -50,9 +51,9 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state?.user?.user?.user);
+  const isAuth = useSelector((state) => state?.user?.isAuth);
 
   const handleAddProduct = () => {
-    console.log(user.id, id, quantity);
     if (user) {
       dispatch(
         addProductIntoCartRedux(
@@ -75,6 +76,24 @@ const ProductDetail = () => {
   }, [inforProduct]);
   const nameCategory = useSelector((state) => state.category.nameCategory);
   const nameAuthor = useSelector((state) => state.author.nameAuthor);
+
+  const oldImg = inforProduct ? (
+    `http://localhost:8000/uploads/book/${inforProduct.s_image}`
+  ) : (
+    <></>
+  );
+
+  const handlePayload = () => {
+    if (!user) dispatch(moveProducrtIntoPayload(inforProduct));
+    else {
+      dispatch(
+        addProductIntoCartRedux(
+          { cart_id: user.id, book_id: id, gh_amount: quantity },
+          user.username
+        )
+      );
+    }
+  };
 
   return (
     <div>
@@ -99,14 +118,7 @@ const ProductDetail = () => {
             </div>
             <div className="row my-4">
               <div className="inforProduct__img col-sm-4">
-                <img
-                  src={
-                    inforProduct &&
-                    require(`../../../Assets/Img/${inforProduct.s_image}`)
-                      .default
-                  }
-                  alt=""
-                />
+                <img src={oldImg} alt="" />
               </div>
               <div className="col-sm-7 p-0">
                 <div className="inforProduct__name row text-uppercase m-0">
@@ -126,16 +138,16 @@ const ProductDetail = () => {
                 <div className="row">
                   <div className="inforProduct__price d-flex">
                     <div className="inforProduct__price--new">
-                      {Number(inforProduct.s_price).toLocaleString("vi-VN", {
+                      {Number(
+                        inforProduct.s_price -
+                          (inforProduct.s_price * inforProduct.s_discount) / 100
+                      ).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}
                     </div>
                     <div className="inforProduct__price--old">
-                      {Number(
-                        inforProduct.s_price -
-                          (inforProduct.s_price * inforProduct.s_discount) / 100
-                      ).toLocaleString("vi-VN", {
+                      {Number(inforProduct.s_price).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}
@@ -188,8 +200,12 @@ const ProductDetail = () => {
                       style={{
                         backgroundColor: "#00ab9f",
                       }}
+                      onClick={handlePayload}
                     >
-                      <Link to="/thanh-toan" style={{ color: "#fff" }}>
+                      <Link
+                        to={isAuth ? "/gio-hang" : "/thanh-toan"}
+                        style={{ color: "#fff" }}
+                      >
                         Mua ngay
                       </Link>
                     </Button>

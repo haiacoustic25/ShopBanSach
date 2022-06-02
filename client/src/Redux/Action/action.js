@@ -12,7 +12,7 @@ import {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_ERROR,
-  DELETE_USER_SUCCESS,
+  // DELETE_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
   FETCH_PRODUCT_REQUEST,
   FETCH_PRODUCT_SUCCESS,
@@ -42,6 +42,9 @@ import {
   ADD_PRODUCT_INTO_CART_REQUEST,
   ADD_PRODUCT_INTO_CART_ERROR,
   ADD_PRODUCT_INTO_CART_SUCCESS,
+  DELETE_PRODUCTINCART_ERROR,
+  DELETE_PRODUCTINCART_REQUEST,
+  DELETE_PRODUCTINCART_SUCCESS,
   FETCH_AUTHOR_REQUEST,
   FETCH_AUTHOR_SUCCESS,
   FETCH_AUTHOR_ERROR,
@@ -53,6 +56,7 @@ import {
   FETCH_AUTHORBYID_REQUEST,
   FETCH_AUTHORBYID_SUCCESS,
   UPDATE_AUTHOR_SUCCESS,
+  MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -182,6 +186,35 @@ export const addProductIntoCartRedux = (
       }
     } catch (error) {
       dispatch(addProductIntoCartError());
+    }
+  };
+};
+
+// delete product in cart
+export const deleteProductInCartRequest = () => {
+  return { type: DELETE_PRODUCTINCART_REQUEST };
+};
+export const deleteProductInCartSuccess = () => {
+  return { type: DELETE_PRODUCTINCART_SUCCESS };
+};
+export const deleteProductInCartError = () => {
+  return { type: DELETE_PRODUCTINCART_ERROR };
+};
+
+export const deleteProductInCartRedux = ({ cart_id, book_id }, username) => {
+  return async (dispatch, useState) => {
+    dispatch(deleteProductInCartRequest());
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/delete-product-in-cart",
+        { cart_id, book_id }
+      );
+      if (res.data.status === 200) {
+        dispatch(deleteProductInCartSuccess());
+        dispatch(fetchAllCartReduct(username));
+      }
+    } catch (error) {
+      dispatch(deleteProductInCartError());
     }
   };
 };
@@ -710,4 +743,9 @@ export const updateCategory = (id, category) => {
       console.log(error);
     }
   };
+};
+
+// move product into payload
+export const moveProducrtIntoPayload = (payload) => {
+  return { type: MOVE_PRODUCTINTOPAYLOAD_SUCCESS, payload };
 };

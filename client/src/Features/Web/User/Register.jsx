@@ -19,6 +19,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { registerRedux } from "../../../Redux/Action/action";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const styleInput = {
@@ -126,6 +127,9 @@ const Register = () => {
   }, [user?.user, navigate]);
   return (
     <>
+      <Helmet>
+        <title>Ca Chep | Dang nhap</title>
+      </Helmet>
       <Header />
       <div className="body">
         <div className="row ">

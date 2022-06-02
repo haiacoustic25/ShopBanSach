@@ -6,7 +6,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 const PayInfor = (props) => {
-  const { user, isAuth, payInfor, setPayInfor } = props;
+  const { isAuth, payInfor, setPayInfor } = props;
 
   const styleInput = {
     width: "500px",
@@ -36,7 +36,7 @@ const PayInfor = (props) => {
           Cá Chép BookStore
         </Link>
         <h4>Thông tin thanh toán</h4>
-        <span>
+        <span style={{ display: isAuth ? "none" : "" }}>
           Bạn đã có tải khoản? <Link to="/dang-nhap">Đăng nhập</Link>{" "}
         </span>
       </div>
@@ -50,7 +50,7 @@ const PayInfor = (props) => {
           multiline
           variant="standard"
           name="pay_name"
-          value={isAuth ? user?.name : payInfor.pay_name}
+          value={payInfor.pay_name}
           style={styleInput}
           onChange={onChange}
         />
@@ -63,7 +63,7 @@ const PayInfor = (props) => {
           multiline
           variant="standard"
           name="pay_contact"
-          value={isAuth ? user?.phone : payInfor.pay_contact}
+          value={payInfor.pay_contact}
           onChange={onChange}
           style={styleInput}
         />
@@ -76,20 +76,19 @@ const PayInfor = (props) => {
           multiline
           variant="standard"
           name="pay_email"
-          value={isAuth ? user?.email : payInfor.pay_email}
+          value={payInfor.pay_email}
           onChange={onChange}
           style={styleInput}
         />
         <br></br>
         <TextField
-          disabled={isAuth}
           id="standard-textarea"
           label="Địa chỉ"
           placeholder="Địa chỉ"
           multiline
           variant="standard"
           name="pay_address"
-          value={isAuth ? user?.address : payInfor.pay_address}
+          value={payInfor.pay_address}
           style={styleInput}
         />
         <br></br>

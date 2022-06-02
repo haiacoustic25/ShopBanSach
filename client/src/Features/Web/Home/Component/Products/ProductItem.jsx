@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 const ProductItem = (props) => {
   const { product } = props;
+  const oldImg = product ? (
+    `http://localhost:8000/uploads/book/${product.s_image}`
+  ) : (
+    <></>
+  );
   return (
     <Link to={`/${product.id}`} className="col-sm-3">
       <Card className="product">
@@ -11,9 +16,7 @@ const ProductItem = (props) => {
           <Card.Img
             className="product__img--animation"
             variant="top"
-            src={
-              require(`../../../../../Assets/Img/${product.s_image}`).default
-            }
+            src={oldImg}
           />
         </div>
         <Card.Body className="py-0">
@@ -22,7 +25,9 @@ const ProductItem = (props) => {
           </Card.Text>
           <Card.Text className="d-flex justify-content-between">
             <div className="product__price--new">
-              {Number(product.s_price).toLocaleString("vi-VN", {
+              {Number(
+                product.s_price - (product.s_price * product.s_discount) / 100
+              ).toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND",
               })}{" "}

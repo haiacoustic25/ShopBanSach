@@ -41,7 +41,6 @@ Route::put('/update-category/{id}',[CategoryController::class, 'updateCategory']
 
 Route::delete('/delete-category/{id}',[CategoryController::class, 'deleteById']);
 
-Route::post('/delete-product-in-cart',[DetailCartController::class, 'deleteDetailCartByProductdeleteById']);
 
 //book
 
@@ -69,6 +68,7 @@ Route::post('/login', [AuthController::class,'postAuthLogin']);
 Route::post('/add-cart', [DetailCartController::class,'store']);
 Route::get('/show-gh-by-user/{cart_id}', [DetailCartController::class, 'showByUserId']);
 Route::get('/show-product/{username}', [AuthController::class, 'showCart']);
+Route::post('/delete-product-in-cart',[DetailCartController::class, 'deleteDetailCartByProduct']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

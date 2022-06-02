@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./Assets/SCSS/app.scss";
-import ScrollTop from "./Assets/Img/ScrollTop.png";
 import HomePage from "./Features/Web/Home/HomePage";
 import ProductDetail from "./Features/Web/ProductDetail/ProductDetail";
 import CartPage from "./Features/Web/Cart/CartPage";
@@ -64,9 +63,12 @@ function App() {
                 element={isAuth ? <Account /> : <Navigate to="/" />}
               />
 
-              {/* {isAuth && isAdmin && ( */}
+              {/*  ( */}
               <>
-                <Route path="/admin" element={<Layout />}>
+                <Route
+                  path="/admin"
+                  element={isAdmin ? <Layout /> : <Navigate to="/" />}
+                >
                   <Route index element={<Dashboard />} />
                   <Route path="Users">
                     <Route index element={<Users />} />
@@ -79,7 +81,6 @@ function App() {
                   <Route path="Categorys" element={<Categorys />} />
                 </Route>
               </>
-              {/* )} */}
             </Route>
           </Routes>
         </ThemeProvider>
@@ -87,7 +88,7 @@ function App() {
       {/* scroll to top */}
       {scrollPosition >= 100 && (
         <img
-          src={ScrollTop}
+          src={require("./Assets/Img/ScrollTop.png").default}
           className="rollTheTop"
           onClick={handleRollTheTop}
         ></img>

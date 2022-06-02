@@ -4,6 +4,7 @@ import Slider from "./Component/Slider";
 import "../../../Assets/SCSS/slider.scss";
 import Footer from "../../../Components/Footer/Footer";
 import Products from "./Component/Products/Products";
+import { Helmet } from "react-helmet";
 
 const HomePage = () => {
   useEffect(() => {
@@ -11,6 +12,9 @@ const HomePage = () => {
   }, []);
   return (
     <div>
+      <Helmet>
+        <title>Trang Chủ</title>
+      </Helmet>
       <Header />
 
       <Slider />

@@ -6,18 +6,17 @@ import {
   Container,
   Divider,
   TableBody,
+  Button,
   TableCell,
   TableRow,
   Typography,
   Toolbar,
-  InputAdornment,
 } from "@material-ui/core";
 import { format } from 'date-fns';
 import Plus from "../../icons/plus";
 import { styled } from '@mui/system';
 import useTable from '../../Components/Table/useTable';
 import Controls from "../../Components/controls/Controls";
-import { Search } from "@material-ui/icons";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Popup from "../../Components/controls/Popup";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,14 +24,21 @@ import { fetchAllAuthors, deleteAuthor } from "../../../../Redux/Action/action"
 import AuthorForm from "../../Components/Form/AuthorForm";
 import ModalEditAuthor from "../../Components/Form/ModalEditAuthor";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { CSVLink } from 'react-csv';
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import ConfirmForm from "../../Components/Form/ConfirmForm";
+import {
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
 const StyledTableRow = styled(TableRow)(() => ({
   ':hover':{
-      backgroundColor: '#008000a6',
+      backgroundColor: '#00800075',
       cursor:'pointer',
   },
   'div':{
@@ -62,13 +68,6 @@ export const Authors = () => {
     dispatch(fetchAllAuthors())
   }, [])
 
-  const handleDeleteAuthor = (Author) => {
-    dispatch(deleteAuthor(Author.id))
-    setTimeout(function(){
-      NotificationManager.success('Delete Success', '', 2000);
-    }, 1000);
-  }
-
   const [filterFn, setFilterFn] = useState({ fn: Authors => { return Authors; } })
   const { 
     tblContainer, 
@@ -81,7 +80,7 @@ export const Authors = () => {
     let target = e.target;
     setFilterFn({
         fn: Authors => {
-            if (target.value == "")
+            if (target.value === "")
                 return Authors;
             else
                 return Authors.filter(x => x.tg_name.toLowerCase().includes(target.value))
@@ -91,6 +90,7 @@ export const Authors = () => {
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -100,6 +100,12 @@ export const Authors = () => {
   const handleClickOpenEdit = () =>{
     setOpenEdit(true)
   }
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true)
+  }
+  const handleClickCloseDelete = () =>{
+    setOpenDelete(false);
+  }
   const handleClickCloseEdit = () =>{
     setOpenEdit(false);
   }
@@ -107,6 +113,18 @@ export const Authors = () => {
     setOpenEdit(true)
     setEditData(null)
     setEditData(Author)
+  }
+  const handleDeleteAuthor = (Author) => {
+    setOpenDelete(true)
+    setEditData(null)
+    setEditData(Author)
+  }
+  const handleDelete = () =>{
+    dispatch(deleteAuthor(editData.id))
+    setTimeout(function(){
+          NotificationManager.success('Delete Success', '', 2000);
+    }, 1000);
+    handleClickCloseDelete()
   }
   return (
     <>
@@ -132,39 +150,45 @@ export const Authors = () => {
               Authors
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
+            <CSVLink 
+              data={listAuthors} 
+            > 
+              <Button color="success" size="large" variant="contained">
+                Export 
+              </Button>
+            </CSVLink>
           </Box>
           <Paper>
           <Divider style={{color: '#9b9595'}} />
             <Toolbar>
-              <Controls.Input
-                    label="Search Authors"
-                    InputProps = {{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Search />
-                        </InputAdornment>
-                      )
-                    }}
-                    sx={{
-                      width: '85%',
-                      marginTop: '12px',
-                      marginBottom: '12px'
-                    }}
-                    onChange={handleSearch}
-                />
-                <Controls.Button 
-                  text="Add New"
-                  variant="outlined"
-                  startIcon={<Plus />}
+              <FormControl
                   sx={{
-                    marginLeft: 2,
-                    color: 'black',
-                    backgroundColor: '#59ac59',
-                    lineHeight: '56px',
-                    marginLeft: '32px'
+                    width: '85%',
+                    marginTop: '12px',
+                    marginBottom: '12px'
                   }}
-                  onClick={handleClickOpen}
-                />
+                >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Search Authors
+                    </InputLabel>
+                    <OutlinedInput
+                    type="text"
+                    label="Search Authors"
+                    onChange={handleSearch}
+                    />
+              </FormControl>
+              <Controls.Button 
+                text="Add New"
+                variant="outlined"
+                startIcon={<Plus />}
+                sx={{
+                  color: 'black',
+                  backgroundColor: '#59ac59',
+                  lineHeight: '56px',
+                  marginLeft: '32px'
+                }}
+                onClick={handleClickOpen}
+              />
             </Toolbar>
             <tblContainer>
               { tblHead() }
@@ -219,6 +243,18 @@ export const Authors = () => {
                 Data={editData}
                 title="Edit Author" 
                 handleClose={handleClickCloseEdit}
+              />
+            </Popup>
+          }
+          {openDelete && 
+            <Popup
+              open={openDelete}
+              setOpen={handleClickOpenDelete}
+            >
+              <ConfirmForm
+                title="Delete Author" 
+                handleDelete={handleDelete}
+                handleClose={handleClickCloseDelete}
               />
             </Popup>
           }
