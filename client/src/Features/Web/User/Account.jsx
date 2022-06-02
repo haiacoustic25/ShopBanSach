@@ -105,6 +105,7 @@ const Account = () => {
       setShow(false);
   };
   const handleShow = () => setShow(true);
+  console.log(user);
   return (
     <>
       <Header />

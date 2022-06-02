@@ -9,6 +9,7 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
+  UPDATE_USER_SUCCESS,
 } from "../Action/type";
 
 const INITTAL_STATE = {
@@ -60,6 +61,9 @@ const userReducer = (state = INITTAL_STATE, action) => {
       return {
         ...state,
       };
+    }
+    case UPDATE_USER_SUCCESS: {
+      return { ...state, user: action.payload };
     }
 
     // logout

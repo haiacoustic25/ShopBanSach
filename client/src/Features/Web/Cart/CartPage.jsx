@@ -68,39 +68,42 @@ const CartPage = () => {
             </tr>
           </thead>
           <tbody>
-            {listProducts.map((product, index) => (
-              <tr key={index}>
-                <td>
-                  <img
-                    src={`http://localhost:8000/uploads/book/${product.s_image}`}
-                    alt=""
-                    className="cartPage__img"
-                  />
-                </td>
-                <td className="cartPage__name">
-                  {product.s_name}
-                  <span onClick={() => handleShow(product.id)}>Xóa</span>
-                </td>
-                <td>
-                  {Number(product?.s_price).toLocaleString("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </td>
-                <td className="cartPage__quantity">
-                  <span>{product.s_amount}</span>
-                </td>
-                <td>
-                  {Number(product?.s_price * product?.s_amount).toLocaleString(
-                    "vi-VN",
-                    {
+            {listProducts.length > 0 ? (
+              listProducts.map((product, index) => (
+                <tr key={index}>
+                  <td>
+                    <img
+                      src={`http://localhost:8000/uploads/book/${product.s_image}`}
+                      alt=""
+                      className="cartPage__img"
+                    />
+                  </td>
+                  <td className="cartPage__name">
+                    {product.s_name}
+                    <span onClick={() => handleShow(product.id)}>Xóa</span>
+                  </td>
+                  <td>
+                    {Number(product?.s_price).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }
-                  )}
-                </td>
-              </tr>
-            ))}
+                    })}
+                  </td>
+                  <td className="cartPage__quantity">
+                    <span>{product.s_amount}</span>
+                  </td>
+                  <td>
+                    {Number(
+                      product?.s_price * product?.s_amount
+                    ).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <h2 className="mt-4">Không có sản phẩm</h2>
+            )}
           </tbody>
         </Table>
         <div>

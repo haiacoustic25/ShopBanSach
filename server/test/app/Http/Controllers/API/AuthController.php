@@ -130,6 +130,7 @@ class AuthController extends Controller
 					return response()->json([
 						'status'=> 200,
 						'message' => 'update successful',
+						'user' =>$user
 					]);
 				}
 			}

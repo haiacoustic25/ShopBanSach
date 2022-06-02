@@ -308,9 +308,10 @@ export const createNewUsersRedux = (user) => {
 // }
 
 // Update Product
-export const updateUsersSuccess = () => {
+export const updateUsersSuccess = (payload) => {
   return {
     type: UPDATE_USER_SUCCESS,
+    payload,
   };
 };
 
@@ -319,7 +320,7 @@ export const updateUser = (User) => {
     try {
       let res = await axios.post("http://localhost:8000/api/update-user", User);
       if (res && res.data.status === 200) {
-        dispatch(updateUsersSuccess());
+        dispatch(updateUsersSuccess(res.data));
         dispatch(fetchAllUsers());
       }
     } catch (error) {}

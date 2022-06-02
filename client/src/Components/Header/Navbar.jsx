@@ -63,7 +63,7 @@ const Navbar = () => {
               </i>
             </div>
             <div className="cart">
-              {!isAuth ? (
+              {!isAuth || listProducts?.books?.length == 0 ? (
                 <div className="cart__img">
                   <img src={emptyCart} alt="" />
                 </div>

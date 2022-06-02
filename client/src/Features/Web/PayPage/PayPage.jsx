@@ -27,7 +27,7 @@ const PayPage = () => {
     } else {
       setProducts(listProducts);
     }
-  }, []);
+  }, [listProducts]);
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -43,7 +43,7 @@ const PayPage = () => {
             payInfor={payInfor}
             setPayInfor={setPayInfor}
           />
-          <PayProduct products={products} />
+          <PayProduct products={products} isAuth={isAuth}/>
         </div>
       ) : (
         <Loading />
