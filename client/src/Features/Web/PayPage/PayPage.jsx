@@ -6,16 +6,28 @@ import Loading from "../../../Components/Loading/Loading";
 import { dispatch, useSelector } from "react-redux";
 
 const PayPage = () => {
-  const [payInfor, setPayInfor] = useState({
-    pay_name: "",
-    pay_contact: "",
-    pay_email: "",
-    pay_address: "",
-    pay_totalPrice: "",
-  });
   const [isDisplay, setIsDisplay] = useState(false);
+  const [products, setProducts] = useState([]);
   const user = useSelector((state) => state?.user?.user?.user);
   const isAuth = useSelector((state) => state?.user?.isAuth);
+  const listProducts = useSelector((state) => state?.cart?.listProducts.books);
+  const inforProduct = useSelector(
+    (state) => state?.product.moveInforProductToPayload
+  );
+  const [payInfor, setPayInfor] = useState({
+    pay_name: user ? user.name : "",
+    pay_contact: user ? user.phone : "",
+    pay_email: user ? user.email : "",
+    pay_address: user ? user.address : "",
+    pay_totalPrice: "",
+  });
+  useEffect(() => {
+    if (!isAuth) {
+      setProducts([...products, inforProduct]);
+    } else {
+      setProducts(listProducts);
+    }
+  }, []);
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -27,12 +39,11 @@ const PayPage = () => {
       {isDisplay ? (
         <div className="d-flex paypage">
           <PayInfor
-            user={user}
             isAuth={isAuth}
             payInfor={payInfor}
             setPayInfor={setPayInfor}
           />
-          <PayProduct />
+          <PayProduct products={products} />
         </div>
       ) : (
         <Loading />

@@ -56,6 +56,7 @@ import {
   FETCH_AUTHORBYID_REQUEST,
   FETCH_AUTHORBYID_SUCCESS,
   UPDATE_AUTHOR_SUCCESS,
+  MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
 } from "./type";
 import axios from "axios";
 
@@ -742,4 +743,9 @@ export const updateCategory = (id, category) => {
       console.log(error);
     }
   };
+};
+
+// move product into payload
+export const moveProducrtIntoPayload = (payload) => {
+  return { type: MOVE_PRODUCTINTOPAYLOAD_SUCCESS, payload };
 };

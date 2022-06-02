@@ -5,11 +5,13 @@ import {
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_SUCCESS,
   FETCH_PRODUCTBYID_REQUEST,
+  MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
 } from "../Action/type";
 
 const INITTAL_STATE = {
   listProducts: [],
   inforProductById: {},
+  moveInforProductToPayload: {},
 };
 const productReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {
@@ -45,7 +47,9 @@ const productReducer = (state = INITTAL_STATE, action) => {
         ...state,
       };
     }
-
+    case MOVE_PRODUCTINTOPAYLOAD_SUCCESS: {
+      return { ...state, moveInforProductToPayload: action.payload };
+    }
     default:
       return state;
   }

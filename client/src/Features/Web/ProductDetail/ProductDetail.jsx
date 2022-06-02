@@ -17,6 +17,7 @@ import {
   addProductIntoCartRedux,
   fetchCategoryByIdRedux,
   fetchAuthorByIdRedux,
+  moveProducrtIntoPayload,
 } from "../../../Redux/Action/action";
 
 const ProductDetail = () => {
@@ -50,9 +51,9 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state?.user?.user?.user);
+  const isAuth = useSelector((state) => state?.user?.isAuth);
 
   const handleAddProduct = () => {
-    console.log(user.id, id, quantity);
     if (user) {
       dispatch(
         addProductIntoCartRedux(
@@ -81,6 +82,19 @@ const ProductDetail = () => {
   ) : (
     <></>
   );
+
+  const handlePayload = () => {
+    if (!user) dispatch(moveProducrtIntoPayload(inforProduct));
+    else {
+      dispatch(
+        addProductIntoCartRedux(
+          { cart_id: user.id, book_id: id, gh_amount: quantity },
+          user.username
+        )
+      );
+    }
+  };
+
   return (
     <div>
       <>
@@ -186,8 +200,12 @@ const ProductDetail = () => {
                       style={{
                         backgroundColor: "#00ab9f",
                       }}
+                      onClick={handlePayload}
                     >
-                      <Link to="/thanh-toan" style={{ color: "#fff" }}>
+                      <Link
+                        to={isAuth ? "/gio-hang" : "/thanh-toan"}
+                        style={{ color: "#fff" }}
+                      >
                         Mua ngay
                       </Link>
                     </Button>
