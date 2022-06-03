@@ -18,6 +18,7 @@ class CreateTbBooksTable extends Migration
 			$table->string('s_name');
 			$table->longText('s_description');
 			$table->decimal('s_price',10,0);
+            $table->decimal('s_newPrice',10,0);
 			$table->string('s_nsx');
 			$table->string('s_image')->default('test.jpg');
 			$table->integer('s_amount');

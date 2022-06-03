@@ -35,6 +35,8 @@ class BookController extends Controller
 		// $sach = tb_book::create([
 		// 	's_name' => $request->s_name
 		// ])
+		// $newPrice = $s_price - $s_price*$s_discount/100;
+
 		$sach = new tb_book();
 		$sach->s_name = $request->input('s_name');
 		$sach->s_description = $request->input('s_description');
@@ -46,6 +48,7 @@ class BookController extends Controller
 		$sach->author_id = $request->input('author_id');
 		$sach->category_id = $request->input('category_id');
 		$sach->s_amount = $request->input('s_amount');
+		$sach->s_newPrice =$request->input('s_price')-$request->input('s_price') * $request->input('s_discount') / 100;
 		if($request->has('file_upload'))
 		{
 			$file = $request->file_upload;
