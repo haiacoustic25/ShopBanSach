@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 03, 2022 lúc 03:37 AM
+-- Thời gian đã tạo: Th6 03, 2022 lúc 03:49 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.2
 
@@ -178,6 +178,14 @@ CREATE TABLE `tb_carts` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `tb_carts`
+--
+
+INSERT INTO `tb_carts` (`id`, `username`, `created_at`, `updated_at`) VALUES
+(1, 'test', '2022-05-23 01:24:51', '2022-05-23 01:24:51'),
+(2, 'admin', '2022-05-23 01:31:06', '2022-05-23 01:31:06');
+
 -- --------------------------------------------------------
 
 --
@@ -221,6 +229,14 @@ CREATE TABLE `tb_detail_carts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tb_detail_carts`
+--
+
+INSERT INTO `tb_detail_carts` (`cart_id`, `book_id`, `gh_amount`, `created_at`, `updated_at`) VALUES
+(1, 2, 2, '2022-05-23 01:25:02', '2022-05-23 01:25:02'),
+(1, 3, 1, '2022-06-02 18:48:59', '2022-06-02 18:48:59');
 
 -- --------------------------------------------------------
 
@@ -362,7 +378,7 @@ ALTER TABLE `tb_books`
 -- AUTO_INCREMENT cho bảng `tb_carts`
 --
 ALTER TABLE `tb_carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `tb_categories`

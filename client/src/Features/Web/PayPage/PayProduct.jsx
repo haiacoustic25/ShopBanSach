@@ -1,8 +1,12 @@
 import React from "react";
 const PayProduct = (props) => {
   const { products, isAuth } = props;
-  const total = () =>{
-    
+  const total = () => {
+    let totalPrice = 0;
+    products.map((product) => {
+      totalPrice += product.s_newPrice * product.s_amount;
+    });
+    return totalPrice;
   };
   return (
     <div className="payProduct">
@@ -26,18 +30,12 @@ const PayProduct = (props) => {
             <div className="payProduct__item--total">
               {isAuth
                 ? (
-                    Number(
-                      product.s_price -
-                        (product.s_price * product.s_discount) / 100
-                    ) * product.s_amount
+                    Number(product.s_newPrice) * product.s_amount
                   ).toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   })
-                : Number(
-                    product.s_price -
-                      (product.s_price * product.s_discount) / 100
-                  ).toLocaleString("vi-VN", {
+                : Number(product.s_newPrice).toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   })}
@@ -45,19 +43,16 @@ const PayProduct = (props) => {
           </div>
         ))}
       </div>
-      {/* <div className="payProduct__total mt-3 d-flex justify-content-between">
+      <div className="payProduct__total mt-3 d-flex justify-content-between">
         <h4>Tổng tiền</h4>
         <div>
           <span>VND</span>{" "}
-          {Number(
-            product.s_price -
-              (product.s_price * product.s_discount) / 100
-          ).toLocaleString("vi-VN", {
+          {Number(total()).toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND",
           })}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

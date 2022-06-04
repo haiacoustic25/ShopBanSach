@@ -25,9 +25,7 @@ const ProductItem = (props) => {
           </Card.Text>
           <Card.Text className="d-flex justify-content-between">
             <div className="product__price--new">
-              {Number(
-                product.s_price - (product.s_price * product.s_discount) / 100
-              ).toLocaleString("vi-VN", {
+              {Number(product.s_newPrice).toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND",
               })}{" "}

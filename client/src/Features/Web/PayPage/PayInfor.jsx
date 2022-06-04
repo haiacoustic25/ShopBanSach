@@ -1,34 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-const PayInfor = (props) => {
-  const { isAuth, payInfor, setPayInfor } = props;
 
+const PayInfor = (props) => {
   const styleInput = {
     width: "500px",
     marginBottom: "20px",
     backgroundColor: "#fff",
   };
+  const { isAuth, payInfor, handlePay, onChange } = props;
 
-  const onChange = (event) => {
-    event.preventDefault();
-    setPayInfor({ ...payInfor, [event.target.name]: event.target.value });
-  };
-  const handlePay = (event) => {
-    event.preventDefault();
-    if (
-      payInfor.pay_name === "" ||
-      payInfor.pay_contact === "" ||
-      payInfor.pay_email === "" ||
-      payInfor.pay_address === ""
-    ) {
-      NotificationManager.error("Điền đầy đủ thông tin", "", 500);
-    }
-  };
   return (
     <div className="payInfor">
       <div className="payInfor__header">
@@ -96,7 +77,6 @@ const PayInfor = (props) => {
           Thanh toán
         </Button>
       </form>
-      <NotificationContainer />
     </div>
   );
 };

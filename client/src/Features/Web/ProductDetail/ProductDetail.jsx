@@ -46,7 +46,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   useEffect(() => {
     dispatch(fetchProductByIdRedux(id));
-  }, []);
+  }, [id]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ const ProductDetail = () => {
       dispatch(fetchCategoryByIdRedux(inforProduct.category_id));
       dispatch(fetchAuthorByIdRedux(inforProduct.author_id));
     }
-  }, [inforProduct]);
+  }, [inforProduct, id]);
   const nameCategory = useSelector((state) => state.category.nameCategory);
   const nameAuthor = useSelector((state) => state.author.nameAuthor);
 

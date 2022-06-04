@@ -6,12 +6,16 @@ import {
   FETCH_PRODUCTBYID_SUCCESS,
   FETCH_PRODUCTBYID_REQUEST,
   MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
+  SEARCH_PRODUCT_ERROR,
+  SEARCH_PRODUCT_REQUEST,
+  SEARCH_PRODUCT_SUCCESS,
 } from "../Action/type";
 
 const INITTAL_STATE = {
   listProducts: [],
   inforProductById: {},
   moveInforProductToPayload: {},
+  listProductsSearch: [],
 };
 const productReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {
@@ -49,6 +53,22 @@ const productReducer = (state = INITTAL_STATE, action) => {
     }
     case MOVE_PRODUCTINTOPAYLOAD_SUCCESS: {
       return { ...state, moveInforProductToPayload: action.payload };
+    }
+    case SEARCH_PRODUCT_ERROR: {
+      return {
+        ...state,
+      };
+    }
+    case SEARCH_PRODUCT_SUCCESS: {
+      return {
+        ...state,
+        listProductsSearch: action.payload,
+      };
+    }
+    case SEARCH_PRODUCT_REQUEST: {
+      return {
+        ...state,
+      };
     }
     default:
       return state;

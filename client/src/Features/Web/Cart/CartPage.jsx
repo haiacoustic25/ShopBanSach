@@ -37,7 +37,7 @@ const CartPage = () => {
   const totalPriceInCart = () => {
     let total = 0;
     listProducts.forEach((element) => {
-      total += Number(element?.s_price * element?.s_amount);
+      total += Number(element?.s_newPrice * element?.s_amount);
     });
     return total;
   };
@@ -83,7 +83,7 @@ const CartPage = () => {
                     <span onClick={() => handleShow(product.id)}>Xóa</span>
                   </td>
                   <td>
-                    {Number(product?.s_price).toLocaleString("vi-VN", {
+                    {Number(product?.s_newPrice).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     })}
@@ -93,7 +93,7 @@ const CartPage = () => {
                   </td>
                   <td>
                     {Number(
-                      product?.s_price * product?.s_amount
+                      product?.s_newPrice * product?.s_amount
                     ).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",

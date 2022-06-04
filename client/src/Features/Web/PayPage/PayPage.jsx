@@ -4,6 +4,10 @@ import PayProduct from "./PayProduct";
 import "../../../Assets/SCSS/paypage.scss";
 import Loading from "../../../Components/Loading/Loading";
 import { dispatch, useSelector } from "react-redux";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const PayPage = () => {
   const [isDisplay, setIsDisplay] = useState(false);
@@ -34,6 +38,23 @@ const PayPage = () => {
       setIsDisplay(true);
     }, 1000);
   }, [isDisplay]);
+  const handlePay = (event) => {
+    event.preventDefault();
+    if (
+      payInfor.pay_name === "" ||
+      payInfor.pay_contact === "" ||
+      payInfor.pay_email === "" ||
+      payInfor.pay_address === ""
+    ) {
+      NotificationManager.error("Điền đầy đủ thông tin", "", 500);
+    } else {
+      console.log(payInfor);
+    }
+  };
+  const onChange = (event) => {
+    event.preventDefault();
+    setPayInfor({ ...payInfor, [event.target.name]: event.target.value });
+  };
   return (
     <>
       {isDisplay ? (
@@ -41,9 +62,11 @@ const PayPage = () => {
           <PayInfor
             isAuth={isAuth}
             payInfor={payInfor}
-            setPayInfor={setPayInfor}
+            handlePay={handlePay}
+            onChange={onChange}
           />
-          <PayProduct products={products} isAuth={isAuth}/>
+          <PayProduct products={products} isAuth={isAuth} />
+          <NotificationContainer />
         </div>
       ) : (
         <Loading />

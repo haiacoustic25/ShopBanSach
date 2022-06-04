@@ -5,22 +5,32 @@ import logo from "../../Assets/Img/logo.png";
 import emptyCart from "../../Assets/Img/empty-cart.png";
 import Cart from "./Cart";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllCartReduct } from "../../Redux/Action/action";
+import {
+  fetchAllCartReduct,
+  fetchSearchProductRedux,
+} from "../../Redux/Action/action";
 const Navbar = () => {
-  const [search, setSearch] = useState({ search: "" });
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
-  const handleEnterSearch = (e) => {
-    setSearch({ ...search, [e.target.name]: e.target.value });
+  const onChange = (e) => {
+    setSearch(e.target.value);
   };
-  const isAuth = useSelector((state) => state.user.isAuth);
-  const user = useSelector((state) => state.user?.user?.user);
-  const listProducts = useSelector((state) => state.cart.listProducts);
 
   useEffect(() => {
     if (user?.username) {
       dispatch(fetchAllCartReduct(user?.username));
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchSearchProductRedux(search));
+  }, [search]);
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user?.user?.user);
+  const listProducts = useSelector((state) => state.cart.listProducts);
+  const listProductsSearch = useSelector(
+    (state) => state.product.listProductsSearch
+  );
   const handleSearch = () => {};
   return (
     <div className="body">
@@ -34,9 +44,9 @@ const Navbar = () => {
           <Form onSubmit={handleSearch}>
             <InputGroup
               className="mb-3 navbar__search"
-              onChange={handleEnterSearch}
-              name="search"
+              name="valueSearch"
               value={search}
+              onChange={onChange}
             >
               <FormControl placeholder="Bạn Muốn Mua Gì?" />
               <Button
@@ -49,6 +59,15 @@ const Navbar = () => {
               </Button>
             </InputGroup>
           </Form>
+          {search != "" && (
+            <ul className="navbar__search--result">
+              {listProductsSearch.map((product, index) => (
+                <li key={index}>
+                  <Link to={`/${product.id}`}>{product.s_name}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="col-sm-3 pb-3 d-flex justify-content-end ">
           <div className="navbar__cart">

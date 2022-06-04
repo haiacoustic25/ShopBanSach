@@ -14,7 +14,7 @@ const Cart = (props) => {
         <div className="cart__product--infor-name">{products?.s_name}</div>
         <div className="cart__product--infor-price">
           Giá tiền:{" "}
-          {Number(products?.s_price).toLocaleString("vi-VN", {
+          {Number(products?.s_newPrice).toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND",
           })}{" "}

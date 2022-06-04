@@ -81,12 +81,35 @@ button:focus {
   &__search {
     width: 714px;
     padding-left: 30px;
+    position: relative;
     &--btn {
       background-color: $btn_color !important;
       color: #fff !important;
 
       font-weight: 400 !important;
       font-size: 12px !important;
+    }
+    &--result {
+      width: 606px;
+
+      position: absolute;
+      top: 36px;
+      left: 61px;
+
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 10px;
+
+      box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+
+      padding-left: 10px;
+
+      background-color: #fff;
+      z-index: 10;
+      & > li {
+        padding: 5px 0;
+      }
     }
   }
   &__cart {

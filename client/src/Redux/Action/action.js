@@ -36,6 +36,9 @@ import {
   FETCH_PRODUCTBYID_ERROR,
   FETCH_PRODUCTBYID_REQUEST,
   FETCH_PRODUCTBYID_SUCCESS,
+  SEARCH_PRODUCT_ERROR,
+  SEARCH_PRODUCT_REQUEST,
+  SEARCH_PRODUCT_SUCCESS,
   FETCH_CART_REQUEST,
   FETCH_CART_ERROR,
   FETCH_CART_SUCCESS,
@@ -356,6 +359,39 @@ export const fetchAllProducts = () => {
       dispatch(fetchProductsSuccess(data));
     } catch (error) {
       dispatch(fetchProductsError());
+    }
+  };
+};
+
+export const fetchSearchProductsError = () => {
+  return {
+    type: SEARCH_PRODUCT_ERROR,
+  };
+};
+export const fetchSearchProductsRequest = () => {
+  return {
+    type: SEARCH_PRODUCT_REQUEST,
+  };
+};
+export const fetchSearchProductsSuccess = (payload) => {
+  return {
+    type: SEARCH_PRODUCT_SUCCESS,
+    payload,
+  };
+};
+
+export const fetchSearchProductRedux = (name) => {
+  return async (dispatch, getState) => {
+    dispatch(fetchSearchProductsRequest());
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/search-book/${name}`
+      );
+      if (res.data.status === 200) {
+        dispatch(fetchSearchProductsSuccess(res.data.book));
+      }
+    } catch (error) {
+      dispatch(fetchSearchProductsError());
     }
   };
 };

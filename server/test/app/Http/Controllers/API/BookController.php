@@ -159,4 +159,13 @@ class BookController extends Controller
 			'message' => 'delete successful',
 		]);
 	}
+
+	public function searchBook($name){
+		// $name = $request->input('name');
+    	$sach = tb_book::where('s_name', 'LIKE', '%'.$name.'%')->get(); 
+		return response()->json([
+			'status' => 200,
+			'book' => $sach,
+		]);
+	}
 }
