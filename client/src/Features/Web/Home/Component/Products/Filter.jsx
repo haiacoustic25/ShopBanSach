@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 const Filter = (props) => {
-  const { categories, authors } = props;
-  const [dataFillter, setDataFilter] = useState({
-    author: "",
-    price: "",
-    createDate: "",
-    category: "",
-  });
-  const onChange = (event) => {
-    setDataFilter({ ...dataFillter, [event.target.name]: event.target.value });
-  };
-  const handleFillter = (event) => {
-    event.preventDefault();
-    console.log(dataFillter);
-  };
+  const {
+    categories,
+    authors,
+    dataFillter,
+    onChange,
+    handleFillter,
+    deleteFillter,
+    handleSortASC,
+    handleSortDESC,
+  } = props;
+
   return (
     <div className="filter">
       <h2>Lọc sản phẩm</h2>
@@ -24,8 +21,8 @@ const Filter = (props) => {
             <Form.Label>Tác giả</Form.Label>
             <Form.Select
               aria-label="Default select example"
-              name="author"
-              value={dataFillter.author}
+              name="author_id"
+              value={dataFillter.author_id}
               onChange={onChange}
             >
               <option value="">Chọn tác giả</option>
@@ -68,8 +65,8 @@ const Filter = (props) => {
             <Form.Label>Thể loại</Form.Label>
             <Form.Select
               aria-label="Default select example"
-              name="category"
-              value={dataFillter.category}
+              name="category_id"
+              value={dataFillter.category_id}
               onChange={onChange}
             >
               <option value="">Thể loại</option>
@@ -84,15 +81,18 @@ const Filter = (props) => {
             <Button type="submit" onClick={handleFillter}>
               Lọc
             </Button>
+            <Button onClick={deleteFillter} style={{ marginLeft: "10px" }}>
+              Bỏ loc
+            </Button>
           </Form.Group>
         </Row>
       </Form>
       <div className="filter__sort d-flex">
         <span>Sắp xếp theo:</span>
-        <span>
+        <span onClick={handleSortASC}>
           <i className="fa-solid fa-arrow-up-wide-short"></i>Tăng dần
         </span>
-        <span>
+        <span onClick={handleSortDESC}>
           <i className="fa-solid fa-arrow-down-wide-short"></i>Giảm dần
         </span>
       </div>

@@ -4,6 +4,9 @@
   margin-top: 50px;
   & > form > div > div > button {
     background-color: $btn_color !important;
+    &:last-child {
+      background-color: #dd4949 !important;
+    }
   }
   & button {
     margin-top: 30px;

@@ -10,6 +10,10 @@ import {
   fetchAllAuthors,
 } from "../../../../../Redux/Action/action";
 const Products = () => {
+  const [dataFillter, setDataFilter] = useState({});
+  const onChange = (event) => {
+    setDataFilter({ ...dataFillter, [event.target.name]: event.target.value });
+  };
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,9 +44,34 @@ const Products = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
     window.scrollTo(0, 500);
   };
+
+  // fillter product
+  const handleFillter = (event) => {
+    event.preventDefault();
+    dispatch(fetchAllProducts(dataFillter));
+  };
+  const deleteFillter = () => {
+    setDataFilter({});
+    dispatch(fetchAllProducts());
+  };
+  const handleSortASC = () => {
+    dispatch(fetchAllProducts({ ...dataFillter, sort: "ASC" }));
+  };
+  const handleSortDESC = () => {
+    dispatch(fetchAllProducts({ ...dataFillter, sort: "DESC" }));
+  };
   return (
     <div className="body">
-      <Filter categories={categories} authors={authors} />
+      <Filter
+        categories={categories}
+        authors={authors}
+        dataFillter={dataFillter}
+        onChange={onChange}
+        handleFillter={handleFillter}
+        deleteFillter={deleteFillter}
+        handleSortASC={handleSortASC}
+        handleSortDESC={handleSortDESC}
+      />
       <div className="grid grid-cols-6 gap-3 ">
         <div className="row">
           {products &&

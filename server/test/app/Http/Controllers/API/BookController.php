@@ -71,21 +71,23 @@ class BookController extends Controller
 	public function show(Request $request)
 	{
 		if($request->has('sort') ){
-			$sach=tb_book::orderBy('s_newPrice',$request->sort ?? $request->get('sort'))->get();
+			$result=tb_book::orderBy('s_newPrice',$request->sort ?? $request->get('sort'))->get();
 			foreach ($request->query() as $key => $value) {
 				if($key=='sort') continue;
-				$sach = $sach->where($key,$value);
+				$result = $result->where($key,$value);
 			}
 		}else {
 			if($request->query()){
-				$sach=tb_book::all();
+				$result=tb_book::all();
 				foreach ($request->query() as $key => $value) {
-					$sach = $sach->where($key,$value);
+					$result = $result->where($key,$value);
 				}
-				
 			}else{
-				$sach=tb_book::all();
+				$result=tb_book::all();
 			}
+		}
+		foreach($result as $object){
+			$sach[] = $object->toArray();
 		}
 		return response()->json([
 			'status' => 200,
