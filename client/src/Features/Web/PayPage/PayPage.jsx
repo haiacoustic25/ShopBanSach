@@ -20,7 +20,7 @@ const PayPage = () => {
   );
   const [payInfor, setPayInfor] = useState({
     pay_name: user ? user.name : "",
-    pay_contact: user ? user.phone : "",
+    pay_phone: user ? user.phone : "",
     pay_email: user ? user.email : "",
     pay_address: user ? user.address : "",
     pay_totalPrice: "",
@@ -42,7 +42,7 @@ const PayPage = () => {
     event.preventDefault();
     if (
       payInfor.pay_name === "" ||
-      payInfor.pay_contact === "" ||
+      payInfor.pay_phone === "" ||
       payInfor.pay_email === "" ||
       payInfor.pay_address === ""
     ) {

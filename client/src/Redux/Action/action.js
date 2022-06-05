@@ -22,6 +22,7 @@ import {
   CREATE_PRODUCT_ERROR,
   DELETE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_SUCCESS,
+  FILTER_PRODUCT_SUCCESS,
   FETCH_CATEGORY_REQUEST,
   FETCH_CATEGORY_SUCCESS,
   FETCH_CATEGORY_ERROR,
@@ -350,11 +351,11 @@ export const fetchProductsError = () => {
   };
 };
 
-export const fetchAllProducts = () => {
+export const fetchAllProducts = (query) => {
   return async (dispatch, getState) => {
     dispatch(fetchProductsRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/book");
+      const res = await axios.get("http://localhost:8000/api/book", { query });
       const data = res && res.data ? res.data : [];
       dispatch(fetchProductsSuccess(data));
     } catch (error) {

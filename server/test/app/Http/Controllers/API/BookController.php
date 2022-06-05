@@ -68,10 +68,25 @@ class BookController extends Controller
 		}}
 
 
-	public function show()
+	public function show(Request $request)
 	{
-		$sach = tb_book::all();
-
+		if($request->has('sort') ){
+			$sach=tb_book::orderBy('s_newPrice',$request->sort ?? $request->get('sort'))->get();
+			foreach ($request->query() as $key => $value) {
+				if($key=='sort') continue;
+				$sach = $sach->where($key,$value);
+			}
+		}else {
+			if($request->query()){
+				$sach=tb_book::all();
+				foreach ($request->query() as $key => $value) {
+					$sach = $sach->where($key,$value);
+				}
+				
+			}else{
+				$sach=tb_book::all();
+			}
+		}
 		return response()->json([
 			'status' => 200,
 			'books' => $sach,
@@ -161,11 +176,10 @@ class BookController extends Controller
 	}
 
 	public function searchBook($name){
-		// $name = $request->input('name');
     	$sach = tb_book::where('s_name', 'LIKE', '%'.$name.'%')->get(); 
 		return response()->json([
 			'status' => 200,
-			'book' => $sach,
+			'book' => $sach
 		]);
 	}
 }

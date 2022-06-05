@@ -43,8 +43,8 @@ const PayInfor = (props) => {
           placeholder="Số điện thoại"
           multiline
           variant="standard"
-          name="pay_contact"
-          value={payInfor.pay_contact}
+          name="pay_phone"
+          value={payInfor.pay_phone}
           onChange={onChange}
           style={styleInput}
         />
@@ -70,6 +70,7 @@ const PayInfor = (props) => {
           variant="standard"
           name="pay_address"
           value={payInfor.pay_address}
+          onChange={onChange}
           style={styleInput}
         />
         <br></br>
