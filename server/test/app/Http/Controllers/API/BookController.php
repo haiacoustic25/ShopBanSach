@@ -70,18 +70,56 @@ class BookController extends Controller
 
 	public function show(Request $request)
 	{
+		$filter_min_price = "";
+		$filter_max_price = "";
+
+		$string = $request->get('price');
+			
+		for($i = 0 ; $i < strlen($string) ; $i++) {
+			if($request->get('price')[$i]==",") {
+				$filter_min_price = substr($string,0,$i);
+				$filter_max_price = substr($string,$i+1,strlen($string));
+			}
+		}
+
 		if($request->has('sort') ){
-			$result=tb_book::orderBy('s_newPrice',$request->sort ?? $request->get('sort'))->get();
+			if($request->get('price')){
+				$result=tb_book::whereBetween('s_newPrice',[$filter_min_price,$filter_max_price])->orderBy('s_newPrice',$request->sort ?? $request->get('sort'))->get();
+			}else{
+				$result=tb_book::orderBy('s_newPrice',$request->sort ?? $request->get('sort'))->get();
+			}
 			foreach ($request->query() as $key => $value) {
 				if($key=='sort') continue;
+				if($key=='price') continue;
 				$result = $result->where($key,$value);
 			}
-		}else {
+			if($result->isEmpty())return response()->json([
+				'status' => 200,
+				'message'=>"Khong co san pham"
+			]);
+		}else if($request->has('price')){
+			
+			$result=tb_book::whereBetween('s_newPrice',[$filter_min_price,$filter_max_price])->get();
+			foreach ($request->query() as $key => $value) {
+				if($key=='price') continue;
+				$result = $result->where($key,$value);
+			}
+
+			if($result->isEmpty())return response()->json([
+				'status' => 200,
+				'message'=>"Khong co san pham"
+			]);
+		}
+		else {
 			if($request->query()){
 				$result=tb_book::all();
 				foreach ($request->query() as $key => $value) {
 					$result = $result->where($key,$value);
 				}
+				if($result->isEmpty())return response()->json([
+					'status' => 200,
+					'message'=>"Khong co san pham"
+				]);
 			}else{
 				$result=tb_book::all();
 			}
@@ -89,6 +127,7 @@ class BookController extends Controller
 		foreach($result as $object){
 			$sach[] = $object->toArray();
 		}
+		
 		return response()->json([
 			'status' => 200,
 			'books' => $sach,

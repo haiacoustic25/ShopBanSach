@@ -12,7 +12,12 @@ import {
 const Products = () => {
   const [dataFillter, setDataFilter] = useState({});
   const onChange = (event) => {
-    setDataFilter({ ...dataFillter, [event.target.name]: event.target.value });
+    if (event.target.value != "default") {
+      setDataFilter({
+        ...dataFillter,
+        [event.target.name]: event.target.value,
+      });
+    }
   };
   const dispatch = useDispatch();
 
@@ -50,7 +55,7 @@ const Products = () => {
     event.preventDefault();
     dispatch(fetchAllProducts(dataFillter));
   };
-  const deleteFillter = () => {
+  const deleteFillter = (event) => {
     setDataFilter({});
     dispatch(fetchAllProducts());
   };

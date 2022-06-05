@@ -22,10 +22,9 @@ const Filter = (props) => {
             <Form.Select
               aria-label="Default select example"
               name="author_id"
-              value={dataFillter.author_id}
               onChange={onChange}
             >
-              <option value="">Chọn tác giả</option>
+              <option value="default">Chọn tác giả</option>
               {authors?.map((author, index) => (
                 <option className="py-2" value={author.id} key={index}>
                   {author.tg_name}
@@ -38,27 +37,14 @@ const Filter = (props) => {
             <Form.Select
               aria-label="Default select example"
               name="price"
-              value={dataFillter.price}
               onChange={onChange}
             >
-              <option value="">Chọn khoảng giá</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </Form.Select>
-          </Form.Group>
-          <Form.Group as={Col} md="2">
-            <Form.Label>Năm xuất Bản</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              name="createDate"
-              value={dataFillter.createDate}
-              onChange={onChange}
-            >
-              <option value="">Năm xuất bản</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option value="default">Chọn khoảng giá</option>
+              <option value="40000,60000">40.000 - 60.000</option>
+              <option value="60000,80000">60.000 - 80.000</option>
+              <option value="80000,100000">80.000 - 100.000</option>
+              <option value="10000,120000">100.000 - 120.000</option>
+              <option value="120000,150000">120.000 - 150.000</option>
             </Form.Select>
           </Form.Group>
           <Form.Group as={Col} md="2">
@@ -66,10 +52,9 @@ const Filter = (props) => {
             <Form.Select
               aria-label="Default select example"
               name="category_id"
-              value={dataFillter.category_id}
               onChange={onChange}
             >
-              <option value="">Thể loại</option>
+              <option value="default">Thể loại</option>
               {categories?.map((category, index) => (
                 <option value={category.id} key={index}>
                   {category.tl_name}
