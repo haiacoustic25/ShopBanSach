@@ -1,7 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllProducts } from "../../Redux/Action/action";
 const Menu = () => {
+  const categories = useSelector(
+    (state) => state?.category?.listCategorys?.categories
+  );
+  const dispatch = useDispatch();
+  const handleClick = (id) => {
+    window.scrollTo(0, 800);
+    dispatch(fetchAllProducts({ category_id: id }));
+  };
   return (
     <div className="body">
       <div className="row menu">
@@ -12,40 +21,30 @@ const Menu = () => {
               <div>DANH MỤC SẢN PHẨM</div>
             </div>
             <div className="dropdown-content">
-              <Link
-                to=""
-                className="d-flex align-items-center justify-content-between"
-              >
-                Sách Tiếng Việt<i className="fas fa-angle-right"></i>
-              </Link>
-              <Link to="">Sách Ngoại Văn</Link>
-              <Link
-                to=""
-                className="d-flex  align-items-center justify-content-between"
-              >
-                Văn Phòng Phẩm<i className="fas fa-angle-right"></i>
-              </Link>
-              <Link
-                to=""
-                className="d-flex  align-items-center justify-content-between"
-              >
-                Đồ Chơi
-                <i className="fas fa-angle-right"></i>
-              </Link>
-              <Link to="">Đồ Trang Trí-Lưu Niệm</Link>
-              <Link
-                to=""
-                className="d-flex  align-items-center justify-content-between"
-              >
-                Nhà Cung Cấp<i className="fas fa-angle-right"></i>
-              </Link>
+              {categories &&
+                categories.map((category, index) => (
+                  <Link
+                    to=""
+                    key={index}
+                    onClick={() => handleClick(category.id)}
+                  >
+                    {category.tl_name}
+                  </Link>
+                ))}
             </div>
           </div>
         </div>
         <div className="list d-flex col-sm-10">
-          <div className="list-item">Sách có Chữ Kí</div>
-          <div className="list-item">Sách Thiếu Nhi</div>
-          <div className="list-item">Trinh Thám</div>
+          {categories &&
+            categories.slice(0, 3).map((category, index) => (
+              <div
+                className="list-item"
+                key={index}
+                onClick={() => handleClick(category.id)}
+              >
+                {category.tl_name}
+              </div>
+            ))}
           <div className="list-item">Gợi Ý Cho Bạn</div>
         </div>
       </div>
