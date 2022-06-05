@@ -216,8 +216,8 @@ class BookController extends Controller
 		]);
 	}
 
-	public function searchBook($name){
-    	$sach = tb_book::where('s_name', 'LIKE', '%'.$name.'%')->get(); 
+	public function searchBook(Request $request){
+    	$sach = tb_book::where('s_name', 'LIKE', '%'.$request->get('name').'%')->get(); 
 		return response()->json([
 			'status' => 200,
 			'book' => $sach

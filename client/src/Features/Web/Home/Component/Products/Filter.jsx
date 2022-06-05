@@ -43,7 +43,7 @@ const Filter = (props) => {
               <option value="40000,60000">40.000 - 60.000</option>
               <option value="60000,80000">60.000 - 80.000</option>
               <option value="80000,100000">80.000 - 100.000</option>
-              <option value="10000,120000">100.000 - 120.000</option>
+              <option value="100000,120000">100.000 - 120.000</option>
               <option value="120000,150000">120.000 - 150.000</option>
             </Form.Select>
           </Form.Group>

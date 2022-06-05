@@ -77,14 +77,18 @@ const Products = () => {
         handleSortASC={handleSortASC}
         handleSortDESC={handleSortDESC}
       />
-      <div className="grid grid-cols-6 gap-3 ">
-        <div className="row">
-          {products &&
-            currentProduct.map((product, index) => (
-              <ProductItem product={product} key={index} />
-            ))}
+      {products ? (
+        <div className="grid grid-cols-6 gap-3 ">
+          <div className="row">
+            {products &&
+              currentProduct.map((product, index) => (
+                <ProductItem product={product} key={index} />
+              ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <h4>Không có sản phẩm</h4>
+      )}
       <Pagination
         currentPage={currentPage}
         handleNextPage={handleNextPage}

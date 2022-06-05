@@ -386,9 +386,9 @@ export const fetchSearchProductRedux = (name) => {
   return async (dispatch, getState) => {
     dispatch(fetchSearchProductsRequest());
     try {
-      const res = await axios.get(
-        `http://localhost:8000/api/search-book/${name}`
-      );
+      const res = await axios.get("http://localhost:8000/api/search-book", {
+        params: name,
+      });
       if (res.data.status === 200) {
         dispatch(fetchSearchProductsSuccess(res.data.book));
       }

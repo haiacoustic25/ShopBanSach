@@ -46,7 +46,7 @@ Route::delete('/delete-category/{id}',[CategoryController::class, 'deleteById'])
 
 Route::get('/book',[BookController::class,'show']);
 
-Route::get('/search-book/{name}',[BookController::class,'searchBook']);
+Route::get('/search-book',[BookController::class,'searchBook']);
 
 Route::post('/add-book', [BookController::class,'store']);
 

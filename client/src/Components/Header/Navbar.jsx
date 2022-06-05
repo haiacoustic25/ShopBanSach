@@ -23,7 +23,9 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchSearchProductRedux(search));
+    if (search != "") {
+      dispatch(fetchSearchProductRedux({ name: search }));
+    }
   }, [search]);
   const isAuth = useSelector((state) => state.user.isAuth);
   const user = useSelector((state) => state.user?.user?.user);
@@ -44,7 +46,7 @@ const Navbar = () => {
           <Form onSubmit={handleSearch}>
             <InputGroup
               className="mb-3 navbar__search"
-              name="valueSearch"
+              name="name"
               value={search}
               onChange={onChange}
             >
