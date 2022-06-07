@@ -24,6 +24,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsers } from "../../../../Redux/Action/action"
 import { CSVLink } from 'react-csv';
 import {
+  NotificationContainer,
+} from "react-notifications";
+import {
   OutlinedInput,
   FormControl,
   InputLabel,
@@ -200,6 +203,7 @@ export const Users = () => {
             </Popup>
           }
         </Container>
+        <NotificationContainer />
       </Box>
     </>
   );

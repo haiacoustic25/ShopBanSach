@@ -49,7 +49,8 @@ const StyledTableRow = styled(TableRow)(() => ({
   },
   'div:hover':{
     overflow: 'visible',
-    whiteSpace: 'normal'
+    whiteSpace: 'normal',
+    textAlign: 'justify',
   }
 }));
 
