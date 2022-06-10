@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthorController;
 use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BillController;
 use App\Http\Controllers\API\DetailCartController;
 use App\Models\tb_author;
 use Illuminate\Http\Request;
@@ -71,6 +72,7 @@ Route::post('/add-cart', [DetailCartController::class,'store']);
 Route::get('/show-gh-by-user/{cart_id}', [DetailCartController::class, 'showByUserId']);
 Route::get('/show-product/{username}', [AuthController::class, 'showCart']);
 Route::post('/delete-product-in-cart',[DetailCartController::class, 'deleteDetailCartByProduct']);
+Route::get('/bill/{id}',[BillController::class,'store']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
