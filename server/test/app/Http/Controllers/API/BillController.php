@@ -13,18 +13,18 @@ use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
-    public function store($id)
+    public function store(Request $request)
     {
-        // gggg
-        $cart = tb_cart::find($id);
+
+        $cart = tb_cart::find($request->input('cart_id'));
         $user = User::where('username','=',$cart->username)->first();
-        $gh = tb_detail_cart::where('cart_id','=',$id)->get();
+        $gh = tb_detail_cart::where('cart_id','=',$request->input('cart_id'))->get();
         
         $bill = new tb_bill();
-        $bill->cart_id = $id;
-        $bill->bill_address = $user->address;
-        $bill->bill_email = $user->email;
-        $bill->bill_phone = $user->phone;
+        $bill->cart_id = $request->input('cart_id');
+        $bill->bill_address =$request->input('bill_address');
+        $bill->bill_email = $request->input('bill_email');
+        $bill->bill_phone = $request->input('bill_phone');
 
         $bill->save();
     // 'bill_id',
@@ -51,7 +51,7 @@ class BillController extends Controller
 
         foreach($gh as $item)
 		{
-            $ghDelete = tb_detail_cart::where([['cart_id','=',$id],
+            $ghDelete = tb_detail_cart::where([['cart_id','=',$request->input('cart_id')],
                 ['book_id','=',$item->book_id]])->first();
                 if($ghDelete != null)
                 {
