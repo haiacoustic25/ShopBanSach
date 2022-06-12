@@ -73,6 +73,7 @@ Route::get('/show-gh-by-user/{cart_id}', [DetailCartController::class, 'showByUs
 Route::get('/show-product/{username}', [AuthController::class, 'showCart']);
 Route::post('/delete-product-in-cart',[DetailCartController::class, 'deleteDetailCartByProduct']);
 Route::get('/bill/{id}',[BillController::class,'store']);
+Route::post('/pay',[BillController::class, 'pay']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

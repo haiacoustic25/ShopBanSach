@@ -9,6 +9,7 @@ use App\Models\tb_detail_bill;
 use App\Models\tb_cart;
 use App\Models\User;
 use App\Models\tb_detail_cart;
+use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
@@ -63,5 +64,31 @@ class BillController extends Controller
                 'detail' => $detail,
             ]);
         
+    }
+
+
+    public function pay(Request $request)
+    {
+        $bill = new tb_bill();
+        $bill->cart_id = $request->input('cart_id');
+        $bill->bill_address = $request->input('bill_address');
+        $bill->bill_email = $request->input('bill_email');
+        $bill->bill_phone = $request->input('bill_phone');
+        $bill->save();
+        $spHoaDon = new tb_detail_bill();
+		$spHoaDon->bill_id = $bill->id;
+        $spHoaDon->book_id = $request->input('book_id');
+        $spHoaDon->book_quantity = $request->input('book_quantity');
+        $sach = tb_book::find($request->input('book_id'));
+        $price = $sach->s_price - $sach->s_price*$sach->s_discount/100;
+        $spHoaDon->book_price = $price;
+        $spHoaDon->book_total = $price*$request->input('book_quantity');
+        $spHoaDon->save();
+
+        return response()->json([
+            'status'=> 200,
+            'bill' => $bill,
+            'detail' => $spHoaDon,
+        ]);
     }
 }
