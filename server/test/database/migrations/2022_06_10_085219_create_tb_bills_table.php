@@ -20,6 +20,7 @@ class CreateTbBillsTable extends Migration
 			$table->string('bill_address');
             $table->string('bill_email');
 			$table->string('bill_phone');
+            $table->integer('bill_total');
             $table->timestamps();
         });
         Schema::table('tb_bills', function (Blueprint $table)

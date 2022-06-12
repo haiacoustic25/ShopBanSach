@@ -18,7 +18,6 @@ class CreateTbDetailBillsTable extends Migration
 			$table->unsignedBigInteger('book_id');
 			$table->integer('book_quantity');
             $table->integer('book_price');
-            $table->integer('book_total');
 			$table->timestamps();
 			$table->primary(['bill_id','book_id']);
 
