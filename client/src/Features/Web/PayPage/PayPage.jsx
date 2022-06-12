@@ -39,15 +39,11 @@ const PayPage = () => {
   }, [isDisplay]);
   const handlePay = (event) => {
     event.preventDefault();
-    if (
-      payInfor.pay_name === "" ||
-      payInfor.pay_phone === "" ||
-      payInfor.pay_email === "" ||
-      payInfor.pay_address === ""
-    ) {
+    if (payInfor.pay_address === "") {
       NotificationManager.error("Điền đầy đủ thông tin", "", 500);
     } else {
-      
+      NotificationManager.success("Thanh toán thành công", "", 500);
+
       console.log(payInfor);
     }
   };
