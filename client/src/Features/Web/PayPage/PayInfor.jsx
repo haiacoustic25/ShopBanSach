@@ -17,9 +17,6 @@ const PayInfor = (props) => {
           Cá Chép BookStore
         </Link>
         <h4>Thông tin thanh toán</h4>
-        <span style={{ display: isAuth ? "none" : "" }}>
-          Bạn đã có tải khoản? <Link to="/dang-nhap">Đăng nhập</Link>{" "}
-        </span>
       </div>
 
       <form className="payInfor__body" onSubmit={handlePay}>

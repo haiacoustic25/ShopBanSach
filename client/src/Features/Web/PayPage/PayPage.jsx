@@ -19,11 +19,10 @@ const PayPage = () => {
     (state) => state?.product.moveInforProductToPayload
   );
   const [payInfor, setPayInfor] = useState({
-    pay_name: user ? user.name : "",
-    pay_phone: user ? user.phone : "",
-    pay_email: user ? user.email : "",
-    pay_address: user ? user.address : "",
-    pay_totalPrice: "",
+    pay_name: user.name,
+    pay_phone: user.phone,
+    pay_email: user.email,
+    pay_address: user.address,
   });
   useEffect(() => {
     if (!isAuth) {
@@ -48,8 +47,16 @@ const PayPage = () => {
     ) {
       NotificationManager.error("Điền đầy đủ thông tin", "", 500);
     } else {
+      
       console.log(payInfor);
     }
+  };
+  const total = () => {
+    let totalPrice = 0;
+    products.map((product) => {
+      totalPrice += product.s_newPrice * product.s_amount;
+    });
+    return totalPrice;
   };
   const onChange = (event) => {
     event.preventDefault();
@@ -65,7 +72,7 @@ const PayPage = () => {
             handlePay={handlePay}
             onChange={onChange}
           />
-          <PayProduct products={products} isAuth={isAuth} />
+          <PayProduct products={products} isAuth={isAuth} total={total} />
           <NotificationContainer />
         </div>
       ) : (
