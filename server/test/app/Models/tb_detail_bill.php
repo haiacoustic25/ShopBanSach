@@ -4,27 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
-class tb_detail_cart extends Model
+class tb_detail_bill extends Model
 {
-	use HasFactory;
-	protected $table = 'tb_detail_carts';
+    use HasFactory;
+	protected $table = 'tb_detail_bills';
 	public function tb_book()
 	{
 		return $this->belongsTo('App\Models\tb_books.php');
 	}
 
-	public function tb_cart()
+	public function tb_bill()
 	{
-		return $this->belongsTo('App\Models\tb_carts.php');
+		return $this->belongsTo('App\Models\tb_bills.php');
 	}
 	protected $fillable = [
-	'cart_id',
+	'bill_id',
 	'book_id',
-	'gh_amount',
+	'book_quantity',
+    'book_price',
+	'book_total',
 	];
-	protected $primaryKey = ['cart_id','book_id'];
+	protected $primaryKey = ['bill_id','book_id'];
 	public $incrementing = false;
 
 	protected function setKeysForSaveQuery($query)
