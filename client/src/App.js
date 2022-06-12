@@ -57,7 +57,10 @@ function App() {
               />
               <Route path="/dang-ky" element={<Register />} />
               <Route path="/dang-nhap" element={<Login />} />
-              <Route path="/thanh-toan" element={<PayPage />} />
+              <Route
+                path="/thanh-toan"
+                element={isAuth ? <PayPage /> : <Navigate to="/dang-nhap" />}
+              />
               <Route
                 path="/account/:id"
                 element={isAuth ? <Account /> : <Navigate to="/" />}

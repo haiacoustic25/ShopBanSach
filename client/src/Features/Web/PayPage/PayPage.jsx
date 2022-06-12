@@ -4,6 +4,7 @@ import PayProduct from "./PayProduct";
 import "../../../Assets/SCSS/paypage.scss";
 import Loading from "../../../Components/Loading/Loading";
 import { dispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   NotificationContainer,
   NotificationManager,
@@ -37,11 +38,18 @@ const PayPage = () => {
       setIsDisplay(true);
     }, 1000);
   }, [isDisplay]);
-  const handlePay = (event) => {
+  const handlePay = async (event) => {
     event.preventDefault();
     if (payInfor.pay_address === "") {
       NotificationManager.error("Điền đầy đủ thông tin", "", 500);
     } else {
+      const res = await axios.post("http://localhost:8000/api/pay", {
+        cart_id: user.id,
+        bill_address: payInfor.pay_address,
+        bill_phone: payInfor.pay_phone,
+        bill_email: payInfor.pay_email,
+        bill_total: total(),
+      });
       NotificationManager.success("Thanh toán thành công", "", 500);
 
       console.log(payInfor);
