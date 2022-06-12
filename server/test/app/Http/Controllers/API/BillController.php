@@ -15,6 +15,7 @@ class BillController extends Controller
 {
     public function store($id)
     {
+        // gggg
         $cart = tb_cart::find($id);
         $user = User::where('username','=',$cart->username)->first();
         $gh = tb_detail_cart::where('cart_id','=',$id)->get();
