@@ -81,7 +81,7 @@ class BillController extends Controller
         $spHoaDon->book_id = $request->input('book_id');
         $spHoaDon->book_quantity = $request->input('book_quantity');
         $sach = tb_book::find($request->input('book_id'));
-        $price = $sach->s_price - $sach->s_price*$sach->s_discount/100;
+        $price = $sach->s_newPrice;
         $spHoaDon->book_price = $price;
         $spHoaDon->book_total = $price*$request->input('book_quantity');
         $spHoaDon->save();
