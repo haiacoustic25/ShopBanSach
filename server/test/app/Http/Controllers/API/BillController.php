@@ -25,8 +25,10 @@ class BillController extends Controller
         $bill->bill_address =$request->input('bill_address');
         $bill->bill_email = $request->input('bill_email');
         $bill->bill_phone = $request->input('bill_phone');
+        $bill->bill_total = $request->input('bill_total');
 
         $bill->save();
+        
     // 'bill_id',
 	// 'book_id',
 	// 'book_quantity',
@@ -42,7 +44,6 @@ class BillController extends Controller
             $sach = tb_book::find($item->book_id);
             $price = $sach->s_price - $sach->s_price*$sach->s_discount/100;
             $spHoaDon->book_price = $price;
-            $spHoaDon->book_total = $price*$item->gh_amount;
 
             $spHoaDon->save();
         }
