@@ -23,7 +23,6 @@ class tb_detail_bill extends Model
 	'book_id',
 	'book_quantity',
     'book_price',
-	'book_total',
 	];
 	protected $primaryKey = ['bill_id','book_id'];
 	public $incrementing = false;

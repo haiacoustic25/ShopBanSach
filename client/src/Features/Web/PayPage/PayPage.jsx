@@ -4,6 +4,7 @@ import PayProduct from "./PayProduct";
 import "../../../Assets/SCSS/paypage.scss";
 import Loading from "../../../Components/Loading/Loading";
 import { dispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   NotificationContainer,
   NotificationManager,
@@ -19,11 +20,10 @@ const PayPage = () => {
     (state) => state?.product.moveInforProductToPayload
   );
   const [payInfor, setPayInfor] = useState({
-    pay_name: user ? user.name : "",
-    pay_phone: user ? user.phone : "",
-    pay_email: user ? user.email : "",
-    pay_address: user ? user.address : "",
-    pay_totalPrice: "",
+    pay_name: user.name,
+    pay_phone: user.phone,
+    pay_email: user.email,
+    pay_address: user.address,
   });
   useEffect(() => {
     if (!isAuth) {
@@ -38,18 +38,29 @@ const PayPage = () => {
       setIsDisplay(true);
     }, 1000);
   }, [isDisplay]);
-  const handlePay = (event) => {
+  const handlePay = async (event) => {
     event.preventDefault();
-    if (
-      payInfor.pay_name === "" ||
-      payInfor.pay_phone === "" ||
-      payInfor.pay_email === "" ||
-      payInfor.pay_address === ""
-    ) {
+    if (payInfor.pay_address === "") {
       NotificationManager.error("Điền đầy đủ thông tin", "", 500);
     } else {
+      const res = await axios.post("http://localhost:8000/api/pay", {
+        cart_id: user.id,
+        bill_address: payInfor.pay_address,
+        bill_phone: payInfor.pay_phone,
+        bill_email: payInfor.pay_email,
+        bill_total: total(),
+      });
+      NotificationManager.success("Thanh toán thành công", "", 500);
+
       console.log(payInfor);
     }
+  };
+  const total = () => {
+    let totalPrice = 0;
+    products.map((product) => {
+      totalPrice += product.s_newPrice * product.s_amount;
+    });
+    return totalPrice;
   };
   const onChange = (event) => {
     event.preventDefault();
@@ -65,7 +76,7 @@ const PayPage = () => {
             handlePay={handlePay}
             onChange={onChange}
           />
-          <PayProduct products={products} isAuth={isAuth} />
+          <PayProduct products={products} isAuth={isAuth} total={total} />
           <NotificationContainer />
         </div>
       ) : (

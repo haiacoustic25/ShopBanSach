@@ -1,13 +1,7 @@
 import React from "react";
 const PayProduct = (props) => {
-  const { products, isAuth } = props;
-  const total = () => {
-    let totalPrice = 0;
-    products.map((product) => {
-      totalPrice += product.s_newPrice * product.s_amount;
-    });
-    return totalPrice;
-  };
+  const { products, isAuth, total } = props;
+
   return (
     <div className="payProduct">
       <div className="payProduct__list">

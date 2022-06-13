@@ -203,7 +203,7 @@ const ProductDetail = () => {
                       onClick={handlePayload}
                     >
                       <Link
-                        to={isAuth ? "/gio-hang" : "/thanh-toan"}
+                        to={isAuth ? "/gio-hang" : "/dang-nhap"}
                         style={{ color: "#fff" }}
                       >
                         Mua ngay

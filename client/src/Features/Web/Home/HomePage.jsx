@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import Header from "../../../Components/Header/Header";
 import Slider from "./Component/Slider";
 import "../../../Assets/SCSS/slider.scss";
 import Footer from "../../../Components/Footer/Footer";
-import Products from "./Component/Products/Products";
 import { Helmet } from "react-helmet";
+const Products = React.lazy(() => import("./Component/Products/Products"));
 
 const HomePage = () => {
   useEffect(() => {
@@ -18,7 +18,9 @@ const HomePage = () => {
       <Header />
 
       <Slider />
-      <Products />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Products />
+      </Suspense>
 
       <Footer />
     </div>
