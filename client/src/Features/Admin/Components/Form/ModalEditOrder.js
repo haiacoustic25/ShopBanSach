@@ -10,7 +10,7 @@ import {
     FormHelperText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, fetchAllAuthors, createNewProductsRedux } from "../../../../Redux/Action/action"
 import {
     NotificationContainer,
     NotificationManager,

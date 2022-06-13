@@ -61,6 +61,7 @@ export const Users = () => {
     tblPagination,
     daTaAfterPagingAndSorting
   } =  useTable(listUsers, headCells, filterFn);
+  
   const handleSearch = e => {
     let target = e.target;
     setFilterFn({
