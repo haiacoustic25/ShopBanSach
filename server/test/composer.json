@@ -6,14 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "tymon/jwt-auth":"^1.0.0-rc.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "tymon/jwt-auth":"^1.0.0-rc.2"
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
