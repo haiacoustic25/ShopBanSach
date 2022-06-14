@@ -30,6 +30,9 @@ const userReducer = (state = INITTAL_STATE, action) => {
       if (action.payload?.error === 0) {
         return { ...state, user: action.payload, isAuth: false };
       }
+      if (localStorage.getItem("LOCAL_STORAGE_TOKEN")) {
+        INITTAL_STATE.isAuth = true;
+      }
       return { ...state, user: action.payload, isAuth: true };
     }
     case LOGIN_ERROR: {

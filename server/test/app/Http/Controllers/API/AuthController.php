@@ -169,15 +169,17 @@ class AuthController extends Controller
 				}else{
 					$credentials = $request->only('username', 'password');
 					if ($token = $this->guard()->attempt($credentials)) {
-						return $this->respondWithToken($token);
+						return $this->respondWithToken($token,$user);
 					}
 				}
 			}
 		}
 
-		protected function respondWithToken($token)
-		{
+		protected function respondWithToken($token,$user)
+		{	
 			return response()->json([
+				'status' => 200,
+				'user'=>$user,
 				'access_token' => $token,
 				'token_type' => 'bearer',
 				'expires_in' => $this->guard()->factory()->getTTL() * 60

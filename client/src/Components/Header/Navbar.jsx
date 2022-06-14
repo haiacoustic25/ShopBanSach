@@ -23,7 +23,7 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (search != "") {
+    if (search !== "") {
       dispatch(fetchSearchProductRedux({ name: search }));
     }
   }, [search]);
@@ -61,7 +61,7 @@ const Navbar = () => {
               </Button>
             </InputGroup>
           </Form>
-          {search != "" && (
+          {search !== "" && (
             <ul className="navbar__search--result">
               {listProductsSearch.map((product, index) => (
                 <li key={index}>
@@ -84,7 +84,7 @@ const Navbar = () => {
               </i>
             </div>
             <div className="cart">
-              {!isAuth || listProducts?.books?.length == 0 ? (
+              {!isAuth || listProducts?.books?.length === 0 ? (
                 <div className="cart__img">
                   <img src={emptyCart} alt="" />
                 </div>

@@ -78,9 +78,17 @@ export const loginRedux = (user) => {
   return async (dispatch, getState) => {
     dispatch(loginRequest());
     try {
-      let res = await axios.post("http://localhost:8000/api/login", user);
+      let res = await axios.post("http://localhost:8000/api/auth/login", user, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "LOCAL_STORAGE_TOKEN"
+          )}`,
+        },
+      });
+      console.log(res);
       if (res.data.status === 200) {
         dispatch(loginSuccess(res.data));
+        localStorage.setItem("LOCAL_STORAGE_TOKEN", res.data.access_token);
       }
     } catch (error) {
       dispatch(loginError());
@@ -151,7 +159,14 @@ export const fetchAllCartReduct = (username) => {
     dispatch(fetchCartRequest());
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/show-product/${username}`
+        `http://localhost:8000/api/show-product/${username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "LOCAL_STORAGE_TOKEN"
+            )}`,
+          },
+        }
       );
       if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
     } catch (error) {
@@ -321,7 +336,17 @@ export const updateUsersSuccess = (payload) => {
 export const updateUser = (User) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post("http://localhost:8000/api/update-user", User);
+      let res = await axios.post(
+        "http://localhost:8000/api/update-user",
+        User,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "LOCAL_STORAGE_TOKEN"
+            )}`,
+          },
+        }
+      );
       if (res && res.data.status === 200) {
         dispatch(updateUsersSuccess(res.data));
         dispatch(fetchAllUsers());
