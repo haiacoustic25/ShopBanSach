@@ -12,7 +12,7 @@ import {
 import { SummaryItem } from "../../Components/Dashboard/summary-item";
 // import { PerformanceIndicators } from "../../Components/Dashboard/performance-indicators";
 import { OrdersTable } from "../../Components/orders/orders-table";
-// import { Cube as CubeIcon } from "../../icons/cube";
+import { Cube as CubeIcon } from "../../icons/cube";
 import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
 import { User as UserIcon } from "../../icons/user";
 import { Author as AuthorIcon } from "../../icons/author";
@@ -69,11 +69,11 @@ export const Dashboard = () => {
       icon: ShoppingCartIcon,
       label: "Products",
     },
-    // {
-    //   content: "3450",
-    //   icon: CubeIcon,
-    //   label: "Orders",
-    // },
+    {
+      content: "3450",
+      icon: CubeIcon,
+      label: "Orders",
+    },
     {
       content: listAuthors?.length.toString(),
       icon: AuthorIcon,
@@ -105,7 +105,7 @@ export const Dashboard = () => {
               </Typography>
             </Grid>
             {stats.map((item) => (
-              <Grid item key={item.label} md={3} xs={12}>
+              <Grid item key={item.label} md={2.4} xs={12}>
                 <SummaryItem
                   content={item.content}
                   icon={item.icon}

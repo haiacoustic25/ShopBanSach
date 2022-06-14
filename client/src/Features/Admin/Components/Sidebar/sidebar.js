@@ -3,7 +3,7 @@ import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui
 import { Home as HomeIcon } from '../../icons/home';
 import { ShoppingCart as ShoppingCartIcon } from '../../icons/shopping-cart';
 import { User as UserIcon } from '../../icons/user';
-// import { Cube as CubeIcon } from '../../icons/cube';
+import { Cube as CubeIcon } from '../../icons/cube';
 import { Logout as LogoutIcon } from '../../icons/logout';
 import { Author as AuthorIcon } from '../../icons/author';
 import { Category as CategoryIcon } from '../../icons/category';
@@ -26,11 +26,11 @@ const items = [
     icon: ShoppingCartIcon,
     label: 'Products'
   },
-  // {
-  //   href: '/admin/orders',
-  //   icon: CubeIcon,
-  //   label: 'Orders'
-  // },
+  {
+    href: '/admin/orders',
+    icon: CubeIcon,
+    label: 'Orders'
+  },
   {
     href: '/admin/authors',
     icon: AuthorIcon,
