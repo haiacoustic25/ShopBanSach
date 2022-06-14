@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Avatar, Box, Card, Typography } from '@material-ui/core';
 import { Link } from "react-router-dom"
-import R_arrow from '../../icons/r-arrow';
+import { arrow as arrowIcon } from '../../icons/r-arrow';
 
 export const SummaryItem = (props) => {
   const { content, icon: Icon, label, ...other } = props;
@@ -63,7 +63,7 @@ export const SummaryItem = (props) => {
       >
         <Link to={`/admin/${label}`} style={{display: 'flex', textDecoration: 'none', color: 'rgb(0, 170, 0)', fontSize: 14, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
             {label}
-            <R_arrow style={{marginLeft: 2}}/>
+            <arrowIcon style={{marginLeft: 2}}/>
         </Link>
       </Box>
     </Card>
