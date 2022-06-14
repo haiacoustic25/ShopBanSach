@@ -243,7 +243,7 @@ INSERT INTO `tb_categories` (`id`, `tl_name`, `created_at`, `updated_at`) VALUES
 (11, 'Tiểu sử hồi ký', '2022-05-22 03:28:07', '2022-05-22 03:28:07');
 
 -- --------------------------------------------------------
-
+Nguyên Xá - Bắc Từ Liêm
 --
 -- Cấu trúc bảng cho bảng `tb_detail_bills`
 --

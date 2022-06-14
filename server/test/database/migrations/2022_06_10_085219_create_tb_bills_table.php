@@ -21,7 +21,7 @@ class CreateTbBillsTable extends Migration
             $table->string('bill_email');
 			$table->string('bill_phone');
             $table->integer('bill_total');
-            $table->integer('status');
+            $table->string('status')->default('Pending') ;
             $table->timestamps();
         });
         Schema::table('tb_bills', function (Blueprint $table)
