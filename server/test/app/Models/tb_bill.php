@@ -15,5 +15,6 @@ class tb_bill extends Model
         'bill_email',
         'bill_phone',
         'bill_total',
+        'status',
 	];
 }

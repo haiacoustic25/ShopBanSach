@@ -26,6 +26,7 @@ class BillController extends Controller
         $bill->bill_email = $request->input('bill_email');
         $bill->bill_phone = $request->input('bill_phone');
         $bill->bill_total = $request->input('bill_total');
+        $bill->bill_total = $request->input('status');
 
         $bill->save();
         
@@ -76,6 +77,7 @@ class BillController extends Controller
         $bill->bill_address = $request->input('bill_address');
         $bill->bill_email = $request->input('bill_email');
         $bill->bill_phone = $request->input('bill_phone');
+        $bill->bill_total = $request->input('status');
         $bill->save();
         $spHoaDon = new tb_detail_bill();
 		$spHoaDon->bill_id = $bill->id;
