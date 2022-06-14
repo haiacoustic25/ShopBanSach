@@ -1,125 +1,95 @@
-import { useState  } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import {
   Paper,
   Box,
-  Button,
   Container,
   Divider,
   TableBody,
   TableCell,
   TableRow,
+  Button,
   Typography,
   Toolbar,
-  InputAdornment,
 } from "@material-ui/core";
-import { format } from 'date-fns';
 import Plus from "../../icons/plus";
-import { styled } from '@mui/system';
-import useTable from '../../Components/Table/useTable';
+import { styled } from "@mui/system";
+import useTable from "../../Components/Table/useTable";
 import Controls from "../../Components/controls/Controls";
-import { Search } from "@material-ui/icons";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import OrderForm from "../../Components/Form/OrderForm";
-import { useDispatch, useSelector } from "react-redux";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Popup from "../../Components/controls/Popup";
-import ModalEditOrder from "../../Components/Form/ModalEditOrder";
-import { fetchAllProducts, deleteProduct } from "../../../../Redux/Action/action"
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
+import UserForm from "../../Components/Form/UserForm";
+import ModalEditUser from "../../Components/Form/ModalEditUser";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsers } from "../../../../Redux/Action/action";
+import { CSVLink } from "react-csv";
+import { NotificationContainer } from "react-notifications";
+import { OutlinedInput, FormControl, InputLabel } from "@mui/material";
 
 const StyledTableRow = styled(TableRow)(() => ({
-  ':hover':{
-      backgroundColor: '#008000a6',
-      cursor:'pointer'
-  }
+  ":hover": {
+    backgroundColor: "#00800075",
+    cursor: "pointer",
+  },
 }));
 
-function createData(id, name, phone, email, created, img) {
-  return {
-    name,
-    phone,
-    email,
-    created,
-    img
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', '814-804-8230', 'wengallg@state.tx.us', new Date('2021-09-09T10:10:45.475Z'),'../../../../Assets/Img/ProductTest.png'),
-  createData(2, 'Donut', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(3, 'Eclair', '440-345-1150', 'sodocherty4@army.mil', new Date('2021-09-09T10:10:45.475Z')),
-  createData(4, 'Frozen yoghurt', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(5, 'Gingerbread', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(6, 'Honeycomb', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(7, 'Ice cream sandwich', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(8, 'Jelly Bean', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-  createData(9, 'KitKat', '299-669-8130', 'scattowe@senate.gov', new Date('2021-09-09T10:10:45.475Z')),
-];
-
 const headCells = [
-  { id: 'name', label: 'NAME'},
-  { id: 'phone', label: 'PHONE'},
-  { id: 'email', label: 'EMAIL'},
-  { id: 'created', label: 'CREATED', disableSorting: true},
-  { id: 'actions', label: 'ACTIONS', disableSorting: true},
+  { id: "name", label: "NAME" },
+  { id: "email", label: "EMAIL" },
+  { id: "phone", label: "PHONE" },
+  { id: "isAdmin", label: "ROLE" },
+  { id: "actions", label: "ACTIONS", disableSorting: true },
 ];
 
 export const Orders = () => {
   const dispatch = useDispatch();
-  const [listUsers, setListUsers] = useState(rows);
-  const [filterFn, setFilterFn] = useState({ fn: Users => { return Users; } })
-  const [editData, setEditData] = useState('')
-  const { 
-    tblContainer, 
-    tblHead,
-    tblPagination,
-    daTaAfterPagingAndSorting
-  } =  useTable(listUsers, headCells, filterFn);
-  const handleSearch = e => {
+  const listUsers = useSelector((state) => state.user.listUsers.users);
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, []);
+  const [editData, setEditData] = useState("");
+  const [filterFn, setFilterFn] = useState({
+    fn: (Users) => {
+      return Users;
+    },
+  });
+  const { tblContainer, tblHead, tblPagination, daTaAfterPagingAndSorting } =
+    useTable(listUsers, headCells, filterFn);
+
+  const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
-        fn: Users => {
-            if (target.value == "")
-                return Users;
-            else
-                return Users.filter(x => x.name.toLowerCase().includes(target.value))
-        }
-    })
-  }
-  const handleDeleteOrder = (User) => {
-    dispatch(deleteProduct(User.id))
-    setTimeout(function(){
-      NotificationManager.success('Delete Success', '', 2000);
-    }, 1000);
-  }
+      fn: (Users) => {
+        if (target.value === "") return Users;
+        else
+          return Users.filter((x) =>
+            x.name.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
-  const handleClickOpenEdit = () =>{
-    setOpenEdit(true)
-  }
-  const handleClickCloseEdit = () =>{
+  const handleClickOpenEdit = () => {
+    setOpenEdit(true);
+  };
+  const handleClickCloseEdit = () => {
     setOpenEdit(false);
-  }
-  const handleEditOrder = (User) =>{
-    setOpenEdit(true)
-    setEditData(null)
-    setEditData(User)
-  }
+  };
+  const handleEditUser = (User) => {
+    setOpenEdit(true);
+    setEditData(null);
+    setEditData(User);
+  };
+
   return (
     <>
       <Helmet>
-        <title>Orders | Ca Chep Admin</title>
+        <title>Users | Ca Chep Admin</title>
       </Helmet>
       <Box
         sx={{
@@ -140,93 +110,83 @@ export const Orders = () => {
               Orders
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            </Box>
+            <CSVLink data={listUsers}>
+              <Button color="success" size="large" variant="contained">
+                Export
+              </Button>
+            </CSVLink>
+          </Box>
           <Paper>
-          <Divider style={{color: '#9b9595'}} />
+            <Divider style={{ color: "#9b9595" }} />
             <Toolbar>
-              <Controls.Input
-                    label="Search Orders"
-                    InputProps = {{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Search />
-                        </InputAdornment>
-                      )
-                    }}
-                    sx={{
-                      width: '85%',
-                      marginTop: '12px',
-                      marginBottom: '12px'
-                    }}
-                    onChange={handleSearch}
+              <FormControl
+                sx={{
+                  width: "85%",
+                  marginTop: "12px",
+                  marginBottom: "12px",
+                }}
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Search Orders
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  label="Search Users"
+                  onChange={handleSearch}
                 />
-                <Controls.Button 
-                  text="Add New"
-                  variant="outlined"
-                  startIcon={<Plus />}
-                  sx={{
-                    marginLeft: 2,
-                    color: 'black',
-                    backgroundColor: '#59ac59',
-                    lineHeight: '56px',
-                    marginLeft: '32px'
-                  }}
-                  onClick={() => { setOpen(true)}}
-                />
+              </FormControl>
+              <Controls.Button
+                text="Add New"
+                variant="outlined"
+                startIcon={<Plus />}
+                sx={{
+                  color: "black",
+                  backgroundColor: "#59ac59",
+                  lineHeight: "56px",
+                  marginLeft: "32px",
+                }}
+                onClick={() => {
+                  setOpen(true);
+                }}
+              />
             </Toolbar>
             <tblContainer>
-              { tblHead() }
+              {tblHead()}
               <TableBody>
-                {
-                  daTaAfterPagingAndSorting().map(User => (
-                      <StyledTableRow key={User.id}>
-                        <TableCell width={400} align="left">{User.name}</TableCell>
-                        <TableCell width={400}>{User.phone}</TableCell>
-                        <TableCell width={400}>{User.email}</TableCell>
-                        <TableCell width={400}>
-                            {format(new Date(User.created), 'dd/MM/yyyy HH:mm')}
-                        </TableCell>
-                        <TableCell>
-                          <Controls.ActionButton
-                            onClick = {() => handleEditOrder(User)}
-                          >
-                            <EditOutlinedIcon fontSize="small" color="success"/>
-                          </Controls.ActionButton>
-                          <Controls.ActionButton
-                            onClick={() => {handleDeleteOrder(User)}}
-                          >
-                            <DeleteOutlinedIcon fontSize="small" color="error"/>
-                          </Controls.ActionButton>
-                        </TableCell>
-                      </StyledTableRow>
-                    ))
-                }
+                {daTaAfterPagingAndSorting()?.map((User) => (
+                  <StyledTableRow key={User.id}>
+                    <TableCell>{User.name}</TableCell>
+                    <TableCell>{User.email}</TableCell>
+                    <TableCell>{User.phone}</TableCell>
+                    <TableCell>
+                      {User.isAdmin === 1 ? "Admin" : "User"}
+                    </TableCell>
+                    <TableCell>
+                      <Controls.ActionButton
+                        onClick={() => handleEditUser(User)}
+                      >
+                        <EditOutlinedIcon fontSize="small" color="success" />
+                      </Controls.ActionButton>
+                    </TableCell>
+                  </StyledTableRow>
+                ))}
               </TableBody>
             </tblContainer>
-            <Divider style={{color: '#9b9595'}} />
-            { tblPagination() }
+            <Divider style={{ color: "#9b9595" }} />
+            {tblPagination()}
           </Paper>
-          <Popup
-            open={open}
-            setOpen={setOpen}
-          >
-              <OrderForm 
-                title="Add New Order" 
-                handleClose={handleClose}
-              />
+          <Popup open={open} setOpen={setOpen}>
+            <UserForm title="Add New User" handleClose={handleClose} />
           </Popup>
-          {openEdit && 
-            <Popup
-              open={openEdit}
-              setOpen={handleClickOpenEdit}
-            >
-              <ModalEditOrder
+          {openEdit && (
+            <Popup open={openEdit} setOpen={handleClickOpenEdit}>
+              <ModalEditUser
                 Data={editData}
-                title="Edit Order" 
+                title="Edit User"
                 handleClose={handleClickCloseEdit}
               />
             </Popup>
-          }
+          )}
         </Container>
         <NotificationContainer />
       </Box>
