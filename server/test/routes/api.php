@@ -72,6 +72,9 @@ Route::get('/show-product/{username}', [AuthController::class, 'showCart']);
 Route::post('/delete-product-in-cart',[DetailCartController::class, 'deleteDetailCartByProduct']);
 // Route::get('/bill/{id}',[BillController::class,'store']);
 Route::post('/pay',[BillController::class, 'store']);
+Route::post('/bill-edit',[BillController::class, 'edit']);
+Route::get('/bill/{id}',[BillController::class, 'showById']);
+Route::get('/bill-all',[BillController::class, 'showAll']);
 
 
 Route::group([

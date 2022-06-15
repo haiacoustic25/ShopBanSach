@@ -95,4 +95,56 @@ class BillController extends Controller
             'detail' => $spHoaDon,
         ]);
     }
+
+    public function edit(Request $request)
+    {
+
+        $bill = tb_bill::find($request->input('bill_id'));
+        
+        $bill->bill_address =$request->input('bill_address');
+        $bill->bill_email = $request->input('bill_email');
+        $bill->bill_phone = $request->input('bill_phone');
+        $bill->bill_total = $request->input('bill_total');
+        // $bill->bill_total = $request->input('status');
+
+        $bill->update();
+        return response()->json([
+            'status'=> 200,
+            'bill' => $bill,
+        ]);
+    }
+
+    public function showAll()
+    {
+
+        $bill = tb_bill::all();
+    
+        return response()->json([
+            'status'=> 200,
+            'bills' => $bill,
+        ]);
+    }
+    public function showById($id)
+    {
+
+        $bill = tb_bill::find($id);
+
+        $detail = tb_detail_bill::where('bill_id','=',$bill->id)->get();
+
+        $sach = array();
+			$i = 0;
+
+			foreach($detail as $item)
+			{
+				$sach[$i] = tb_book::where('id', '=', $item->book_id)->first();
+				$sach[$i] -> s_amount = $item->book_quantity;
+				$i++;
+			}
+    
+        return response()->json([
+            'status'=> 200,
+            'bill' => $bill,
+            'book' => $sach,
+        ]);
+    }
 }
