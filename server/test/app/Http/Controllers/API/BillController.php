@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\bill_view;
 use App\Models\tb_bill;
 use App\Models\tb_book;
 use App\Models\tb_detail_bill;
@@ -93,6 +94,86 @@ class BillController extends Controller
             'status'=> 200,
             'bill' => $bill,
             'detail' => $spHoaDon,
+        ]);
+    }
+
+    public function edit(Request $request)
+    {
+
+        $bill = tb_bill::find($request->input('bill_id'));
+        
+        $bill->bill_address =$request->input('bill_address');
+        $bill->bill_email = $request->input('bill_email');
+        $bill->bill_phone = $request->input('bill_phone');
+        $bill->bill_total = $request->input('bill_total');
+        // $bill->bill_total = $request->input('status');
+
+        $bill->update();
+        return response()->json([
+            'status'=> 200,
+            'bill' => $bill,
+        ]);
+    }
+
+    public function showAll()
+    {
+
+        $bill = tb_bill::all();
+    
+        return response()->json([
+            'status'=> 200,
+            'bills' => $bill,
+        ]);
+    }
+    public function showById($id)
+    {
+
+        $bill = tb_bill::find($id);
+
+        $detail = tb_detail_bill::where('bill_id','=',$bill->id)->get();
+
+        $sach = array();
+			$i = 0;
+
+			foreach($detail as $item)
+			{
+				$sach[$i] = tb_book::where('id', '=', $item->book_id)->first();
+				$sach[$i] -> s_amount = $item->book_quantity;
+				$i++;
+			}
+    
+        return response()->json([
+            'status'=> 200,
+            'bill' => $bill,
+            'book' => $sach,
+        ]);
+    }
+
+    public function BillViewAdminAPI($id)
+    {
+
+        $bill = tb_bill::find($id);
+
+        $detail = tb_detail_bill::where('bill_id','=',$bill->id)->get();
+
+        $user = User::find($bill->cart_id);
+
+
+        $sach = array();
+			$i = 0;
+
+			foreach($detail as $item)
+			{
+				$sach[$i] = tb_book::where('id', '=', $item->book_id)->first();
+				$sach[$i] -> s_amount = $item->book_quantity;
+				$i++;
+			}
+
+            $view = new bill_view($user,$sach,$detail);
+    
+        return response()->json([
+            'status'=> 200,
+            'bill-view' => $view,
         ]);
     }
 }
