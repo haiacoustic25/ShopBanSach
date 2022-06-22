@@ -21,7 +21,11 @@ import Popup from "../../Components/controls/Popup";
 import UserForm from "../../Components/Form/UserForm";
 import ModalEditUser from "../../Components/Form/ModalEditUser";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers } from "../../../../Redux/Action/action";
+import {
+  fetchAllUsers,
+  fetchAllBills,
+  fetchAllBillsDetail,
+} from "../../../../Redux/Action/action";
 import { CSVLink } from "react-csv";
 import { NotificationContainer } from "react-notifications";
 import { OutlinedInput, FormControl, InputLabel } from "@mui/material";
@@ -34,10 +38,13 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 const headCells = [
+  { id: "id", label: "ID" },
   { id: "name", label: "NAME" },
-  { id: "email", label: "EMAIL" },
   { id: "phone", label: "PHONE" },
-  { id: "isAdmin", label: "ROLE" },
+  { id: "book", label: "BOOK" },
+  { id: "quantily", label: "QTY" },
+  { id: "total", label: "TOTAL" },
+  { id: "stastus", label: "STATUS" },
   { id: "actions", label: "ACTIONS", disableSorting: true },
 ];
 
@@ -47,6 +54,11 @@ export const Orders = () => {
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, []);
+  const listBills = useSelector((state) => state.bill.listBills.bill_view);
+  useEffect(() => {
+    dispatch(fetchAllBills());
+  }, []);
+  console.log(listBills[0]);
   const [editData, setEditData] = useState("");
   const [filterFn, setFilterFn] = useState({
     fn: (Users) => {

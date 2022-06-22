@@ -101,7 +101,7 @@ class BillController extends Controller
     {
 
         $bill = tb_bill::find($request->input('bill_id'));
-        
+
         $bill->bill_address =$request->input('bill_address');
         $bill->bill_email = $request->input('bill_email');
         $bill->bill_phone = $request->input('bill_phone');
@@ -119,7 +119,7 @@ class BillController extends Controller
     {
 
         $bill = tb_bill::all();
-    
+
         return response()->json([
             'status'=> 200,
             'bills' => $bill,
@@ -141,7 +141,7 @@ class BillController extends Controller
 				$sach[$i] -> s_amount = $item->book_quantity;
 				$i++;
 			}
-    
+
         return response()->json([
             'status'=> 200,
             'bill' => $bill,
@@ -177,10 +177,10 @@ class BillController extends Controller
             $view[$index] = $view_item;
             $index++;
         }
-        
+
         return response()->json([
             'status'=> 200,
-            'bill-view' => $view,
+            'bill_view' => $view,
         ]);
     }
 }
