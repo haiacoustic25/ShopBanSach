@@ -173,14 +173,14 @@ class BillController extends Controller
                     $i++;
                 }
 
-            $view_item = new bill_view($user,$sach,$detail);
+            $view_item = new bill_view($user,$bill, $sach,$detail);
             $view[$index] = $view_item;
             $index++;
         }
         
         return response()->json([
             'status'=> 200,
-            'bill-view' => $view,
+            'bills' => $view,
         ]);
     }
 }
