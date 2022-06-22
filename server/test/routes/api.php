@@ -78,6 +78,7 @@ Route::get('/bill-all',[BillController::class, 'showAll']);
 Route::get('/bill-view/{id}',[BillController::class, 'BillViewAdminAPI']);
 
 
+
 Route::group([
 
     'middleware' => 'api',
