@@ -149,28 +149,35 @@ class BillController extends Controller
         ]);
     }
 
-    public function BillViewAdminAPI($id)
+    public function BillViewAdminAPI()
     {
 
-        $bill = tb_bill::find($id);
+        $bills = tb_bill::all();
+        $view = array();
+        $index = 0;
+        foreach($bills as $bill)
+        {
 
-        $detail = tb_detail_bill::where('bill_id','=',$bill->id)->get();
+            $detail = tb_detail_bill::where('bill_id','=',$bill->id)->get();
 
-        $user = User::find($bill->cart_id);
+            $user = User::find($bill->cart_id);
 
 
-        $sach = array();
-			$i = 0;
+            $sach = array();
+                $i = 0;
 
-			foreach($detail as $item)
-			{
-				$sach[$i] = tb_book::where('id', '=', $item->book_id)->first();
-				$sach[$i] -> s_amount = $item->book_quantity;
-				$i++;
-			}
+                foreach($detail as $item)
+                {
+                    $sach[$i] = tb_book::where('id', '=', $item->book_id)->first();
+                    $sach[$i] -> s_amount = $item->book_quantity;
+                    $i++;
+                }
 
-            $view = new bill_view($user,$sach,$detail);
-    
+            $view_item = new bill_view($user,$sach,$detail);
+            $view[$index] = $view_item;
+            $index++;
+        }
+        
         return response()->json([
             'status'=> 200,
             'bill-view' => $view,

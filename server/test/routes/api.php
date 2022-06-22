@@ -75,7 +75,7 @@ Route::post('/pay',[BillController::class, 'store']);
 Route::post('/bill-edit',[BillController::class, 'edit']);
 Route::get('/bill/{id}',[BillController::class, 'showById']);
 Route::get('/bill-all',[BillController::class, 'showAll']);
-Route::get('/bill-view/{id}',[BillController::class, 'BillViewAdminAPI']);
+Route::get('/bill-view',[BillController::class, 'BillViewAdminAPI']);
 
 
 
