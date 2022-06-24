@@ -189,7 +189,7 @@ class BillController extends Controller
 
         $bill = tb_bill::find($id);
 		$bill->bill_address =$request->input('bill_address');
-        $bill->bill_status = $request->input('bill_status');
+        $bill->bill_status = $request->input('status');
         $bill->bill_phone = $request->input('bill_phone');
 
         $bill->update();
