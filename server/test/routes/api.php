@@ -65,7 +65,7 @@ Route::post('/update-user',[AuthController::class, 'updateUser']);
 
 // Route::post('/login', [AuthController::class,'postAuthLogin']);
 
-// Cart 
+// Cart
 Route::post('/add-cart', [DetailCartController::class,'store']);
 Route::get('/show-gh-by-user/{cart_id}', [DetailCartController::class, 'showByUserId']);
 Route::get('/show-product/{username}', [AuthController::class, 'showCart']);

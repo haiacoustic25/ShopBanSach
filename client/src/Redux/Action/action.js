@@ -59,6 +59,9 @@ import {
   FETCH_AUTHORBYID_REQUEST,
   FETCH_AUTHORBYID_SUCCESS,
   UPDATE_AUTHOR_SUCCESS,
+  FETCH_BILL_REQUEST,
+  FETCH_BILL_SUCCESS,
+  FETCH_BILL_ERROR,
   MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
 } from "./type";
 import axios from "axios";
@@ -805,6 +808,39 @@ export const updateCategory = (id, category) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+};
+
+// Infor bill
+export const fetchbillsRequest = () => {
+  return {
+    type: FETCH_BILL_REQUEST,
+  };
+};
+
+export const fetchbillsSuccess = (data) => {
+  return {
+    type: FETCH_BILL_SUCCESS,
+    dataBills: data,
+  };
+};
+
+export const fetchbillsError = () => {
+  return {
+    type: FETCH_BILL_ERROR,
+  };
+};
+
+export const fetchAllBills = () => {
+  return async (dispatch, getState) => {
+    dispatch(fetchbillsRequest());
+    try {
+      const res = await axios.get("http://localhost:8000/api/bill-view");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchbillsSuccess(data));
+    } catch (error) {
+      dispatch(fetchbillsError());
     }
   };
 };

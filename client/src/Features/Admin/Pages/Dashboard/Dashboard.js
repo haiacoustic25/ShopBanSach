@@ -26,14 +26,8 @@ import {
   fetchAllAuthors,
   fetchAllProducts,
   fetchAllUsers,
+  fetchAllBills,
 } from "../../../../Redux/Action/action";
-
-const options = {
-  series: [10, 10, 10, 70],
-  labels: ["Complete", "Pending", "Cancelled", "Refunded"],
-};
-
-const series = [10, 10, 10, 70];
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
@@ -58,6 +52,11 @@ export const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, []);
+
+  const listBills = useSelector((state) => state.bill.listBills.bill_view);
+  useEffect(() => {
+    dispatch(fetchAllBills());
+  }, []);
   const stats = [
     {
       content: listUsers?.length.toString(),
@@ -70,7 +69,7 @@ export const Dashboard = () => {
       label: "Products",
     },
     {
-      content: "3450",
+      content: listBills?.length.toString(),
       icon: CubeIcon,
       label: "Orders",
     },
@@ -85,6 +84,12 @@ export const Dashboard = () => {
       label: "Categorys",
     },
   ];
+
+  const options = {
+    series: [10, 10, 10, 70],
+    labels: ["Pending", "Complete", "Cancelled", "Procesed"],
+  };
+
   return (
     <>
       <Helmet>
@@ -132,7 +137,7 @@ export const Dashboard = () => {
                 >
                   <Chart
                     options={options}
-                    series={series}
+                    series={options.series}
                     type="donut"
                     width="100%"
                     height={300}
