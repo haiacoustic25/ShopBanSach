@@ -62,6 +62,10 @@ import {
   FETCH_BILL_REQUEST,
   FETCH_BILL_SUCCESS,
   FETCH_BILL_ERROR,
+  FETCH_ORDER_REQUEST,
+  FETCH_ORDER_SUCCESS,
+  FETCH_ORDER_ERROR,
+  UPDATE_ORDER_SUCCESS,
   MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
 } from "./type";
 import axios from "axios";
@@ -812,7 +816,7 @@ export const updateCategory = (id, category) => {
   };
 };
 
-// Infor bill
+// Infor Bill
 export const fetchbillsRequest = () => {
   return {
     type: FETCH_BILL_REQUEST,
@@ -836,12 +840,67 @@ export const fetchAllBills = () => {
   return async (dispatch, getState) => {
     dispatch(fetchbillsRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/bill-view");
+      const res = await axios.get("http://localhost:8000/api/bill-all");
       const data = res && res.data ? res.data : [];
       dispatch(fetchbillsSuccess(data));
     } catch (error) {
       dispatch(fetchbillsError());
     }
+  };
+};
+
+// Infor Order
+export const fetchordersRequest = () => {
+  return {
+    type: FETCH_ORDER_REQUEST,
+  };
+};
+
+export const fetchordersSuccess = (data) => {
+  return {
+    type: FETCH_ORDER_SUCCESS,
+    dataOrders: data,
+  };
+};
+
+export const fetchordersError = () => {
+  return {
+    type: FETCH_ORDER_ERROR,
+  };
+};
+
+export const fetchAllOrders = () => {
+  return async (dispatch, getState) => {
+    dispatch(fetchordersRequest());
+    try {
+      const res = await axios.get("http://localhost:8000/api/bill-view");
+      const data = res && res.data ? res.data : [];
+      dispatch(fetchordersSuccess(data));
+    } catch (error) {
+      dispatch(fetchordersError());
+    }
+  };
+};
+
+// Update Bill
+export const updateOrdersSuccess = () => {
+  return {
+    type: UPDATE_ORDER_SUCCESS,
+  };
+};
+
+export const updateOrder = (Order) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await axios.post(
+        "http://localhost:8000/api/bill-update",
+        Order
+      );
+      if (res && res.data.status === 200) {
+        dispatch(updateOrdersSuccess());
+        dispatch(fetchAllOrders());
+      }
+    } catch (error) {}
   };
 };
 

@@ -26,6 +26,7 @@ import {
   fetchAllAuthors,
   fetchAllProducts,
   fetchAllUsers,
+  fetchAllOrders,
   fetchAllBills,
 } from "../../../../Redux/Action/action";
 
@@ -53,7 +54,12 @@ export const Dashboard = () => {
     dispatch(fetchAllProducts());
   }, []);
 
-  const listBills = useSelector((state) => state.bill.listBills.bill_view);
+  const listOrders = useSelector((state) => state.order.listOrders.bill_view);
+  useEffect(() => {
+    dispatch(fetchAllOrders());
+  }, []);
+
+  const listBills = useSelector((state) => state.bill.listBills.bills);
   useEffect(() => {
     dispatch(fetchAllBills());
   }, []);
@@ -69,7 +75,7 @@ export const Dashboard = () => {
       label: "Products",
     },
     {
-      content: listBills?.length.toString(),
+      content: listOrders?.length.toString(),
       icon: CubeIcon,
       label: "Orders",
     },
@@ -85,9 +91,31 @@ export const Dashboard = () => {
     },
   ];
 
+  let lastOrder = [];
+  listOrders?.forEach((item) => {
+    lastOrder = [{ ...item }, ...lastOrder];
+    return lastOrder;
+  });
+
+  let Pending = listBills?.reduce((acc, item) => {
+    if (item.status === "Pending") return acc + 1;
+  }, 0);
+
+  let Complete = listBills?.reduce((acc, item) => {
+    if (item.status === "Complete") return acc + 1;
+  }, 0);
+
+  let Cancelled = listBills?.reduce((acc, item) => {
+    if (item.status === "Cancelled") return acc + 1;
+  }, 0);
+
+  let Processed = listBills?.reduce((acc, item) => {
+    if (item.status === "Processed") return acc + 1;
+  }, 0);
+  
   const options = {
-    series: [10, 10, 10, 70],
-    labels: ["Pending", "Complete", "Cancelled", "Procesed"],
+    series: [Pending || 10, Complete || 10, Cancelled || 10, Processed || 70],
+    labels: ["Pending", "Complete", "Cancelled", "Processed"],
   };
 
   return (
@@ -159,7 +187,7 @@ export const Dashboard = () => {
                   </Link>
                 </div>
                 <Divider />
-                <OrdersTable orders={latestOrders} />
+                <OrdersTable orders={lastOrder} />
               </Card>
             </Grid>
           </Grid>

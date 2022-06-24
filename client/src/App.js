@@ -93,6 +93,7 @@ function App() {
       {scrollPosition >= 100 && (
         <img
           src={require("./Assets/Img/ScrollTop.png").default}
+          alt=""
           className="rollTheTop"
           onClick={handleRollTheTop}
         ></img>
