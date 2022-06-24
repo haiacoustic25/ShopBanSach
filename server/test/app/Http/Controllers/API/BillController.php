@@ -183,4 +183,21 @@ class BillController extends Controller
             'bills' => $view,
         ]);
     }
+    public function updateBill(Request $request)
+	{
+		$id = (int)$request -> input('id');
+
+        $bill = tb_bill::find($id);
+		$bill->bill_address =$request->input('bill_address');
+        $bill->bill_status = $request->input('bill_status');
+        $bill->bill_phone = $request->input('bill_phone');
+
+        $bill->update();
+        
+		return response()->json([
+			'status'=> 200,
+			'message' => 'update successful',
+		]);
+	}
+	
 }
