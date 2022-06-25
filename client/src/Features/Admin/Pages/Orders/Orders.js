@@ -8,25 +8,19 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Button,
   Typography,
   Toolbar,
 } from "@material-ui/core";
-import Plus from "../../icons/plus";
 import { styled } from "@mui/system";
 import useTable from "../../Components/Table/useTable";
 import Controls from "../../Components/controls/Controls";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Popup from "../../Components/controls/Popup";
-import UserForm from "../../Components/Form/UserForm";
-import ModalEditUser from "../../Components/Form/ModalEditUser";
+import ModalEditOrder from "../../Components/Form/ModalEditOrder";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchAllUsers,
-  fetchAllBills,
-  fetchAllBillsDetail,
+  fetchAllOrders,
 } from "../../../../Redux/Action/action";
-import { CSVLink } from "react-csv";
 import { NotificationContainer } from "react-notifications";
 import { OutlinedInput, FormControl, InputLabel } from "@mui/material";
 
@@ -38,64 +32,55 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 const headCells = [
-  { id: "id", label: "ID" },
-  { id: "name", label: "NAME" },
-  { id: "phone", label: "PHONE" },
-  { id: "book", label: "BOOK" },
-  { id: "quantily", label: "QTY" },
-  { id: "total", label: "TOTAL" },
-  { id: "stastus", label: "STATUS" },
+  { id: "id", label: "ID", disableSorting: true },
+  { id: "name", label: "NAME", disableSorting: true },
+  { id: "phone", label: "PHONE", disableSorting: true },
+  { id: "book", label: "BOOK", disableSorting: true },
+  { id: "quantily", label: "QTY", disableSorting: true },
+  { id: "total", label: "TOTAL", disableSorting: true },
+  { id: "status", label: "STATUS", disableSorting: true },
   { id: "actions", label: "ACTIONS", disableSorting: true },
 ];
 
 export const Orders = () => {
   const dispatch = useDispatch();
-  const listUsers = useSelector((state) => state.user.listUsers.users);
+  const listOrders = useSelector((state) => state.order.listOrders.bill_view);
   useEffect(() => {
-    dispatch(fetchAllUsers());
+    dispatch(fetchAllOrders());
   }, []);
-  const listBills = useSelector((state) => state.bill.listBills.bill_view);
-  useEffect(() => {
-    dispatch(fetchAllBills());
-  }, []);
-  console.log(listBills[0]);
   const [editData, setEditData] = useState("");
   const [filterFn, setFilterFn] = useState({
-    fn: (Users) => {
-      return Users;
+    fn: (Orders) => {
+      return Orders;
     },
   });
   const { tblContainer, tblHead, tblPagination, daTaAfterPagingAndSorting } =
-    useTable(listUsers, headCells, filterFn);
+    useTable(listOrders, headCells, filterFn);
 
   const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
-      fn: (Users) => {
-        if (target.value === "") return Users;
+      fn: (Orders) => {
+        if (target.value === "") return Orders;
         else
-          return Users.filter((x) =>
-            x.name.toLowerCase().includes(target.value)
+          return Orders.filter((x) =>
+            x.user.name.toLowerCase().includes(target.value)
           );
       },
     });
   };
 
-  const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleClickOpenEdit = () => {
     setOpenEdit(true);
   };
   const handleClickCloseEdit = () => {
     setOpenEdit(false);
   };
-  const handleEditUser = (User) => {
+  const handleEditOrder = (Order) => {
     setOpenEdit(true);
     setEditData(null);
-    setEditData(User);
+    setEditData(Order);
   };
 
   return (
@@ -122,18 +107,13 @@ export const Orders = () => {
               Orders
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <CSVLink data={listUsers}>
-              <Button color="success" size="large" variant="contained">
-                Export
-              </Button>
-            </CSVLink>
           </Box>
           <Paper>
             <Divider style={{ color: "#9b9595" }} />
             <Toolbar>
               <FormControl
                 sx={{
-                  width: "85%",
+                  width: "100%",
                   marginTop: "12px",
                   marginBottom: "12px",
                 }}
@@ -147,35 +127,44 @@ export const Orders = () => {
                   onChange={handleSearch}
                 />
               </FormControl>
-              <Controls.Button
-                text="Add New"
-                variant="outlined"
-                startIcon={<Plus />}
-                sx={{
-                  color: "black",
-                  backgroundColor: "#59ac59",
-                  lineHeight: "56px",
-                  marginLeft: "32px",
-                }}
-                onClick={() => {
-                  setOpen(true);
-                }}
-              />
             </Toolbar>
             <tblContainer>
               {tblHead()}
               <TableBody>
-                {daTaAfterPagingAndSorting()?.map((User) => (
-                  <StyledTableRow key={User.id}>
-                    <TableCell>{User.name}</TableCell>
-                    <TableCell>{User.email}</TableCell>
-                    <TableCell>{User.phone}</TableCell>
+                {daTaAfterPagingAndSorting()?.map((Order) => (
+                  <StyledTableRow key={Order.bill.cart_id}>
+                    <TableCell>{Order.bill.id}</TableCell>
+                    <TableCell>{Order.user.name}</TableCell>
+                    <TableCell>{Order.user.phone}</TableCell>
                     <TableCell>
-                      {User.isAdmin === 1 ? "Admin" : "User"}
+                      {Order.books[0].s_name}
+                    </TableCell>
+                    <TableCell>
+                      {Order.cart[0].book_quantity}
+                    </TableCell>
+                    <TableCell>
+                      {Order.bill.bill_total}
+                    </TableCell>
+                    <TableCell>
+                      {
+                        Order.bill.status === "Pending" ? (
+                          <span style={{color: 'blue', fontWeight: '600'}}>Pending</span>
+                        ) : (
+                          Order.bill.status === "Complete" ? (
+                            <span style={{color: 'green', fontWeight: '600'}}>Complete</span>
+                          ) : (
+                            Order.bill.status === "Cancelled" ? (
+                              <span style={{color: 'orange', fontWeight: '600'}}>Cancelled</span>
+                            ) : (
+                              <span style={{color: 'red', fontWeight: '600'}}>Processed</span>
+                            )
+                          )
+                        )
+                      }
                     </TableCell>
                     <TableCell>
                       <Controls.ActionButton
-                        onClick={() => handleEditUser(User)}
+                        onClick={() => handleEditOrder(Order)}
                       >
                         <EditOutlinedIcon fontSize="small" color="success" />
                       </Controls.ActionButton>
@@ -187,14 +176,11 @@ export const Orders = () => {
             <Divider style={{ color: "#9b9595" }} />
             {tblPagination()}
           </Paper>
-          <Popup open={open} setOpen={setOpen}>
-            <UserForm title="Add New User" handleClose={handleClose} />
-          </Popup>
           {openEdit && (
             <Popup open={openEdit} setOpen={handleClickOpenEdit}>
-              <ModalEditUser
+              <ModalEditOrder
                 Data={editData}
-                title="Edit User"
+                title="Edit Order"
                 handleClose={handleClickCloseEdit}
               />
             </Popup>

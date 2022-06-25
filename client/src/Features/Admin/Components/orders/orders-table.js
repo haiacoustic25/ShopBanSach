@@ -1,176 +1,168 @@
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
-import { format } from 'date-fns';
+import PropTypes from "prop-types";
+import { format } from "date-fns";
 import {
   Box,
   Chip,
-  Link,
   Table,
   TableBody,
   TableCell,
   TableRow,
-  Typography
-} from '@material-ui/core';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+  Typography,
+} from "@material-ui/core";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const statusVariants = [
-  {
-    label: 'Placed',
-    value: 'placed',
-    color: 'primary'
-  },
-  {
-    label: 'Processed',
-    value: 'processed',
-    color: 'error'
-  },
-  {
-    label: 'Delivered',
-    value: 'delivered',
-    color: 'warning'
-  },
-  {
-    label: 'Complete',
-    value: 'complete',
-    color: 'success'
-  }
-];
-
-export const OrdersTable = ({orders}) => {
+export const OrdersTable = ({ orders }) => {
   return (
     <div>
       <Table sx={{ maxWidth: 1000 }}>
         <TableBody>
-          {orders.map((order) => {
-            const statusVariant = statusVariants.find(
-              (variant) => variant.value === order.status
-            );
+          {orders?.map((order) => {
+            let bookPrice = order?.cart[0].book_quantity * order?.books[0].s_price;
+            let bookDiscount = (bookPrice * order?.books[0].s_discount) / 100;
             return (
               <>
                 <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                  >
-                     <TableRow key={order.id}>
-                      <TableCell >
-                        <Link
-                          color="inherit"
-                          component={RouterLink}
-                          to="#"
-                          underline="none"
-                          variant="subtitle2"
-                        >
-                          {`#${order.id}`}
-                        </Link>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <TableRow key={order?.bill.cart_id}>
+                      <TableCell>
+                          {`#${order?.bill.id}`}
                       </TableCell>
                       <TableCell style={{ width: 140 }} align="center">
                         <Box>
-                          <Typography
-                            color="inherit"
-                            variant="inherit"
-                          >
-                            {format(new Date(order.createdAt), 'dd MMM yyyy')}
+                          <Typography color="inherit" variant="inherit">
+                            {format(
+                              new Date(order?.bill.created_at),
+                              "dd MMM yyyy"
+                            )}
                           </Typography>
-                          <Typography
-                            color="textSecondary"
-                            variant="inherit"
-                          >
-                            {format(new Date(order.createdAt), 'HH:mm')}
+                          <Typography color="textSecondary" variant="inherit">
+                            {format(new Date(order.bill.created_at), "HH:mm")}
                           </Typography>
                         </Box>
                       </TableCell>
                       <TableCell style={{ width: 160 }} align="center">
-                        {`${order.customer.firstName} ${order.customer.lastName}`}
+                        {order.user.name}
                       </TableCell>
                       <TableCell style={{ width: 140 }} align="right">
                         <Chip
-                          label={statusVariant.label}
+                          label={order?.bill.status}
                           variant="outlined"
-                          color={statusVariant.color}
+                          color={
+                            order?.bill.status === "Pending"
+                              ? "primary"
+                              : order?.bill.status === "Complete"
+                              ? "success"
+                              : order?.bill.status === "Cancelled"
+                              ? "warning"
+                              : "error"
+                          }
                         />
                       </TableCell>
                     </TableRow>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      <TableRow style={{borderTop: "0.5px solid #ccc", backgroundColor: "#F3F4F7"}}>
-                        <TableCell style={{ width: 320, fontSize: 12 }} align="left">
+                      <TableRow
+                        style={{
+                          borderTop: "0.5px solid #ccc",
+                          backgroundColor: "#F3F4F7",
+                        }}
+                      >
+                        <TableCell
+                          style={{ width: 320, fontSize: 12 }}
+                          align="left"
+                        >
                           NAME
                         </TableCell>
-                        <TableCell style={{ width: 100, fontSize: 12 }} align="center">
+                        <TableCell
+                          style={{ width: 100, fontSize: 12 }}
+                          align="center"
+                        >
                           COST
                         </TableCell>
-                        <TableCell style={{ width: 100, fontSize: 12 }} align="center">
+                        <TableCell
+                          style={{ width: 100, fontSize: 12 }}
+                          align="center"
+                        >
                           QTY
                         </TableCell>
-                        <TableCell style={{ width: 100, fontSize: 12 }} align="left">
+                        <TableCell
+                          style={{ width: 100, fontSize: 12 }}
+                          align="left"
+                        >
                           TOTAL
                         </TableCell>
                       </TableRow>
-                      <TableRow >
+                      <TableRow>
                         <TableCell style={{ width: 320 }} align="left">
-                        <Box>
-                          <Typography
-                            color="inherit"
-                            variant="inherit"
-                          >
-                            {`${order.lineItems.name}`}
-                          </Typography>
-                          <Typography
-                            color="textSecondary"
-                            variant="inherit"
-                          >
-                            {`SKU: ${order.lineItems.sku}`}
-                          </Typography>
-                        </Box>
+                          <Box>
+                            <Typography color="inherit" variant="inherit">
+                              {order.books[0].s_name}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell style={{ width: 200 }} align="center">
+                          {`${order.books[0].s_price} VNĐ`}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="center">
-                          {`$${order.lineItems.subtotalAmount}`}
+                          {order.cart[0].book_quantity}
                         </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                          {order.lineItems.quantity}
-                        </TableCell>
-                        <TableCell style={{ width: 100 }} align="left">
-                          {`$${order.lineItems.subtotalAmount}`}
+                        <TableCell style={{ width: 200 }} align="left">
+                          {`${bookPrice} VNĐ`}
                         </TableCell>
                       </TableRow>
-                      <TableRow >
+                      <TableRow>
                         <TableCell style={{ width: 320 }} align="left">
-                          {`Discount (${order.discountAmount}%)`}
+                          {`Discount (${order?.books[0].s_discount}%)`}
                         </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                        </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                        </TableCell>
+                        <TableCell
+                          style={{ width: 100 }}
+                          align="center"
+                        ></TableCell>
+                        <TableCell
+                          style={{ width: 100 }}
+                          align="center"
+                        ></TableCell>
                         <TableCell style={{ width: 100 }} align="left">
-                        {`$${order.lineItems.discountAmount}`}
+                          {`${bookDiscount} VNĐ`}
                         </TableCell>
                       </TableRow>
-                      <TableRow >
+                      <TableRow>
                         <TableCell style={{ width: 320 }} align="left">
-                          VAT (25%)
+                          VAT (100%)
                         </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                        </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                        </TableCell>
+                        <TableCell
+                          style={{ width: 100 }}
+                          align="center"
+                        ></TableCell>
+                        <TableCell
+                          style={{ width: 100 }}
+                          align="center"
+                        ></TableCell>
                         <TableCell style={{ width: 100 }} align="left">
-                        {`$${order.lineItems.taxAmount}`}
+                          0 VNĐ
                         </TableCell>
                       </TableRow>
-                      <TableRow >
-                        <TableCell style={{ width: 320, fontWeight: 700 }} align="left">
+                      <TableRow>
+                        <TableCell
+                          style={{ width: 320, fontWeight: 700 }}
+                          align="left"
+                        >
                           Total
                         </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                        </TableCell>
-                        <TableCell style={{ width: 100 }} align="center">
-                        </TableCell>
+                        <TableCell
+                          style={{ width: 100 }}
+                          align="center"
+                        ></TableCell>
+                        <TableCell
+                          style={{ width: 100 }}
+                          align="center"
+                        ></TableCell>
                         <TableCell style={{ width: 100 }} align="left">
-                        {`$${order.lineItems.totalAmount}`}
+                          {`${order?.bill.bill_total} VNĐ`}
                         </TableCell>
                       </TableRow>
                     </Typography>
@@ -186,5 +178,5 @@ export const OrdersTable = ({orders}) => {
 };
 
 OrdersTable.propTypes = {
-  orders: PropTypes.array.isRequired
+  orders: PropTypes.array.isRequired,
 };

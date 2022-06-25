@@ -1,305 +1,234 @@
-import React, { useState, useEffect } from 'react';
-import './Form.scss';
+import React, { useState } from "react";
+import "./Form.scss";
 import "../../../../Assets/SCSS/register.scss";
 import {
-    OutlinedInput,
-    FormControl,
-    InputLabel,
-    TextField,
-    MenuItem,
-    FormHelperText,
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+  TextField,
+  MenuItem,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, createNewProductsRedux } from "../../../../Redux/Action/action"
+import { useDispatch } from "react-redux";
+import { updateOrder } from "../../../../Redux/Action/action";
 import {
-    NotificationContainer,
-    NotificationManager,
-  } from "react-notifications";
-
-const productStatus = [
-    {
-        value: 0,
-        label: 'Draft'
-    },
-    {
-        value: 1,
-        label: 'Published'
-    }
-]
-
-export default function ModalEditOrder({title, handleClose}) {
-    const dispatch = useDispatch();
-    const listCategorys = useSelector((state) => state?.category.listCategorys.categories);
-    useEffect(() => {
-        dispatch(fetchAllCategorys())
-    }, [])
-    console.log(listCategorys)
-    const listAuthors = useSelector((state) => state.author.listAuthors.authors);
-    useEffect(() => {
-        dispatch(fetchAllAuthors())
-    }, [])
-
-    const [registerData, setRegisterData] = useState({
-        s_name: "",
-        s_price: "",
-        s_nsx: "",
-        s_amount: "",
-        s_status: "",
-        s_discount: "",
-        author_id: "",
-        category_id: "",
-        s_description: ""
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+const orderStatus = [
+  {
+    value: "Pending",
+    label: "Pending",
+  },
+  {
+    value: "Complete",
+    label: "Complete",
+  },
+  {
+    value: "Cancelled",
+    label: "Cancelled",
+  },
+  {
+    value: "Processed",
+    label: "Processed",
+  },
+];
+export default function ModalEditOrder({ title, handleClose, Data }) {
+  const dispatch = useDispatch();
+  const oldData = {
+    name: Data.user.name,
+    s_name: Data.books[0].s_name,
+    book_quantity: Data.cart[0].book_quantity,
+    bill_total: Data.bill.bill_total,
+  }
+  const [registerData, setRegisterData] = useState({
+    bill_phone: Data.bill.bill_phone,
+    status: Data.bill.status,
+    bill_address: Data.bill.bill_address,
+  });
+  const [registerError, setRegisterError] = useState({
+    Error: "",
+  });
+  const onChange = (event) => {
+    setRegisterData({
+      ...registerData,
+      [event.target.name]: event.target.value,
     });
-    const [registerError, setRegisterError] = useState({
-        Error: "",
-    });
-    const onChange = (event) => {
-        setRegisterData({
-            ...registerData,
-            [event.target.name]: event.target.value,
-    })};
-    const handleCreateNewProduct = (event) =>{
-        event.preventDefault();
-        if (
-            registerData.s_name === "" ||
-            registerData.s_price === "" ||
-            registerData.s_nsx === "" ||
-            registerData.s_amount === "" ||
-            registerData.author_id === "" ||
-            registerData.category_id === "" ||
-            registerData.s_status === "" ||
-            registerData.s_discount === "" ||
-            registerData.s_description === ""
-          ) {
-            setRegisterError({
-              Error: "Nhập đầy đủ thông tin",
-            });
-        } else if (registerData.Error_discount > 100 && registerData.Error_discount < 0) {
-            setRegisterError({
-                Error_discount: "Giảm giá trong khoảng 0 - 100",
-            });
-        } else{
-            let formData = new FormData();
-            if(fileUpload != null){
-                formData.append("file_upload", fileUpload, fileUpload.name);
-            }
-            Object.keys(registerData).forEach((key) => {
-              formData.append(`${key}`, registerData[key]);
-            });
-            NotificationManager.success("Add Success", "", 2000);
-            dispatch(createNewProductsRedux(formData))
-            handleClose();
-        }
+  };
+  const handleEditOrder = (event) => {
+    event.preventDefault();
+    if (
+      registerData.bill_phone === "" ||
+      registerData.status === "" ||
+      registerData.bill_address === ""
+    ) {
+      setRegisterError({
+        Error: "Nhập đầy đủ thông tin",
+      });
+    } else {
+      let formData = new FormData();
+      Object.keys(registerData).forEach((key) => {
+        formData.append(`${key}`, registerData[key]);
+      });
+      NotificationManager.success("Update Success", "", 2000);
+      dispatch(updateOrder(formData));
+      handleClose();
     }
-    const [tg_image, setTg_image] = useState('')
-    const [previewImg, setPreviewImg] = useState();
-    const [selectedImage, setSelectedImage] = useState();
-    const [fileUpload, setFileUpload] = useState(null);
-    useEffect(() => {
-        if (!selectedImage) {
-          setPreviewImg(undefined);
-          return;
-        }
-        const objectUrl = URL.createObjectURL(selectedImage);
-        setPreviewImg(objectUrl);
-        return () => URL.revokeObjectURL(objectUrl);
-      }, [selectedImage]);
-    const imageChange = (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-          setSelectedImage(e.target.files[0]);
-          setFileUpload(e.target.files[0]);
-        }
-    };
-    const styleInput = {
-        width: "350px",
-        marginBottom: "20px",
-        backgroundColor: "#fff",
-    };
-    return (
-        <>
-            <div className='top'>
-                <h1> {title} </h1>
+  };
+  const styleInput = {
+    width: "350px",
+    marginBottom: "20px",
+    backgroundColor: "#fff",
+  };
+  return (
+    <>
+      <div className="top">
+        <h1> {title} </h1>
+      </div>
+      <div className="bottom">
+        <form onSubmit={handleEditOrder}>
+          <div className="d-flex">
+            <div className="register__form--left ">
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Tên khách hàng
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  disabled
+                  name="name"
+                  value={oldData.name}
+                  onChange={onChange}
+                  label="Tên khách hàng"
+                  style={{
+                    width: "350px",
+                    marginBottom: "20px",
+                    backgroundColor: "#fff",
+                  }}
+                />
+              </FormControl>
+              <br></br>
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Số điện thoại
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="bill_phone"
+                  value={registerData.bill_phone}
+                  onChange={onChange}
+                  label="Số điện thoại"
+                  style={{
+                    width: "350px",
+                    marginBottom: "20px",
+                    backgroundColor: "#fff",
+                  }}
+                />
+              </FormControl>
+              <br></br>
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Tên sách
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  disabled
+                  name="s_name"
+                  value={oldData.s_name}
+                  onChange={onChange}
+                  label="Tên sách"
+                  style={styleInput}
+                />
+              </FormControl>
+              <br></br>
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Số lượng
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  disabled
+                  name="book_quantity"
+                  value={oldData.book_quantity}
+                  onChange={onChange}
+                  label="Số lượng"
+                  style={styleInput}
+                />
+              </FormControl>
+              <br></br>
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Giá tiền
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  disabled
+                  name="bill_total"
+                  value={oldData.bill_total}
+                  onChange={onChange}
+                  label="Giá tiền"
+                  style={styleInput}
+                />
+              </FormControl>
+              <br></br>
+              <FormControl>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Địa chỉ
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="bill_address"
+                  value={registerData.bill_address}
+                  onChange={onChange}
+                  label="Địa chỉ"
+                  style={styleInput}
+                />
+              </FormControl>
+              <br></br>
+              <FormControl>
+                <TextField
+                  id="outlined-select-currency"
+                  select
+                  name="status"
+                  label="Status"
+                  value={registerData.status}
+                  onChange={onChange}
+                  style={styleInput}
+                >
+                  {orderStatus.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
             </div>
-            <div className="bottom">
-                <form onSubmit={handleCreateNewProduct}>
-                    <div className="d-flex">
-                        <div className="register__form--left ">
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                Tên sách
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_name"
-                                value={registerData.s_name}
-                                onChange={onChange}
-                                label="Họ và tên"
-                                style={{
-                                    width: "350px",
-                                    marginBottom: "20px",
-                                    backgroundColor: "#fff",
-                                }}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <TextField
-                                    id="outlined-select-currency"
-                                    select
-                                    name='category_id'
-                                    label="Thể loại"
-                                    value={registerData.category_id}
-                                    onChange={onChange}
-                                    style={styleInput}
-                                    >
-                                    {listCategorys?.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            {option.tl_name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    Nhà xuất bản
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_nsx"
-                                value={registerData.s_nsx}
-                                onChange={onChange}
-                                label="Nhà xuất bản"
-                                style={styleInput}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <TextField
-                                    id="outlined-select-currency"
-                                    select
-                                    name='author_id'
-                                    label="Tác giả"
-                                    value={registerData.author_id}
-                                    onChange={onChange}
-                                    style={styleInput}
-                                    >
-                                    {listAuthors?.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            {option.tg_name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    Giá tiền
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_price"
-                                value={registerData.s_price}
-                                onChange={onChange}
-                                label="Giá tiền"
-                                style={styleInput}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    Số lượng
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_amount"
-                                value={registerData.s_amount}
-                                onChange={onChange}
-                                label="Số lượng"
-                                style={styleInput}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <InputLabel htmlFor="outlined-adornment-password">
-                                    Giảm giá %
-                                </InputLabel>
-                                <OutlinedInput
-                                type="text"
-                                name="s_discount"
-                                value={registerData.s_discount}
-                                onChange={onChange}
-                                label="Giảm giá %"
-                                placeholder='20%'
-                                style={styleInput}
-                                />
-                            </FormControl>
-                            {registerError.Error_discount !== "" && (
-                                <FormHelperText
-                                    style={{
-                                    color: "red",
-                                    fontSize: "14px",
-                                    marginBottom: "15px",
-                                    marginTop: "-20px",
-                                    }}
-                                >
-                                    {registerError.Error_discount}
-                                </FormHelperText>
-                            )}
-                            <FormControl>
-                                <TextField
-                                    id="filled-textarea"
-                                    label="Mô tả"
-                                    name="s_description"
-                                    value={registerData.s_description}
-                                    onChange={onChange}
-                                    multiline
-                                    style={styleInput}
-                                />
-                            </FormControl>
-                            <br></br>
-                            <FormControl>
-                                <TextField
-                                    id="outlined-select-currency"
-                                    select
-                                    name='s_status'
-                                    label="Status"
-                                    value={registerData.s_status}
-                                    onChange={onChange}
-                                    style={styleInput}
-                                    >
-                                    {productStatus.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                            </FormControl>
-                        </div>
-                    </div>
-                    {registerError.Error !== "" && (
-                        <div
-                        style={{
-                            color: "red",
-                            fontSize: "14px",
-                            marginBottom: "10px",
-                        }}
-                        >
-                        {registerError.Error}
-                        </div>
-                    )}
-                    <div className='button'>
-                        <button type='button' style={{marginRight: '10px', borderRadius:'5px'}} onClick={handleClose}>Cancel</button>
-                        <button 
-                            type='submit'
-                            style={{borderRadius:'5px'}}
-                        >
-                            Update
-                        </button>
-                    </div>
-                </form>
-                <NotificationContainer />
-            </div> 
-        </>
-    )
+          </div>
+          {registerError.Error !== "" && (
+            <div
+              style={{
+                color: "red",
+                fontSize: "14px",
+                marginBottom: "10px",
+              }}
+            >
+              {registerError.Error}
+            </div>
+          )}
+          <div className="button">
+            <button
+              type="button"
+              style={{ marginRight: "10px", borderRadius: "5px" }}
+              onClick={handleClose}
+            >
+              Cancel
+            </button>
+            <button type="submit" style={{ borderRadius: "5px" }}>
+              Update
+            </button>
+          </div>
+        </form>
+        <NotificationContainer />
+      </div>
+    </>
+  );
 }

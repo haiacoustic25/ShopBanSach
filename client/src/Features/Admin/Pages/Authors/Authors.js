@@ -51,7 +51,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 const headCells = [
-  { id: "name", label: "NAME" },
+  { id: "name", label: "NAME", disableSorting: true },
   { id: "birthday", label: "BIRTHDAY", disableSorting: true },
   { id: "description", label: "DESCRIPTION", disableSorting: true },
   { id: "actions", label: "ACTIONS", disableSorting: true },
