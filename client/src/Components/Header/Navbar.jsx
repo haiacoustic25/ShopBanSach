@@ -33,7 +33,18 @@ const Navbar = () => {
   const listProductsSearch = useSelector(
     (state) => state.product.listProductsSearch
   );
-  const handleSearch = () => {};
+  const handleSearch = (e) => {
+    e.preventDefault();
+  };
+  const renderSearch = () => {
+    if (listProductsSearch.length > 0)
+      return listProductsSearch.map((product, index) => (
+        <li key={index}>
+          <Link to={`/${product.id}`}>{product.s_name}</Link>
+        </li>
+      ));
+    return <div className="mt-2 mb-2">Không có sản phẩm phù hợp</div>;
+  };
   return (
     <div className="body">
       <div className="row py-3">
@@ -62,13 +73,7 @@ const Navbar = () => {
             </InputGroup>
           </Form>
           {search !== "" && (
-            <ul className="navbar__search--result">
-              {listProductsSearch.map((product, index) => (
-                <li key={index}>
-                  <Link to={`/${product.id}`}>{product.s_name}</Link>
-                </li>
-              ))}
-            </ul>
+            <ul className="navbar__search--result">{renderSearch()}</ul>
           )}
         </div>
         <div className="col-sm-3 pb-3 d-flex justify-content-end ">

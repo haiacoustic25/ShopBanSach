@@ -16,18 +16,21 @@ const INITTAL_STATE = {
   inforProductById: {},
   moveInforProductToPayload: {},
   listProductsSearch: [],
+  loading: false,
 };
 const productReducer = (state = INITTAL_STATE, action) => {
   switch (action.type) {
     case FETCH_PRODUCT_REQUEST: {
       return {
         ...state,
+        loading: true,
       };
     }
     case FETCH_PRODUCT_SUCCESS: {
       return {
         ...state,
         listProducts: action.dataProducts,
+        loading: false,
       };
     }
     case FETCH_PRODUCT_ERROR: {
