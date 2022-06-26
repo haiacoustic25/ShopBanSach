@@ -41,6 +41,7 @@ export default function ModalEditOrder({ title, handleClose, Data }) {
     bill_total: Data.bill.bill_total,
   }
   const [registerData, setRegisterData] = useState({
+    id: Data.bill.id,
     bill_phone: Data.bill.bill_phone,
     status: Data.bill.status,
     bill_address: Data.bill.bill_address,

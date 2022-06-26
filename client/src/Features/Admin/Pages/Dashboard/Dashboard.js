@@ -17,7 +17,6 @@ import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
 import { User as UserIcon } from "../../icons/user";
 import { Author as AuthorIcon } from "../../icons/author";
 import { Category as CategoryIcon } from "../../icons/category";
-import { latestOrders } from "../../../../Database/dashboard";
 import { Link } from "react-router-dom";
 import Chart from "react-apexcharts";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,8 +28,10 @@ import {
   fetchAllOrders,
   fetchAllBills,
 } from "../../../../Redux/Action/action";
+import { useState } from "react";
 
 export const Dashboard = () => {
+  const [series, setSeries] = useState([0, 0, 0, 0]);
   const dispatch = useDispatch();
   const listUsers = useSelector((state) => state.user.listUsers?.users);
   useEffect(() => {
@@ -58,11 +59,32 @@ export const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchAllOrders());
   }, []);
-
   const listBills = useSelector((state) => state.bill.listBills.bills);
+  useEffect(() => {
+    if (listBills && listBills?.length > 0) {
+      let a = 0,
+        b = 0,
+        c = 0,
+        d = 0;
+
+      listBills?.forEach((item) => {
+        if (item.status === "Pending") {
+          ++a;
+        } else if (item.status === "Complete") {
+          ++b;
+        } else if (item.status === "Cancelled") {
+          ++c;
+        } else {
+          ++d;
+        }
+      });
+      setSeries([a, b, c, d]);
+    }
+  }, [listBills]);
   useEffect(() => {
     dispatch(fetchAllBills());
   }, []);
+
   const stats = [
     {
       content: listUsers?.length.toString(),
@@ -91,30 +113,8 @@ export const Dashboard = () => {
     },
   ];
 
-  let lastOrder = [];
-  listOrders?.forEach((item) => {
-    lastOrder = [{ ...item }, ...lastOrder];
-    return lastOrder;
-  });
-
-  let Pending = listBills?.reduce((acc, item) => {
-    if (item.status === "Pending") return acc + 1;
-  }, 0);
-
-  let Complete = listBills?.reduce((acc, item) => {
-    if (item.status === "Complete") return acc + 1;
-  }, 0);
-
-  let Cancelled = listBills?.reduce((acc, item) => {
-    if (item.status === "Cancelled") return acc + 1;
-  }, 0);
-
-  let Processed = listBills?.reduce((acc, item) => {
-    if (item.status === "Processed") return acc + 1;
-  }, 0);
-  
   const options = {
-    series: [Pending || 10, Complete || 10, Cancelled || 10, Processed || 70],
+    series: series,
     labels: ["Pending", "Complete", "Cancelled", "Processed"],
   };
 
@@ -165,7 +165,7 @@ export const Dashboard = () => {
                 >
                   <Chart
                     options={options}
-                    series={options.series}
+                    series={series}
                     type="donut"
                     width="100%"
                     height={300}
@@ -187,7 +187,7 @@ export const Dashboard = () => {
                   </Link>
                 </div>
                 <Divider />
-                <OrdersTable orders={lastOrder} />
+                <OrdersTable orders={listOrders?.slice(-4).reverse()} />
               </Card>
             </Grid>
           </Grid>

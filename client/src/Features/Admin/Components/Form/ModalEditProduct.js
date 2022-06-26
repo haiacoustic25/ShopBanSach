@@ -36,12 +36,10 @@ export default function ModalEditProduct({title, handleClose, Data}) {
     useEffect(() => {
         dispatch(fetchAllCategorys())
     }, [])
-    console.log(listCategorys)
     const listAuthors = useSelector((state) => state.author.listAuthors.authors);
     useEffect(() => {
         dispatch(fetchAllAuthors())
     }, [])
-
     const [registerData, setRegisterData] = useState({
         id: Data.id,
         s_name: Data.s_name,

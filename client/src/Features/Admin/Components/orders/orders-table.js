@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Fragment } from "react";
 import { format } from "date-fns";
 import {
   Box,
@@ -23,12 +24,12 @@ export const OrdersTable = ({ orders }) => {
             let bookPrice = order?.cart[0].book_quantity * order?.books[0].s_price;
             let bookDiscount = (bookPrice * order?.books[0].s_discount) / 100;
             return (
-              <>
-                <Accordion>
+              <Fragment key={order.bill.id}>
+                <Accordion >
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <TableRow key={order?.bill.cart_id}>
+                    <TableRow >
                       <TableCell>
-                          {`#${order?.bill.id}`}
+                          {`#${order.bill.id}`}
                       </TableCell>
                       <TableCell style={{ width: 140 }} align="center">
                         <Box>
@@ -168,7 +169,7 @@ export const OrdersTable = ({ orders }) => {
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
-              </>
+              </Fragment>
             );
           })}
         </TableBody>

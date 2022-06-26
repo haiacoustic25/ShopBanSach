@@ -889,13 +889,10 @@ export const updateOrdersSuccess = () => {
   };
 };
 
-export const updateOrder = (Order) => {
+export const updateOrder = (Bill) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/bill-update",
-        Order
-      );
+      let res = await axios.post("http://localhost:8000/api/bill-update", Bill);
       if (res && res.data.status === 200) {
         dispatch(updateOrdersSuccess());
         dispatch(fetchAllOrders());

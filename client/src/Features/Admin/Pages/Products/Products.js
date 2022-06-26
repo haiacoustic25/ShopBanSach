@@ -63,8 +63,8 @@ const headCells = [
 
 export const Products = () => {
   const dispatch = useDispatch();
-  const listProducts = useSelector((state) => state.product.listProducts.books);
   const [editData, setEditData] = useState('')
+  const listProducts = useSelector((state) => state.product.listProducts.books);
   useEffect(() => {
     dispatch(fetchAllProducts())
   }, [])

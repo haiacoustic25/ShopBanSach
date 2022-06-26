@@ -5,7 +5,6 @@ import { Arrow } from "../../icons/arrow";
 
 export const SummaryItem = (props) => {
   const { content, icon: Icon, label, ...other } = props;
-
   return (
     <Card sx={{ height: "100%" }} variant="outlined" {...other}>
       <Box

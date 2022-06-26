@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategorys, fetchAllAuthors, createNewProductsRedux } from "../../../../Redux/Action/action"
+import { fetchAllCategorys, fetchAllAuthors, fetchAllProducts, createNewProductsRedux } from "../../../../Redux/Action/action"
 import {
     NotificationContainer,
     NotificationManager,
@@ -36,12 +36,10 @@ export default function ProductForm({title, handleClose}) {
     useEffect(() => {
         dispatch(fetchAllCategorys())
     }, [])
-    console.log(listCategorys)
     const listAuthors = useSelector((state) => state.author.listAuthors.authors);
     useEffect(() => {
         dispatch(fetchAllAuthors())
     }, [])
-
     const [registerData, setRegisterData] = useState({
         s_name: "",
         s_price: "",
@@ -55,6 +53,7 @@ export default function ProductForm({title, handleClose}) {
     });
     const [registerError, setRegisterError] = useState({
         Error: "",
+        Error_name: ""
     });
     const onChange = (event) => {
         setRegisterData({
