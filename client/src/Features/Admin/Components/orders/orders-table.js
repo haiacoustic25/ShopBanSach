@@ -179,5 +179,5 @@ export const OrdersTable = ({ orders }) => {
 };
 
 OrdersTable.propTypes = {
-  orders: PropTypes.array.isRequired,
+  orders: PropTypes.array,
 };

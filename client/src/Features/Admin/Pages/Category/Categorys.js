@@ -52,8 +52,8 @@ const headCells = [
 export const Categorys = () => {
 
   const dispatch = useDispatch();
-  const listCategorys = useSelector((state) => state.category.listCategorys.categories);
   const [editData, setEditData] = useState('')
+  const listCategorys = useSelector((state) => state.category.listCategorys.categories);
   useEffect(() => {
     dispatch(fetchAllCategorys())
   }, [])

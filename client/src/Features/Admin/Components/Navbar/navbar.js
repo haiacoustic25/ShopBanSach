@@ -28,7 +28,7 @@ export const Navbar = () => (
         <img 
           src="//theme.hstatic.net/1000363117/1000606112/14/logo.png?v=2126"
           alt=""
-          style={{height: "63px", "max-width": "100%"}}
+          style={{height: "63px", "maxWidth": "100%"}}
         />
       </Box>
       <Box sx={{ flexGrow: 1 }} />

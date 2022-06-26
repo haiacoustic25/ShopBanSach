@@ -71,7 +71,7 @@ export const SummaryItem = (props) => {
 };
 
 SummaryItem.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.string,
   icon: PropTypes.elementType,
   label: PropTypes.string.isRequired,
 };

@@ -59,8 +59,8 @@ const headCells = [
 
 export const Authors = () => {
   const dispatch = useDispatch();
-  const listAuthors = useSelector((state) => state.author.listAuthors.authors);
   const [editData, setEditData] = useState("");
+  const listAuthors = useSelector((state) => state.author.listAuthors.authors);
   useEffect(() => {
     dispatch(fetchAllAuthors());
   }, []);
