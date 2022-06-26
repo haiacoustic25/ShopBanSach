@@ -9,6 +9,8 @@ import {
   fetchAllCategorys,
   fetchAllAuthors,
 } from "../../../../../Redux/Action/action";
+
+import Loading from "../../../../../Components/Loading/Loading";
 const Products = () => {
   const [dataFillter, setDataFilter] = useState({});
   const onChange = (event) => {
@@ -32,6 +34,7 @@ const Products = () => {
     (state) => state?.category?.listCategorys?.categories
   );
   const authors = useSelector((state) => state?.author?.listAuthors?.authors);
+  const loading = useSelector((state) => state.product.loading);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [productPerPage, setProductPerPage] = useState(12);
@@ -55,7 +58,7 @@ const Products = () => {
     event.preventDefault();
     dispatch(fetchAllProducts(dataFillter));
   };
-  const deleteFillter = (event) => {
+  const deleteFillter = () => {
     setDataFilter({});
     dispatch(fetchAllProducts());
   };
@@ -64,6 +67,21 @@ const Products = () => {
   };
   const handleSortDESC = () => {
     dispatch(fetchAllProducts({ ...dataFillter, sort: "DESC" }));
+  };
+
+  const renderContent = () => {
+    if (loading) return <Loading />;
+    if (!products) return <h4>Không có sản phẩm</h4>;
+    return (
+      <div className="grid grid-cols-6 gap-3 ">
+        <div className="row">
+          {products &&
+            currentProduct.map((product, index) => (
+              <ProductItem product={product} key={index} />
+            ))}
+        </div>
+      </div>
+    );
   };
   return (
     <div className="body">
@@ -77,18 +95,7 @@ const Products = () => {
         handleSortASC={handleSortASC}
         handleSortDESC={handleSortDESC}
       />
-      {products ? (
-        <div className="grid grid-cols-6 gap-3 ">
-          <div className="row">
-            {products &&
-              currentProduct.map((product, index) => (
-                <ProductItem product={product} key={index} />
-              ))}
-          </div>
-        </div>
-      ) : (
-        <h4>Không có sản phẩm</h4>
-      )}
+      {renderContent()}
       <Pagination
         currentPage={currentPage}
         handleNextPage={handleNextPage}
