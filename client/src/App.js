@@ -70,8 +70,8 @@ function App() {
               <>
                 <Route
                   path="/admin"
-                  // element={isAdmin ? <Layout /> : <Navigate to="/" />}
-                  element={<Layout />}
+                  element={isAdmin ? <Layout /> : <Navigate to="/" />}
+                  // element={<Layout />}
                 >
                   <Route index element={<Dashboard />} />
                   <Route path="Users">
