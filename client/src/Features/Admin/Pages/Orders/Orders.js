@@ -18,9 +18,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Popup from "../../Components/controls/Popup";
 import ModalEditOrder from "../../Components/Form/ModalEditOrder";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllOrders,
-} from "../../../../Redux/Action/action";
+import { fetchAllOrders } from "../../../../Redux/Action/action";
 import { NotificationContainer } from "react-notifications";
 import { OutlinedInput, FormControl, InputLabel } from "@mui/material";
 
@@ -29,6 +27,10 @@ const StyledTableRow = styled(TableRow)(() => ({
     backgroundColor: "#00800075",
     cursor: "pointer",
   },
+}));
+
+const StyledUl = styled("ul")(() => ({
+  padding: 0,
 }));
 
 const headCells = [
@@ -48,6 +50,7 @@ export const Orders = () => {
   useEffect(() => {
     dispatch(fetchAllOrders());
   }, []);
+  console.log(listOrders);
   const [editData, setEditData] = useState("");
   const [filterFn, setFilterFn] = useState({
     fn: (Orders) => {
@@ -137,30 +140,51 @@ export const Orders = () => {
                     <TableCell>{Order.user.name}</TableCell>
                     <TableCell>{Order.user.phone}</TableCell>
                     <TableCell>
-                      {Order.books[0].s_name}
+                      {Order.books.map((item) => {
+                        return (
+                          <StyledUl key={item.id}>
+                            <li>{item.s_name}</li>
+                          </StyledUl>
+                        );
+                      })}
                     </TableCell>
                     <TableCell>
-                      {Order.cart[0].book_quantity}
+                      {Order.cart.map((item) => {
+                        return (
+                          <StyledUl key={item.book_id}>
+                            <li>{item.book_quantity}</li>
+                          </StyledUl>
+                        );
+                      })}
                     </TableCell>
                     <TableCell>
-                      {Order.bill.bill_total}
+                      {Order.cart.map((item) => {
+                        let total = item.book_price * item.book_quantity
+                        return (
+                          <StyledUl key={item.book_id}>
+                            <li>{total}</li>
+                          </StyledUl>
+                        );
+                      })}
                     </TableCell>
                     <TableCell>
-                      {
-                        Order.bill.status === "Pending" ? (
-                          <span style={{color: 'blue', fontWeight: '600'}}>Pending</span>
-                        ) : (
-                          Order.bill.status === "Complete" ? (
-                            <span style={{color: 'green', fontWeight: '600'}}>Complete</span>
-                          ) : (
-                            Order.bill.status === "Cancelled" ? (
-                              <span style={{color: 'orange', fontWeight: '600'}}>Cancelled</span>
-                            ) : (
-                              <span style={{color: 'red', fontWeight: '600'}}>Processed</span>
-                            )
-                          )
-                        )
-                      }
+                      {Order.bill.status === "Pending" ? (
+                        <span style={{ color: "blue", fontWeight: "600" }}>
+                          Pending
+                        </span>
+                      ) : Order.bill.status === "Complete" ? (
+                        <span style={{ color: "green", fontWeight: "600" }}>
+                          Complete
+                        </span>
+                      ) : Order.bill.status === "Cancelled" ? (
+                        <span style={{ color: "orange", fontWeight: "600" }}>
+                          Cancelled
+                        </span>
+                      ) : (
+                        <span style={{ color: "red", fontWeight: "600" }}>
+                          Processed
+                        </span>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Controls.ActionButton

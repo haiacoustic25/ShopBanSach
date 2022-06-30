@@ -14,15 +14,19 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { styled } from "@mui/system";
+
+const StyledUl = styled("ul")(() => ({
+  padding: 0,
+}));
 
 export const OrdersTable = ({ orders }) => {
+  console.log(orders)
   return (
     <div>
       <Table sx={{ maxWidth: 1000 }}>
         <TableBody>
           {orders?.map((order) => {
-            let bookPrice = order?.cart[0].book_quantity * order?.books[0].s_price;
-            let bookDiscount = (bookPrice * order?.books[0].s_discount) / 100;
             return (
               <Fragment key={order.bill.id}>
                 <Accordion >
@@ -101,23 +105,60 @@ export const OrdersTable = ({ orders }) => {
                         <TableCell style={{ width: 320 }} align="left">
                           <Box>
                             <Typography color="inherit" variant="inherit">
-                              {order.books[0].s_name}
+                              {order.books.map((item) => {
+                                return (
+                                  <StyledUl key={item.id}>
+                                    <li>{item.s_name}</li>
+                                  </StyledUl>
+                                );
+                              })}
                             </Typography>
                           </Box>
                         </TableCell>
                         <TableCell style={{ width: 200 }} align="center">
-                          {`${order.books[0].s_price} VNĐ`}
+                          {order.books.map((item) => {
+                              return (
+                                <StyledUl key={item.id}>
+                                  <li>{item.s_price} VNĐ</li>
+                                </StyledUl>
+                              );
+                            })}
                         </TableCell>
                         <TableCell style={{ width: 100 }} align="center">
-                          {order.cart[0].book_quantity}
+                          {order.cart.map((item) => {
+                            return (
+                              <StyledUl key={item.book_id}>
+                                <li>{item.book_quantity}</li>
+                              </StyledUl>
+                            );
+                          })}
                         </TableCell>
                         <TableCell style={{ width: 200 }} align="left">
-                          {`${bookPrice} VNĐ`}
+                          {order.books.map((item) => {
+                            let total = 0;
+                            order.cart.map((items) =>{
+                              if(item.id === items.book_id){
+                                total = item.s_price * items.book_quantity
+                              }
+                            })
+                            return (
+                              <StyledUl key={item.book_id}>
+                                <li>{total} VNĐ</li>
+                              </StyledUl>
+                            );
+                          })}
+                          {/* {`${bookPrice} VNĐ`} */}
                         </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell style={{ width: 320 }} align="left">
-                          {`Discount (${order?.books[0].s_discount}%)`}
+                          {order.books.map((item) => {
+                            return (
+                              <StyledUl key={item.book_id}>
+                                <li>Discount ({item.s_discount}%)</li>
+                              </StyledUl>
+                            );
+                          })}
                         </TableCell>
                         <TableCell
                           style={{ width: 100 }}
@@ -128,7 +169,19 @@ export const OrdersTable = ({ orders }) => {
                           align="center"
                         ></TableCell>
                         <TableCell style={{ width: 100 }} align="left">
-                          {`${bookDiscount} VNĐ`}
+                          {order.books.map((item) => {
+                            let total = 0;
+                            order.cart.map((items) =>{
+                              if(item.id === items.book_id){
+                                total = item.s_price * item.s_discount / 100 * items.book_quantity
+                              }
+                            })
+                            return (
+                              <StyledUl key={item.book_id}>
+                                <li>{total} VNĐ</li>
+                              </StyledUl>
+                            );
+                          })}
                         </TableCell>
                       </TableRow>
                       <TableRow>

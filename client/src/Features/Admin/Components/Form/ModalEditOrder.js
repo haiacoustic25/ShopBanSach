@@ -36,8 +36,12 @@ export default function ModalEditOrder({ title, handleClose, Data }) {
   const dispatch = useDispatch();
   const oldData = {
     name: Data.user.name,
-    s_name: Data.books[0].s_name,
-    book_quantity: Data.cart[0].book_quantity,
+    s_name: Data.books.map((item) => {
+      return ` ${item.s_name}`
+    }),
+    book_quantity: Data.cart.map((item) => {
+      return ` ${item.book_quantity}` 
+    }),
     bill_total: Data.bill.bill_total,
   }
   const [registerData, setRegisterData] = useState({
