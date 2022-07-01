@@ -158,14 +158,7 @@ export const Orders = () => {
                       })}
                     </TableCell>
                     <TableCell>
-                      {Order.cart.map((item) => {
-                        let total = item.book_price * item.book_quantity
-                        return (
-                          <StyledUl key={item.book_id}>
-                            <li>{total}</li>
-                          </StyledUl>
-                        );
-                      })}
+                      {`${Order.bill.bill_total} VNĐ`}
                     </TableCell>
                     <TableCell>
                       {Order.bill.status === "Pending" ? (
