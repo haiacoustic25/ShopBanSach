@@ -1,0 +1,25 @@
+@import "constant";
+
+.carousel-indicators {
+  & > button {
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 50% !important;
+    background-color: $btn_color !important;
+  }
+}
+.carousel-item {
+  & > img {
+    height: 550px;
+  }
+}
+.carousel-control-prev {
+  & > span {
+    display: none;
+  }
+}
+.carousel-control-next {
+  & > span {
+    display: none;
+  }
+}

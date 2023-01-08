@@ -1,0 +1,123 @@
+@import "constant";
+
+.filter {
+  margin-top: 50px;
+  & > form > div > div > button {
+    background-color: $btn_color !important;
+    &:last-child {
+      background-color: #dd4949 !important;
+    }
+  }
+  & button {
+    margin-top: 30px;
+    background-color: $btn_color;
+    &:hover {
+      background-color: $btn_color;
+    }
+  }
+  &__sort {
+    margin-bottom: 20px;
+    & span {
+      margin: 0 15px;
+      & i {
+        margin-right: 10px;
+      }
+      &:hover {
+        cursor: pointer;
+        color: $btn_color;
+      }
+      &:first-child {
+        &:hover {
+          cursor: default;
+          color: $text_color;
+        }
+      }
+    }
+  }
+}
+
+.product {
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 0px !important;
+
+  &:hover .product__name {
+    color: $btn_color;
+  }
+  &__img {
+    min-width: 195px !important;
+    height: 198px !important;
+
+    position: relative;
+    &--animation {
+      width: auto;
+      height: auto;
+
+      max-height: 100%;
+      max-width: 100%;
+
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      transition: 0.5s ease;
+
+      overflow: hidden;
+
+      &:hover {
+        top: 8px;
+      }
+    }
+  }
+  &__name {
+    font-size: 14px;
+    font-weight: 300;
+    color: #333333;
+
+    // margin: 20px 10px 5px;
+
+    text-transform: uppercase;
+    // min-height: 54px;
+
+    // display: block;
+    display: -webkit-box;
+    height: 14px * 1.3 * 2;
+    line-height: 1.3;
+    -webkit-line-clamp: 2; /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__price {
+    &--new {
+      font-size: 16px;
+      font-weight: 700;
+      color: $btn_color;
+    }
+    &--old {
+      font-size: 14px;
+      font-weight: 300;
+      color: #999999;
+      text-decoration: line-through;
+    }
+  }
+  &__discout {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    background-color: #00ab9f;
+    color: #fff;
+
+    line-height: 40px;
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    position: absolute;
+    top: 15px;
+    left: 20px;
+  }
+}

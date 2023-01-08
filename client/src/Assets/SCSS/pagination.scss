@@ -1,0 +1,35 @@
+@import "constant";
+
+.pagination {
+  margin-bottom: 40px;
+  & > button {
+    background-color: $btn_color;
+    color: #fff !important;
+    border: none;
+    width: 300px !important;
+    margin: 0 20px;
+    & > i {
+      margin-left: 20px;
+    }
+  }
+  &__btn {
+    border-radius: 5px;
+    background-color: #fff;
+    margin-left: 10px;
+    align-items: center;
+    display: flex;
+    padding: 10px;
+    color: $text_color;
+    &:hover {
+      background-color: $btn_color;
+      color: #fff;
+    }
+    &:disabled {
+      background-color: #fff;
+      color: $text_color;
+    }
+    &.icon {
+      cursor: pointer;
+    }
+  }
+}

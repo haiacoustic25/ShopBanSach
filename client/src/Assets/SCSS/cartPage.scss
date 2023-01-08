@@ -1,0 +1,63 @@
+@import "constant";
+
+.cartPage {
+  &__img {
+    // width: 150px;
+    width: auto;
+    height: auto;
+
+    max-width: 150px;
+    max-height: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin: auto;
+  }
+  &__name {
+    color: $btn_color;
+    cursor: auto;
+    font-size: 18px;
+    text-transform: uppercase;
+    & > span {
+      display: block;
+      padding: 10px;
+      font-size: 14px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &__quantity {
+    & > button {
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 5px;
+      color: #fff;
+    }
+    & > span {
+      margin: 0 10px;
+    }
+  }
+  &__total {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 31px;
+  }
+  &__btn {
+    & > button {
+      margin-right: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: none;
+      background-color: $btn_color !important;
+      &:hover {
+        cursor: pointer;
+      }
+      &:first-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

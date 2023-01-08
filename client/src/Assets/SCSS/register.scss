@@ -1,0 +1,29 @@
+@import "constant";
+
+.register__form {
+  align-items: center;
+  &--left {
+    margin-left: auto;
+    margin-right: 50px;
+  }
+  &--right {
+    margin-right: auto;
+    position: relative;
+    &-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    &-upload {
+      position: absolute;
+      top: 150px;
+      right: 5px;
+    }
+  }
+}
