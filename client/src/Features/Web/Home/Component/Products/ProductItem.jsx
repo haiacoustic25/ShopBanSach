@@ -5,7 +5,7 @@ import { Card } from "react-bootstrap";
 const ProductItem = (props) => {
   const { product } = props;
   const oldImg = product ? (
-    `http://localhost:8000/uploads/book/${product.s_image}`
+    `http://127.0.0.1:8000/uploads/book/${product.s_image}`
   ) : (
     <></>
   );

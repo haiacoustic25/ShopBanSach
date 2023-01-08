@@ -69,6 +69,7 @@ import {
   MOVE_PRODUCTINTOPAYLOAD_SUCCESS,
 } from "./type";
 import axios from "axios";
+import { apiUrl } from "../contans";
 
 // login
 export const loginRequest = () => {
@@ -85,14 +86,13 @@ export const loginRedux = (user) => {
   return async (dispatch, getState) => {
     dispatch(loginRequest());
     try {
-      let res = await axios.post("http://localhost:8000/api/auth/login", user, {
+      let res = await axios.post(`${apiUrl}/login`, user, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem(
             "LOCAL_STORAGE_TOKEN"
           )}`,
         },
       });
-      console.log(res);
       if (res.data.status === 200) {
         dispatch(loginSuccess(res.data));
         localStorage.setItem("LOCAL_STORAGE_TOKEN", res.data.access_token);
@@ -118,7 +118,7 @@ export const registerRedux = (user) => {
   return async (dispatch, getState) => {
     dispatch(registerError());
     try {
-      let res = await axios.post("http://localhost:8000/api/register", user);
+      let res = await axios.post(`${apiUrl}/register`, user);
       if (res.data.status === 200) {
         dispatch(registerSuccess(res.data));
       }
@@ -165,16 +165,13 @@ export const fetchAllCartReduct = (username) => {
   return async (dispatch, getState) => {
     dispatch(fetchCartRequest());
     try {
-      const res = await axios.get(
-        `http://localhost:8000/api/show-product/${username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "LOCAL_STORAGE_TOKEN"
-            )}`,
-          },
-        }
-      );
+      const res = await axios.get(`${apiUrl}/show-product/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "LOCAL_STORAGE_TOKEN"
+          )}`,
+        },
+      });
       if (res.data.status === 200) dispatch(fetchCartSuccess(res.data));
     } catch (error) {
       dispatch(fetchCartError());
@@ -200,7 +197,7 @@ export const addProductIntoCartRedux = (
   return async (dispatch, getState) => {
     dispatch(addProductIntoCartRequest());
     try {
-      const res = await axios.post("http://localhost:8000/api/add-cart", {
+      const res = await axios.post(`${apiUrl}/add-cart`, {
         cart_id,
         book_id,
         gh_amount,
@@ -230,10 +227,10 @@ export const deleteProductInCartRedux = ({ cart_id, book_id }, username) => {
   return async (dispatch, useState) => {
     dispatch(deleteProductInCartRequest());
     try {
-      const res = await axios.post(
-        "http://localhost:8000/api/delete-product-in-cart",
-        { cart_id, book_id }
-      );
+      const res = await axios.post(`${apiUrl}/delete-product-in-cart`, {
+        cart_id,
+        book_id,
+      });
       if (res.data.status === 200) {
         dispatch(deleteProductInCartSuccess());
         dispatch(fetchAllCartReduct(username));
@@ -268,7 +265,7 @@ export const fetchAllUsers = () => {
   return async (dispatch, getState) => {
     dispatch(fetchUsersRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/get-user");
+      const res = await axios.get(`${apiUrl}/get-user`);
       const data = res && res.data ? res.data : [];
       dispatch(fetchUsersSuccess(data));
     } catch (error) {
@@ -300,7 +297,7 @@ export const createNewUsersRedux = (user) => {
   return async (dispatch, getState) => {
     dispatch(createUsersRequest());
     try {
-      let res = await axios.post("http://localhost:8000/api/register", user);
+      let res = await axios.post(`${apiUrl}/register`, user);
       if (res.data.status === 200) {
         dispatch(createUsersSuccess());
         dispatch(fetchAllUsers());
@@ -321,7 +318,7 @@ export const createNewUsersRedux = (user) => {
 // export const deleteUser = (id) =>{
 //   return async (dispatch, getState) => {
 //     try{
-//       let res = await axios.delete(`http://localhost:8000/api/delete-book/${id}`)
+//       let res = await axios.delete(`${apiUrl}/delete-book/${id}`)
 //       if (res && res.data.status === 200){
 //         dispatch(deleteUsersSuccess());
 //         dispatch(fetchAllUsers());
@@ -343,17 +340,13 @@ export const updateUsersSuccess = (payload) => {
 export const updateUser = (User) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/update-user",
-        User,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "LOCAL_STORAGE_TOKEN"
-            )}`,
-          },
-        }
-      );
+      let res = await axios.post(`${apiUrl}/update-user`, User, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "LOCAL_STORAGE_TOKEN"
+          )}`,
+        },
+      });
       if (res && res.data.status === 200) {
         dispatch(updateUsersSuccess(res.data));
         dispatch(fetchAllUsers());
@@ -386,7 +379,7 @@ export const fetchAllProducts = (query) => {
   return async (dispatch, getState) => {
     dispatch(fetchProductsRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/book", {
+      const res = await axios.get(`${apiUrl}/book`, {
         params: query,
       });
       const data = res && res.data ? res.data : [];
@@ -418,7 +411,7 @@ export const fetchSearchProductRedux = (name) => {
   return async (dispatch, getState) => {
     dispatch(fetchSearchProductsRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/search-book", {
+      const res = await axios.get(`${apiUrl}/search-book`, {
         params: name,
       });
       if (res.data.status === 200) {
@@ -445,7 +438,7 @@ export const fetchProductByIdRedux = (id) => {
   return async (dispatch, getState) => {
     dispatch(fetchProductByIdRequest());
     try {
-      const res = await axios.get(`http://localhost:8000/api/edit-book/${id}`);
+      const res = await axios.get(`${apiUrl}/edit-book/${id}`);
       if (res.data.status === 200) {
         dispatch(fetchProductByIdSuccess(res.data.book));
       }
@@ -478,7 +471,7 @@ export const createNewProductsRedux = (product) => {
   return async (dispatch, getState) => {
     dispatch(createProductsRequest());
     try {
-      let res = await axios.post("http://localhost:8000/api/add-book", product);
+      let res = await axios.post(`${apiUrl}/add-book`, product);
       if (res.data.status === 200) {
         dispatch(createProductsRequest());
         dispatch(fetchAllProducts());
@@ -500,9 +493,7 @@ export const deleteProductsSuccess = () => {
 export const deleteProduct = (id) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.delete(
-        `http://localhost:8000/api/delete-book/${id}`
-      );
+      let res = await axios.delete(`${apiUrl}/delete-book/${id}`);
       if (res && res.data.status === 200) {
         dispatch(deleteProductsSuccess());
         dispatch(fetchAllProducts());
@@ -521,10 +512,7 @@ export const updateProductsSuccess = () => {
 export const updateProduct = (Product) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/update-book",
-        Product
-      );
+      let res = await axios.post(`${apiUrl}/update-book`, Product);
       if (res && res.data.status === 200) {
         dispatch(updateProductsSuccess());
         dispatch(fetchAllProducts());
@@ -557,7 +545,7 @@ export const fetchAllAuthors = () => {
   return async (dispatch, getState) => {
     dispatch(fetchAuthorsRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/author");
+      const res = await axios.get(`${apiUrl}/author`);
       const data = res && res.data ? res.data : [];
       dispatch(fetchAuthorsSuccess(data));
     } catch (error) {
@@ -589,10 +577,7 @@ export const createNewAuthor = (Author) => {
   return async (dispatch, getState) => {
     dispatch(createAuthorsRequest());
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/add-author",
-        Author
-      );
+      let res = await axios.post(`${apiUrl}/add-author`, Author);
       if (res.data.status === 200) {
         dispatch(createAuthorsSuccess());
         dispatch(fetchAllAuthors());
@@ -613,9 +598,7 @@ export const deleteAuthorsSuccess = () => {
 export const deleteAuthor = (id) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.delete(
-        `http://localhost:8000/api/delete-author/${id}`
-      );
+      let res = await axios.delete(`${apiUrl}/delete-author/${id}`);
       if (res && res.data.status === 200) {
         dispatch(deleteAuthorsSuccess());
         dispatch(fetchAllAuthors());
@@ -639,9 +622,7 @@ export const fetchAuthorByIdRedux = (id) => {
   return async (dispatch, getState) => {
     dispatch(fetchAuthorByIdRequest());
     try {
-      const res = await axios.get(
-        `http://localhost:8000/api/edit-author/${id}`
-      );
+      const res = await axios.get(`${apiUrl}/edit-author/${id}`);
       if (res.data.status === 200) {
         dispatch(fetchAuthorByIdSuccess(res.data.author.tg_name));
       }
@@ -660,10 +641,7 @@ export const updateAuthorsSuccess = () => {
 export const updateAuthor = (Author) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/update-author",
-        Author
-      );
+      let res = await axios.post(`${apiUrl}/update-author`, Author);
       if (res && res.data.status === 200) {
         dispatch(updateAuthorsSuccess());
         dispatch(fetchAllAuthors());
@@ -698,7 +676,7 @@ export const fetchAllCategorys = () => {
   return async (dispatch, getState) => {
     dispatch(fetchCategorysRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/category");
+      const res = await axios.get(`${apiUrl}/category`);
       const data = res && res.data ? res.data : [];
       dispatch(fetchCategorysSuccess(data));
     } catch (error) {
@@ -730,10 +708,7 @@ export const createNewCategory = (tl_name) => {
   return async (dispatch, getState) => {
     dispatch(createCategorysRequest());
     try {
-      let res = await axios.post(
-        "http://localhost:8000/api/add-category",
-        tl_name
-      );
+      let res = await axios.post(`${apiUrl}/add-category`, tl_name);
       console.log(res.data);
       if (res.data.status === 200) {
         dispatch(createCategorysSuccess());
@@ -755,9 +730,7 @@ export const deleteCategorysSuccess = () => {
 export const deleteCategory = (id) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.delete(
-        `http://localhost:8000/api/delete-category/${id}`
-      );
+      let res = await axios.delete(`${apiUrl}/delete-category/${id}`);
       if (res && res.data.status === 200) {
         dispatch(deleteCategorysSuccess());
         dispatch(fetchAllCategorys());
@@ -781,9 +754,7 @@ export const fetchCategoryByIdRedux = (id) => {
   return async (dispatch, getState) => {
     dispatch(fetchCategoryByIdRequest());
     try {
-      const res = await axios.get(
-        `http://localhost:8000/api/edit-category/${id}`
-      );
+      const res = await axios.get(`${apiUrl}/edit-category/${id}`);
       if (res.data.status === 200) {
         dispatch(fetchCategoryByIdSuccess(res.data.category.tl_name));
       }
@@ -802,10 +773,7 @@ export const updateCategorysSuccess = () => {
 export const updateCategory = (id, category) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.put(
-        `http://localhost:8000/api/update-category/${id}`,
-        category
-      );
+      let res = await axios.put(`${apiUrl}/update-category/${id}`, category);
       if (res && res.data.status === 200) {
         dispatch(updateCategorysSuccess(category));
         dispatch(fetchAllCategorys());
@@ -840,7 +808,7 @@ export const fetchAllBills = () => {
   return async (dispatch, getState) => {
     dispatch(fetchbillsRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/bill-all");
+      const res = await axios.get(`${apiUrl}/bill-all`);
       const data = res && res.data ? res.data : [];
       dispatch(fetchbillsSuccess(data));
     } catch (error) {
@@ -873,7 +841,7 @@ export const fetchAllOrders = () => {
   return async (dispatch, getState) => {
     dispatch(fetchordersRequest());
     try {
-      const res = await axios.get("http://localhost:8000/api/bill-view");
+      const res = await axios.get(`${apiUrl}/bill-view`);
       const data = res && res.data ? res.data : [];
       dispatch(fetchordersSuccess(data));
     } catch (error) {
@@ -892,7 +860,7 @@ export const updateOrdersSuccess = () => {
 export const updateOrder = (Bill) => {
   return async (dispatch, getState) => {
     try {
-      let res = await axios.post("http://localhost:8000/api/bill-update", Bill);
+      let res = await axios.post(`${apiUrl}/bill-update`, Bill);
       if (res && res.data.status === 200) {
         dispatch(updateOrdersSuccess());
         dispatch(fetchAllOrders());

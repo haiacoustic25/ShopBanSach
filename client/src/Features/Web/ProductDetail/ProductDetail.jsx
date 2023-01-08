@@ -78,7 +78,7 @@ const ProductDetail = () => {
   const nameAuthor = useSelector((state) => state.author.nameAuthor);
 
   const oldImg = inforProduct ? (
-    `http://localhost:8000/uploads/book/${inforProduct.s_image}`
+    `http://127.0.0.1:8000/uploads/book/${inforProduct.s_image}`
   ) : (
     <></>
   );

@@ -63,7 +63,7 @@ Route::post('/register', [AuthController::class,'store']);
 
 Route::post('/update-user',[AuthController::class, 'updateUser']);
 
-// Route::post('/login', [AuthController::class,'postAuthLogin']);
+Route::post('/login', [AuthController::class,'postAuthLogin']);
 
 // Cart
 Route::post('/add-cart', [DetailCartController::class,'store']);
